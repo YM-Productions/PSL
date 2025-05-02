@@ -4,10 +4,21 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Generated/Avalonia.Generators/**/*.cs" />
+    <Compile Remove="Generated/CommunityToolkit.Mvvm.SourceGenerators/**/*.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Assets\User.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,5 +31,9 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
   </ItemGroup>
 </Project>
