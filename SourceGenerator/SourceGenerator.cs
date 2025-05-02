@@ -1,5 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SourceGenerator.SubModules;
+using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -42,8 +45,31 @@ public class SourceGenerator : IIncrementalGenerator
     public void GenerateSource(SourceProductionContext context, System.Collections.Immutable.ImmutableArray<ITypeSymbol?> array)
     {
         StringBuilder logger = new();
-        logger.AppendLine("// Hello from SourceGenerator");
+        logger.AppendLine("Starting Generating Process!");
 
-        context.AddSource("00Log.ygen.cs", logger.ToString());
+        if (!array.IsDefaultOrEmpty)
+        {
+            foreach (ITypeSymbol type in array)
+            {
+                foreach (AttributeData attr in type.GetAttributes())
+                {
+                    logger.AppendLine($"-----------{type.Name}-----------");
+
+                    if (attr.AttributeClass?.Name == "GenerateUIAttribute")
+                    {
+                        logger.AppendLine($"Starting to generate InspectUI for {type.Name}");
+                        UIGenerator.GenerateUI(context, type, attr, out string output);
+                        logger.Append(output);
+                        logger.AppendLine($"Ended to generate InspectUI for {type.Name}");
+                    }
+
+                    logger.AppendLine("----------------------------------");
+                }
+            }
+
+        }
+
+        logger.AppendLine("Finished Generating Process!");
+        context.AddSource("00Log.ygen.txt.cs", logger.ToString());
     }
 }

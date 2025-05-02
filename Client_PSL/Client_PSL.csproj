@@ -6,6 +6,7 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+    <Configurations>Debug;Release;Generate</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer"/>
+    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated\" />
+    <Folder Include="Generated\SourceGenerator\SourceGenerator.SourceGenerator\" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="prebuild.bat" />
+  </Target>
 </Project>
