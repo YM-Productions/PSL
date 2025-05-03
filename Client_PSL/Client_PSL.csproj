@@ -21,4 +21,10 @@
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\DebugView.axaml.cs">
+      <DependentUpon>DebugView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
