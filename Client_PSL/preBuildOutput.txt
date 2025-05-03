@@ -1,0 +1,15 @@
+Starting... 
+Script started at 03.05.2025 14:19:10.73 
+Switched to directory: F:\src\repo\Client_PSL 
+Generating SpacetimeDB Bindings at 03.05.2025 14:19:10.74 
+MSBuild version 17.8.22+bfbb05667 for .NET
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(27,32): warning CS8981: The type name 'message' only contains lower-cased ascii characters. Such names may become reserved for the language. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(58,24): warning CS8981: The type name 'user' only contains lower-cased ascii characters. Such names may become reserved for the language. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+Optimising module with wasm-opt...
+Could not find wasm-opt to optimise the module.
+For best performance install wasm-opt from https://github.com/WebAssembly/binaryen/releases.
+Continuing with unoptimised module.
+Build finished successfully.
+Generate finished successfully.
+Generation finished at 03.05.2025 14:19:19.69 
+Script ended at 03.05.2025 14:19:19.69 
