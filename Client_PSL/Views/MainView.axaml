@@ -12,5 +12,8 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <StackPanel VerticalAlignment="Center">
+    <TextBlock Text="{Binding Output}" HorizontalAlignment="Center"/>
+    <TextBox Watermark="Command" HorizontalAlignment="Stretch" Margin="100,0" KeyDown="InputBox_KeyDown"/>
+  </StackPanel>
 </UserControl>

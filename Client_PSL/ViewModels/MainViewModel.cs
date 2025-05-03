@@ -12,20 +12,25 @@ namespace Client_PSL.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _greeting = "Welcome to Avalonia!";
+    private string _output = string.Empty;
 
     Identity? local_identity = null;
     ConcurrentQueue<(string Command, string Args)> input_queue = new();
+    CancellationTokenSource cancellationTokenSource = new();
+    Thread thread;
 
     public MainViewModel()
     {
         AuthToken.Init(".spacetime_csharp_psl");
         DbConnection? conn = null;
+        conn = ConnectToDB();
         RegisterCallbacks(conn);
-        CancellationTokenSource cancellationTokenSource = new();
-        Thread thread = new Thread(() => ProcessThread(conn, cancellationTokenSource.Token));
+        thread = new Thread(() => ProcessThread(conn, cancellationTokenSource.Token));
         thread.Start();
-        InputLoop();
+    }
+
+    public void CloseCon()
+    {
         cancellationTokenSource.Cancel();
         thread.Join();
     }
@@ -59,7 +64,7 @@ public partial class MainViewModel : ViewModelBase
 
     private void OnSubscriptionApplied(SubscriptionEventContext ctx)
     {
-        Console.WriteLine("Connected");
+        Output = "Connected"; 
         PrintMessagesInOrder(ctx.Db);
     }
 
@@ -74,18 +79,18 @@ public partial class MainViewModel : ViewModelBase
     private void OnConnectError(Exception e)
     {
         // Log Manager
-        Console.Write($"Error while connectiong: {e}");
+        Output = $"Error while connectiong: {e}";
     }
 
     private void OnDisconnected(DbConnection conn, Exception e)
     {
         if (e != null)
         {
-            Console.Write($"Disconnected abnormally: {e}");
+            Output = $"Disconnected abnormally: {e}";
         }
         else
         {
-            Console.Write($"Disconnected succesfully.");
+            Output = $"Disconnected succesfully.";
         }
     }
 
@@ -106,25 +111,20 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    private void InputLoop()
+    public void PricessInput(string input)
     {
-        while (true)
+        if (input == null)
         {
-            string input = "Console.Readline()";
-            if (input == null)
-            {
-                break;
-            }
+            throw new Exception("Error: input was null!");
+        }
 
-            if (input.StartsWith("/name "))
-            {
-                input_queue.Enqueue(("name", input[6..]));
-                continue;
-            }
-            else
-            {
-                input_queue.Enqueue(("message", input));
-            }
+        if (input.StartsWith("/name "))
+        {
+            input_queue.Enqueue(("name", input[6..]));
+        }
+        else
+        {
+            input_queue.Enqueue(("message", input));
         }
     }
 
@@ -161,7 +161,7 @@ public partial class MainViewModel : ViewModelBase
     {
         if (insertedValue.Online)
         {
-            Console.WriteLine($"{UserNameOrIdentity(insertedValue)} is online");
+            Output = $"{UserNameOrIdentity(insertedValue)} is online";
         }
     }
 
@@ -169,11 +169,11 @@ public partial class MainViewModel : ViewModelBase
     {
         if (oldValue.Name != newValue.Name)
         {
-            Console.WriteLine($"{UserNameOrIdentity(oldValue)} renamed to {newValue.Name}");
+            Output = $"{UserNameOrIdentity(oldValue)} renamed to {newValue.Name}";
         }
         else
         {
-            Console.WriteLine($"{UserNameOrIdentity(newValue)} Disconnected");
+            Output = $"{UserNameOrIdentity(newValue)} Disconnected";
         }
     }
 
@@ -194,7 +194,7 @@ public partial class MainViewModel : ViewModelBase
             senderName = UserNameOrIdentity(sender);
         }
 
-        Console.WriteLine($"{senderName}: {message.Text}");
+        Output = $"{senderName}: {message.Text}";
     }
 
     private void Reducer_OnSetNameEvent(ReducerEventContext ctx, string name)
@@ -202,7 +202,7 @@ public partial class MainViewModel : ViewModelBase
         ReducerEvent<Reducer> e = ctx.Event;
         if (e.CallerIdentity == local_identity && e.Status is Status.Failed(string error))
         {
-            Console.Write($"Failed to change name to {name}: {error}");
+            Output = $"Failed to change name to {name}: {error}";
         }
     }
 
@@ -211,7 +211,7 @@ public partial class MainViewModel : ViewModelBase
         ReducerEvent<Reducer> e = ctx.Event;
         if (e.CallerIdentity == local_identity && e.Status is Status.Failed(string error))
         {
-            Console.Write($"Failed to send message {text}: {error}");
+            Output = $"Failed to send message {text}: {error}";
         }
     }
 }
