@@ -18,7 +18,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Install DocFX
-      run: dotnet build
+      run: dotnet tool install docfx
 
     - name: Build Solution
       run: dotnet build
