@@ -1,0 +1,645 @@
+### YamlMime:ManagedReference
+items:
+- uid: Client_PSL.ViewModels.DebugMessage
+  commentId: T:Client_PSL.ViewModels.DebugMessage
+  id: DebugMessage
+  parent: Client_PSL.ViewModels
+  children:
+  - Client_PSL.ViewModels.DebugMessage.#ctor(System.String,System.String,Avalonia.Media.Color,System.String)
+  - Client_PSL.ViewModels.DebugMessage.BackgroundColor
+  - Client_PSL.ViewModels.DebugMessage.DateTime
+  - Client_PSL.ViewModels.DebugMessage.DateTimeColor
+  - Client_PSL.ViewModels.DebugMessage.LevelColor
+  - Client_PSL.ViewModels.DebugMessage.LevelName
+  - Client_PSL.ViewModels.DebugMessage.Message
+  - Client_PSL.ViewModels.DebugMessage.MessageColor
+  langs:
+  - csharp
+  - vb
+  name: DebugMessage
+  nameWithType: DebugMessage
+  fullName: Client_PSL.ViewModels.DebugMessage
+  type: Class
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: DebugMessage
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 9
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public class DebugMessage
+    content.vb: Public Class DebugMessage
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Client_PSL.ViewModels.DebugMessage.BackgroundColor
+  commentId: P:Client_PSL.ViewModels.DebugMessage.BackgroundColor
+  id: BackgroundColor
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: BackgroundColor
+  nameWithType: DebugMessage.BackgroundColor
+  fullName: Client_PSL.ViewModels.DebugMessage.BackgroundColor
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: BackgroundColor
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 12
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public IBrush BackgroundColor { get; set; }
+    parameters: []
+    return:
+      type: Avalonia.Media.IBrush
+    content.vb: Public Property BackgroundColor As IBrush
+  overload: Client_PSL.ViewModels.DebugMessage.BackgroundColor*
+- uid: Client_PSL.ViewModels.DebugMessage.DateTime
+  commentId: P:Client_PSL.ViewModels.DebugMessage.DateTime
+  id: DateTime
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: DateTime
+  nameWithType: DebugMessage.DateTime
+  fullName: Client_PSL.ViewModels.DebugMessage.DateTime
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: DateTime
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 14
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public string DateTime { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DateTime As String
+  overload: Client_PSL.ViewModels.DebugMessage.DateTime*
+- uid: Client_PSL.ViewModels.DebugMessage.DateTimeColor
+  commentId: P:Client_PSL.ViewModels.DebugMessage.DateTimeColor
+  id: DateTimeColor
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: DateTimeColor
+  nameWithType: DebugMessage.DateTimeColor
+  fullName: Client_PSL.ViewModels.DebugMessage.DateTimeColor
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: DateTimeColor
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 15
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public IBrush DateTimeColor { get; set; }
+    parameters: []
+    return:
+      type: Avalonia.Media.IBrush
+    content.vb: Public Property DateTimeColor As IBrush
+  overload: Client_PSL.ViewModels.DebugMessage.DateTimeColor*
+- uid: Client_PSL.ViewModels.DebugMessage.LevelName
+  commentId: P:Client_PSL.ViewModels.DebugMessage.LevelName
+  id: LevelName
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: LevelName
+  nameWithType: DebugMessage.LevelName
+  fullName: Client_PSL.ViewModels.DebugMessage.LevelName
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: LevelName
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 17
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public string LevelName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LevelName As String
+  overload: Client_PSL.ViewModels.DebugMessage.LevelName*
+- uid: Client_PSL.ViewModels.DebugMessage.LevelColor
+  commentId: P:Client_PSL.ViewModels.DebugMessage.LevelColor
+  id: LevelColor
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: LevelColor
+  nameWithType: DebugMessage.LevelColor
+  fullName: Client_PSL.ViewModels.DebugMessage.LevelColor
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: LevelColor
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 18
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public IBrush LevelColor { get; set; }
+    parameters: []
+    return:
+      type: Avalonia.Media.IBrush
+    content.vb: Public Property LevelColor As IBrush
+  overload: Client_PSL.ViewModels.DebugMessage.LevelColor*
+- uid: Client_PSL.ViewModels.DebugMessage.Message
+  commentId: P:Client_PSL.ViewModels.DebugMessage.Message
+  id: Message
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: Message
+  nameWithType: DebugMessage.Message
+  fullName: Client_PSL.ViewModels.DebugMessage.Message
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: Message
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 20
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public string Message { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Message As String
+  overload: Client_PSL.ViewModels.DebugMessage.Message*
+- uid: Client_PSL.ViewModels.DebugMessage.MessageColor
+  commentId: P:Client_PSL.ViewModels.DebugMessage.MessageColor
+  id: MessageColor
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: MessageColor
+  nameWithType: DebugMessage.MessageColor
+  fullName: Client_PSL.ViewModels.DebugMessage.MessageColor
+  type: Property
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: MessageColor
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 21
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public IBrush MessageColor { get; set; }
+    parameters: []
+    return:
+      type: Avalonia.Media.IBrush
+    content.vb: Public Property MessageColor As IBrush
+  overload: Client_PSL.ViewModels.DebugMessage.MessageColor*
+- uid: Client_PSL.ViewModels.DebugMessage.#ctor(System.String,System.String,Avalonia.Media.Color,System.String)
+  commentId: M:Client_PSL.ViewModels.DebugMessage.#ctor(System.String,System.String,Avalonia.Media.Color,System.String)
+  id: '#ctor(System.String,System.String,Avalonia.Media.Color,System.String)'
+  parent: Client_PSL.ViewModels.DebugMessage
+  langs:
+  - csharp
+  - vb
+  name: DebugMessage(string, string, Color, string)
+  nameWithType: DebugMessage.DebugMessage(string, string, Color, string)
+  fullName: Client_PSL.ViewModels.DebugMessage.DebugMessage(string, string, Avalonia.Media.Color, string)
+  type: Constructor
+  source:
+    remote:
+      path: Client_PSL/ViewModels/DebugViewModel.cs
+      branch: Logger
+      repo: https://github.com/YM-Productions/Client_PSL
+    id: .ctor
+    path: Client_PSL/ViewModels/DebugViewModel.cs
+    startLine: 23
+  assemblies:
+  - Client_PSL
+  namespace: Client_PSL.ViewModels
+  syntax:
+    content: public DebugMessage(string dateTime, string levelName, Color levelColor, string message)
+    parameters:
+    - id: dateTime
+      type: System.String
+    - id: levelName
+      type: System.String
+    - id: levelColor
+      type: Avalonia.Media.Color
+    - id: message
+      type: System.String
+    content.vb: Public Sub New(dateTime As String, levelName As String, levelColor As Color, message As String)
+  overload: Client_PSL.ViewModels.DebugMessage.#ctor*
+  nameWithType.vb: DebugMessage.New(String, String, Color, String)
+  fullName.vb: Client_PSL.ViewModels.DebugMessage.New(String, String, Avalonia.Media.Color, String)
+  name.vb: New(String, String, Color, String)
+references:
+- uid: Client_PSL.ViewModels
+  commentId: N:Client_PSL.ViewModels
+  href: Client_PSL.html
+  name: Client_PSL.ViewModels
+  nameWithType: Client_PSL.ViewModels
+  fullName: Client_PSL.ViewModels
+  spec.csharp:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.ViewModels
+    name: ViewModels
+    href: Client_PSL.ViewModels.html
+  spec.vb:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.ViewModels
+    name: ViewModels
+    href: Client_PSL.ViewModels.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Client_PSL.ViewModels.DebugMessage.BackgroundColor*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.BackgroundColor
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_BackgroundColor
+  name: BackgroundColor
+  nameWithType: DebugMessage.BackgroundColor
+  fullName: Client_PSL.ViewModels.DebugMessage.BackgroundColor
+- uid: Avalonia.Media.IBrush
+  commentId: T:Avalonia.Media.IBrush
+  parent: Avalonia.Media
+  isExternal: true
+  name: IBrush
+  nameWithType: IBrush
+  fullName: Avalonia.Media.IBrush
+- uid: Avalonia.Media
+  commentId: N:Avalonia.Media
+  isExternal: true
+  name: Avalonia.Media
+  nameWithType: Avalonia.Media
+  fullName: Avalonia.Media
+  spec.csharp:
+  - uid: Avalonia
+    name: Avalonia
+    isExternal: true
+  - name: .
+  - uid: Avalonia.Media
+    name: Media
+    isExternal: true
+  spec.vb:
+  - uid: Avalonia
+    name: Avalonia
+    isExternal: true
+  - name: .
+  - uid: Avalonia.Media
+    name: Media
+    isExternal: true
+- uid: Client_PSL.ViewModels.DebugMessage.DateTime*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.DateTime
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_DateTime
+  name: DateTime
+  nameWithType: DebugMessage.DateTime
+  fullName: Client_PSL.ViewModels.DebugMessage.DateTime
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Client_PSL.ViewModels.DebugMessage.DateTimeColor*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.DateTimeColor
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_DateTimeColor
+  name: DateTimeColor
+  nameWithType: DebugMessage.DateTimeColor
+  fullName: Client_PSL.ViewModels.DebugMessage.DateTimeColor
+- uid: Client_PSL.ViewModels.DebugMessage.LevelName*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.LevelName
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_LevelName
+  name: LevelName
+  nameWithType: DebugMessage.LevelName
+  fullName: Client_PSL.ViewModels.DebugMessage.LevelName
+- uid: Client_PSL.ViewModels.DebugMessage.LevelColor*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.LevelColor
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_LevelColor
+  name: LevelColor
+  nameWithType: DebugMessage.LevelColor
+  fullName: Client_PSL.ViewModels.DebugMessage.LevelColor
+- uid: Client_PSL.ViewModels.DebugMessage.Message*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.Message
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_Message
+  name: Message
+  nameWithType: DebugMessage.Message
+  fullName: Client_PSL.ViewModels.DebugMessage.Message
+- uid: Client_PSL.ViewModels.DebugMessage.MessageColor*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.MessageColor
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage_MessageColor
+  name: MessageColor
+  nameWithType: DebugMessage.MessageColor
+  fullName: Client_PSL.ViewModels.DebugMessage.MessageColor
+- uid: Client_PSL.ViewModels.DebugMessage.#ctor*
+  commentId: Overload:Client_PSL.ViewModels.DebugMessage.#ctor
+  href: Client_PSL.ViewModels.DebugMessage.html#Client_PSL_ViewModels_DebugMessage__ctor_System_String_System_String_Avalonia_Media_Color_System_String_
+  name: DebugMessage
+  nameWithType: DebugMessage.DebugMessage
+  fullName: Client_PSL.ViewModels.DebugMessage.DebugMessage
+  nameWithType.vb: DebugMessage.New
+  fullName.vb: Client_PSL.ViewModels.DebugMessage.New
+  name.vb: New
+- uid: Avalonia.Media.Color
+  commentId: T:Avalonia.Media.Color
+  parent: Avalonia.Media
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: Avalonia.Media.Color

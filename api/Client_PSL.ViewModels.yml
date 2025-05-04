@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: Client_PSL.ViewModels
+  commentId: N:Client_PSL.ViewModels
+  id: Client_PSL.ViewModels
+  children:
+  - Client_PSL.ViewModels.DebugMessage
+  - Client_PSL.ViewModels.DebugViewModel
+  - Client_PSL.ViewModels.MainViewModel
+  - Client_PSL.ViewModels.ViewModelBase
+  langs:
+  - csharp
+  - vb
+  name: Client_PSL.ViewModels
+  nameWithType: Client_PSL.ViewModels
+  fullName: Client_PSL.ViewModels
+  type: Namespace
+  assemblies:
+  - Client_PSL
+references:
+- uid: Client_PSL.ViewModels.DebugMessage
+  commentId: T:Client_PSL.ViewModels.DebugMessage
+  parent: Client_PSL.ViewModels
+  href: Client_PSL.ViewModels.DebugMessage.html
+  name: DebugMessage
+  nameWithType: DebugMessage
+  fullName: Client_PSL.ViewModels.DebugMessage
+- uid: Client_PSL.ViewModels.DebugViewModel
+  commentId: T:Client_PSL.ViewModels.DebugViewModel
+  parent: Client_PSL.ViewModels
+  href: Client_PSL.ViewModels.DebugViewModel.html
+  name: DebugViewModel
+  nameWithType: DebugViewModel
+  fullName: Client_PSL.ViewModels.DebugViewModel
+- uid: Client_PSL.ViewModels.MainViewModel
+  commentId: T:Client_PSL.ViewModels.MainViewModel
+  href: Client_PSL.ViewModels.MainViewModel.html
+  name: MainViewModel
+  nameWithType: MainViewModel
+  fullName: Client_PSL.ViewModels.MainViewModel
+- uid: Client_PSL.ViewModels.ViewModelBase
+  commentId: T:Client_PSL.ViewModels.ViewModelBase
+  parent: Client_PSL.ViewModels
+  href: Client_PSL.ViewModels.ViewModelBase.html
+  name: ViewModelBase
+  nameWithType: ViewModelBase
+  fullName: Client_PSL.ViewModels.ViewModelBase
+- uid: Client_PSL.ViewModels
+  commentId: N:Client_PSL.ViewModels
+  href: Client_PSL.html
+  name: Client_PSL.ViewModels
+  nameWithType: Client_PSL.ViewModels
+  fullName: Client_PSL.ViewModels
+  spec.csharp:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.ViewModels
+    name: ViewModels
+    href: Client_PSL.ViewModels.html
+  spec.vb:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.ViewModels
+    name: ViewModels
+    href: Client_PSL.ViewModels.html

@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Client_PSL
+  commentId: N:Client_PSL
+  id: Client_PSL
+  children:
+  - Client_PSL.App
+  - Client_PSL.ViewLocator
+  langs:
+  - csharp
+  - vb
+  name: Client_PSL
+  nameWithType: Client_PSL
+  fullName: Client_PSL
+  type: Namespace
+  assemblies:
+  - Client_PSL
+references:
+- uid: Client_PSL.App
+  commentId: T:Client_PSL.App
+  href: Client_PSL.App.html
+  name: App
+  nameWithType: App
+  fullName: Client_PSL.App
+- uid: Client_PSL.ViewLocator
+  commentId: T:Client_PSL.ViewLocator
+  href: Client_PSL.ViewLocator.html
+  name: ViewLocator
+  nameWithType: ViewLocator
+  fullName: Client_PSL.ViewLocator

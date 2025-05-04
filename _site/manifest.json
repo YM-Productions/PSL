@@ -1,0 +1,382 @@
+{
+  "source_base_path": "F:/src/repo/Client_PSL",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.App.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.App.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.App",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Utils.Logger.LoggerFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Utils.Logger.LoggerFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Utils.Logger.LoggerFactory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Utils.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Utils.Logger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Utils.Logger",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Utils.Test.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Utils.Test.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Utils.Test",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Utils.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Utils",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewLocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewLocator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewLocator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewModels.DebugMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewModels.DebugMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewModels.DebugMessage",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewModels.DebugViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewModels.DebugViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewModels.DebugViewModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewModels.MainViewModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewModels.MainViewModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewModels.MainViewModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewModels.ViewModelBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewModels.ViewModelBase.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewModels.ViewModelBase",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.ViewModels.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.ViewModels.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.ViewModels",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Views.DebugView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Views.DebugView.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Views.DebugView",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Views.MainView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Views.MainView.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Views.MainView",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Views.MainWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Views.MainWindow.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Views.MainWindow",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.Views.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.Views.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL.Views",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Client_PSL.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Client_PSL.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Client_PSL",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Utils.Debug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Utils.Debug.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Utils.Debug",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Utils.Logger.LoggerFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Utils.Logger.LoggerFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Utils.Logger.LoggerFactory",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Utils.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Utils.Logger.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Utils.Logger",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Utils.Test.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Utils.Test.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Utils.Test",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Utils.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Utils",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

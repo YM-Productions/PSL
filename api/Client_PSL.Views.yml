@@ -1,0 +1,37 @@
+### YamlMime:ManagedReference
+items:
+- uid: Client_PSL.Views
+  commentId: N:Client_PSL.Views
+  id: Client_PSL.Views
+  children:
+  - Client_PSL.Views.DebugView
+  - Client_PSL.Views.MainView
+  - Client_PSL.Views.MainWindow
+  langs:
+  - csharp
+  - vb
+  name: Client_PSL.Views
+  nameWithType: Client_PSL.Views
+  fullName: Client_PSL.Views
+  type: Namespace
+  assemblies:
+  - Client_PSL
+references:
+- uid: Client_PSL.Views.DebugView
+  commentId: T:Client_PSL.Views.DebugView
+  href: Client_PSL.Views.DebugView.html
+  name: DebugView
+  nameWithType: DebugView
+  fullName: Client_PSL.Views.DebugView
+- uid: Client_PSL.Views.MainView
+  commentId: T:Client_PSL.Views.MainView
+  href: Client_PSL.Views.MainView.html
+  name: MainView
+  nameWithType: MainView
+  fullName: Client_PSL.Views.MainView
+- uid: Client_PSL.Views.MainWindow
+  commentId: T:Client_PSL.Views.MainWindow
+  href: Client_PSL.Views.MainWindow.html
+  name: MainWindow
+  nameWithType: MainWindow
+  fullName: Client_PSL.Views.MainWindow

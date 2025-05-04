@@ -4,6 +4,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
   
   <ItemGroup>
@@ -20,5 +21,11 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\DebugView.axaml.cs">
+      <DependentUpon>DebugView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
