@@ -2,7 +2,7 @@ name: Generate and Deploy DocFX
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Install DocFX
-      run: dotnet build
+      run: dotnet tool install -g docfx
 
     - name: Build Solution
       run: dotnet build
@@ -33,6 +33,6 @@ jobs:
       with:
         host: ${{ secrets.GCP_HOST }}
         username: ${{ secrets.GCP_USER }}
-        key: ${{ secreats.GCP_SSH_KEY }}
+        key: ${{ secrets.GCP_SSH_KEY }}
         source: "_site"
         target: "/var/www/psl-doc"
