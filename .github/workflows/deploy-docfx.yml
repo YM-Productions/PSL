@@ -33,6 +33,6 @@ jobs:
       with:
         host: ${{ secrets.GCP_HOST }}
         username: ${{ secrets.GCP_USER }}
-        key: ${{ secreats.GCP_SSH_KEY }}
+        key: ${{ secrets.GCP_SSH_KEY }}
         source: "_site"
         target: "/var/www/psl-doc"
