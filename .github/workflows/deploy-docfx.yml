@@ -1,0 +1,38 @@
+name: Generate and Deploy DocFX
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install DocFX
+      run: dotnet build
+
+    - name: Build Solution
+      run: dotnet build
+
+    - name: Generate DocFX metadata and site
+      run: |
+        docfx metadata
+        docfx build
+
+    - name: Deploy via SCP to Google VM
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.GCP_HOST }}
+        username: ${{ secrets.GCP_USER }}
+        key: ${{ secreats.GCP_SSH_KEY }}
+        source: "_site"
+        target: "/var/www/psl-doc"
