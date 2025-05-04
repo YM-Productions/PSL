@@ -82,6 +82,8 @@ public partial class DebugViewModel : ViewModelBase
     /// </summary>
     public static DebugViewModel Instance { get; private set; }
 
+    [ObservableProperty]
+    private bool _isActive = false;
     /// <summary>
     /// Maximum number of messages allowed in the <see cref="Messages"/> collection.
     /// Older messages will be trimmed if this limit is exceeded.

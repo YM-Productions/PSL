@@ -6,4 +6,9 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     DebugViewModel _debugPage = new();
+
+    public void ToggleDebug()
+    {
+        DebugPage.IsActive = !DebugPage.IsActive;
+    }
 }

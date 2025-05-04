@@ -12,7 +12,7 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Border>
+  <Border IsVisible="{Binding IsActive}">
     <StackPanel VerticalAlignment="Bottom">
       <ItemsControl Background="Green" ItemsSource="{Binding Messages}">
         <ItemsControl.Template>
