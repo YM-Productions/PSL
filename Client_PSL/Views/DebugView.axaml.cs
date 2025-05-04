@@ -18,8 +18,6 @@ public partial class DebugView : UserControl
             !string.IsNullOrEmpty(textBox.Text))
         {
             Debug.Log(textBox.Text);
-            Debug.LogWarning(textBox.Text);
-            Debug.LogError(textBox.Text);
             textBox.Text = string.Empty;
             e.Handled = true;
         }
