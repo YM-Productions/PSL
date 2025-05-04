@@ -1,0 +1,62 @@
+### YamlMime:TableOfContent
+items:
+- uid: Client_PSL
+  name: Client_PSL
+  type: Namespace
+  items:
+  - uid: Client_PSL.App
+    name: App
+    type: Class
+  - uid: Client_PSL.ViewLocator
+    name: ViewLocator
+    type: Class
+- uid: Client_PSL.Utils
+  name: Client_PSL.Utils
+  type: Namespace
+  items:
+  - uid: Client_PSL.Utils.Logger
+    name: Logger
+    type: Class
+  - uid: Client_PSL.Utils.Logger.LoggerFactory
+    name: Logger.LoggerFactory
+    type: Class
+  - uid: Client_PSL.Utils.Test
+    name: Test
+    type: Class
+- uid: Client_PSL.ViewModels
+  name: Client_PSL.ViewModels
+  type: Namespace
+  items:
+  - uid: Client_PSL.ViewModels.DebugMessage
+    name: DebugMessage
+    type: Class
+  - uid: Client_PSL.ViewModels.DebugViewModel
+    name: DebugViewModel
+    type: Class
+  - uid: Client_PSL.ViewModels.MainViewModel
+    name: MainViewModel
+    type: Class
+  - uid: Client_PSL.ViewModels.ViewModelBase
+    name: ViewModelBase
+    type: Class
+- uid: Client_PSL.Views
+  name: Client_PSL.Views
+  type: Namespace
+  items:
+  - uid: Client_PSL.Views.DebugView
+    name: DebugView
+    type: Class
+  - uid: Client_PSL.Views.MainView
+    name: MainView
+    type: Class
+  - uid: Client_PSL.Views.MainWindow
+    name: MainWindow
+    type: Class
+- uid: Utils
+  name: Utils
+  type: Namespace
+  items:
+  - uid: Utils.Debug
+    name: Debug
+    type: Class
+memberLayout: SamePage

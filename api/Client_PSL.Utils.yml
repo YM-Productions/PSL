@@ -1,0 +1,76 @@
+### YamlMime:ManagedReference
+items:
+- uid: Client_PSL.Utils
+  commentId: N:Client_PSL.Utils
+  id: Client_PSL.Utils
+  children:
+  - Client_PSL.Utils.Logger
+  - Client_PSL.Utils.Logger.LoggerFactory
+  - Client_PSL.Utils.Test
+  langs:
+  - csharp
+  - vb
+  name: Client_PSL.Utils
+  nameWithType: Client_PSL.Utils
+  fullName: Client_PSL.Utils
+  type: Namespace
+  assemblies:
+  - Client_PSL
+references:
+- uid: Client_PSL.Utils.Test
+  commentId: T:Client_PSL.Utils.Test
+  href: Client_PSL.Utils.Test.html
+  name: Test
+  nameWithType: Test
+  fullName: Client_PSL.Utils.Test
+- uid: Client_PSL.Utils.Logger
+  commentId: T:Client_PSL.Utils.Logger
+  parent: Client_PSL.Utils
+  href: Client_PSL.Utils.Logger.html
+  name: Logger
+  nameWithType: Logger
+  fullName: Client_PSL.Utils.Logger
+- uid: Client_PSL.Utils.Logger.LoggerFactory
+  commentId: T:Client_PSL.Utils.Logger.LoggerFactory
+  href: Client_PSL.Utils.Logger.html
+  name: Logger.LoggerFactory
+  nameWithType: Logger.LoggerFactory
+  fullName: Client_PSL.Utils.Logger.LoggerFactory
+  spec.csharp:
+  - uid: Client_PSL.Utils.Logger
+    name: Logger
+    href: Client_PSL.Utils.Logger.html
+  - name: .
+  - uid: Client_PSL.Utils.Logger.LoggerFactory
+    name: LoggerFactory
+    href: Client_PSL.Utils.Logger.LoggerFactory.html
+  spec.vb:
+  - uid: Client_PSL.Utils.Logger
+    name: Logger
+    href: Client_PSL.Utils.Logger.html
+  - name: .
+  - uid: Client_PSL.Utils.Logger.LoggerFactory
+    name: LoggerFactory
+    href: Client_PSL.Utils.Logger.LoggerFactory.html
+- uid: Client_PSL.Utils
+  commentId: N:Client_PSL.Utils
+  href: Client_PSL.html
+  name: Client_PSL.Utils
+  nameWithType: Client_PSL.Utils
+  fullName: Client_PSL.Utils
+  spec.csharp:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.Utils
+    name: Utils
+    href: Client_PSL.Utils.html
+  spec.vb:
+  - uid: Client_PSL
+    name: Client_PSL
+    href: Client_PSL.html
+  - name: .
+  - uid: Client_PSL.Utils
+    name: Utils
+    href: Client_PSL.Utils.html

@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using Client_PSL.ViewModels;
 using Utils;
 
 namespace Client_PSL.Views;
@@ -15,9 +14,14 @@ public partial class DebugView : UserControl
     private void Input_KeyDown(object? sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter &&
-            sender is TextBox textBox)
+            sender is TextBox textBox &&
+            !string.IsNullOrEmpty(textBox.Text))
         {
-            Debug.Log(textBox.Text ?? "-_-");
+            Debug.Log(textBox.Text);
+            Debug.LogWarning(textBox.Text);
+            Debug.LogError(textBox.Text);
+            textBox.Text = string.Empty;
+            e.Handled = true;
         }
     }
 }
