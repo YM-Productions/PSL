@@ -104,7 +104,7 @@ public static partial class Module
     /// </para>
     /// </summary>
     [Table(Name = "PersistentSession", Public = false)]
-    internal partial class PersistentSession
+    public partial class PersistentSession
     {
         /// <summary>
         /// The identity of the user associated with this session. Acts as a foreign key and primary key.
@@ -115,12 +115,12 @@ public static partial class Module
         /// <summary>
         /// The persistent token used to identify and authenticate the session.
         /// </summary>
-        public Guid Token;
+        public string Tkn;
 
         /// <summary>
         /// The UTC timestamp of when the session was created.
         /// </summary>
-        public DateTime CreatedAt;
+        public string CreatedAt;
     }
 
     public static partial class AccountReducers
@@ -199,8 +199,8 @@ public static partial class Module
             PersistentSession persistentSession = new()
             {
                 identity = account.identity,
-                Token = Guid.NewGuid(),
-                CreatedAt = DateTime.UtcNow,
+                Tkn = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow.ToString(),
             };
 
             ctx.Db.Account.Insert(account);
@@ -250,7 +250,7 @@ public static partial class Module
         /// </list>
         /// </returns>
         [Reducer]
-        public static int Login(ReducerContext ctx, string userName, string passwordHash, out Guid? Token)
+        public static int Login(ReducerContext ctx, string userName, string passwordHash, out string? Token)
         {
             Token = null;
 
@@ -263,7 +263,7 @@ public static partial class Module
                 // Check if Token exists
                 if (ctx.Db.PersistentSession.identity.Find(account.identity) is PersistentSession ps)
                 {
-                    Token = ps.Token;
+                    Token = ps.Tkn;
                     return (int)Status.Success;
                 }
 

@@ -1,18 +1,23 @@
 Starting... 
-Script started at 13.05.2025 20:26:24.81 
+Script started at 13.05.2025 23:14:40.12 
 Switched to directory: F:\src\repo\Client_PSL 
-Generating SpacetimeDB Bindings at 13.05.2025 20:26:24.82 
+Generating SpacetimeDB Bindings at 13.05.2025 23:14:40.13 
 MSBuild version 17.8.22+bfbb05667 for .NET
+F:\src\repo\Client_PSL\server\Modules\Account.cs(118,21): error BSATN0001: BSATN implementation for System.Guid is not found: Unsupported system type System.Guid [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\Modules\Account.cs(123,25): error BSATN0001: BSATN implementation for System.DateTime is not found: Unsupported special type System.DateTime (System_DateTime) [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\Modules\Account.cs(174,23): error STDB0001: Reducer method CreateAccount returns int instead of void. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\Modules\Account.cs(253,23): error STDB0001: Reducer method Login returns int instead of void. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\Modules\Account.cs(253,101): error BSATN0001: BSATN implementation for System.Guid? is not found: Unsupported system type System.Guid [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(160,77): error CS0050: Inconsistent accessibility: return type 'IEnumerable<Module.PersistentSession>' is less accessible than method 'PersistentSession.Iter()' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(161,64): error CS0050: Inconsistent accessibility: return type 'Module.PersistentSession' is less accessible than method 'PersistentSession.Insert(Module.PersistentSession)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(161,64): error CS0051: Inconsistent accessibility: parameter type 'Module.PersistentSession' is less accessible than method 'PersistentSession.Insert(Module.PersistentSession)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(162,17): error CS0051: Inconsistent accessibility: parameter type 'Module.PersistentSession' is less accessible than method 'PersistentSession.Delete(Module.PersistentSession)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
 F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(100,24): warning CS8981: The type name 'message' only contains lower-cased ascii characters. Such names may become reserved for the language. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
-F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(131,24): warning CS8981: The type name 'user' only contains lower-cased ascii characters. Such names may become reserved for the language. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
-F:\src\repo\Client_PSL\server\Modules\Account.cs(19,27): warning CS8618: Non-nullable field 'UserName' must contain a non-null value when exiting constructor. Consider declaring the field as nullable. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
-F:\src\repo\Client_PSL\server\Modules\Account.cs(21,27): warning CS8618: Non-nullable field 'MailAddress' must contain a non-null value when exiting constructor. Consider declaring the field as nullable. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
-F:\src\repo\Client_PSL\server\Modules\Account.cs(22,27): warning CS8618: Non-nullable field 'PasswordHash' must contain a non-null value when exiting constructor. Consider declaring the field as nullable. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
-Optimising module with wasm-opt...
-Could not find wasm-opt to optimise the module.
-For best performance install wasm-opt from https://github.com/WebAssembly/binaryen/releases.
-Continuing with unoptimised module.
-Build finished successfully.
-Generate finished successfully.
-Generation finished at 13.05.2025 20:26:34.60 
-Script ended at 13.05.2025 20:26:34.61 
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(164,25): error CS0060: Inconsistent accessibility: base class 'UniqueIndex<PersistentSession, Module.PersistentSession, Identity, Identity.BSATN>' is less accessible than class 'PersistentSession.identityUniqueIndex' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(169,65): error CS0050: Inconsistent accessibility: return type 'Module.PersistentSession' is less accessible than method 'PersistentSession.identityUniqueIndex.Find(Identity)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(170,64): error CS0050: Inconsistent accessibility: return type 'Module.PersistentSession' is less accessible than method 'PersistentSession.identityUniqueIndex.Update(Module.PersistentSession)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(170,64): error CS0051: Inconsistent accessibility: parameter type 'Module.PersistentSession' is less accessible than method 'PersistentSession.identityUniqueIndex.Update(Module.PersistentSession)' [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+F:\src\repo\Client_PSL\server\SpacetimeDB.Codegen\SpacetimeDB.Codegen.Module\FFI.cs(174,24): warning CS8981: The type name 'user' only contains lower-cased ascii characters. Such names may become reserved for the language. [F:\src\repo\Client_PSL\server\StdbModule.csproj]
+Error: command ["dotnet", "publish", "-c", "Release", "-v", "quiet"] exited with code 1
+Generation finished at 13.05.2025 23:14:41.95 
+Script ended at 13.05.2025 23:14:41.95 
