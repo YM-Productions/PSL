@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace StdbModule.Utils;
 
-namespace StdbModule.Utils
+public enum Status
 {
-    public enum Status
-    {
-        Success = 0,
-        UnknownError = 1,
+    // Defaults
+    Success = 0,
+    UnknownError = 1,
 
-        // Account creation 100
-        UserNameTaken = 101,
-    }
+    // Login 1
+    InvalidUserName = 11,
+    InvalidPassword = 12,
+
+    // Account creation 100
+    UserNameTaken = 1001,
+    InvalidMail = 1002,
+    MustAcceptAGB = 1003,
 }
