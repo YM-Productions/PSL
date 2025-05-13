@@ -21,6 +21,7 @@ namespace SpacetimeDB.Types
     {
         public RemoteTables(DbConnection conn)
         {
+            AddTable(Account = new(conn));
             AddTable(Message = new(conn));
             AddTable(User = new(conn));
         }
