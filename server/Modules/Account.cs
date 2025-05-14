@@ -40,6 +40,11 @@ public static partial class Module
         public string Tkn;
         public int CreatedAt;
 
+        public PersistentSession()
+        {
+            Tkn = string.Empty;
+        }
+
         public PersistentSession(Identity identity, Guid token)
         {
             this.identity = identity;
@@ -49,11 +54,16 @@ public static partial class Module
     }
 
     [Table(Name = nameof(ClientToken), Public = false)]
-    internal partial class ClientToken
+    public partial class ClientToken
     {
         [PrimaryKey]
         public Identity identity;
         public string Tkn;
+
+        public ClientToken()
+        {
+            Tkn = string.Empty;
+        }
 
         public ClientToken(Identity identity, string tkn)
         {

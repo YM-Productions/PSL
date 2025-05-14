@@ -13,7 +13,7 @@ namespace SpacetimeDB.Types
     [DataContract]
     public sealed partial class Account
     {
-        [DataMember(Name = "Identity")]
+        [DataMember(Name = "identity")]
         public SpacetimeDB.Identity Identity;
         [DataMember(Name = "UserName")]
         public string UserName;
@@ -21,6 +21,8 @@ namespace SpacetimeDB.Types
         public string MailAddress;
         [DataMember(Name = "PasswordHash")]
         public string PasswordHash;
+        [DataMember(Name = "MailVerified")]
+        public bool MailVerified;
         [DataMember(Name = "IsOnline")]
         public bool IsOnline;
         [DataMember(Name = "SendNews")]
@@ -35,6 +37,7 @@ namespace SpacetimeDB.Types
             string UserName,
             string MailAddress,
             string PasswordHash,
+            bool MailVerified,
             bool IsOnline,
             bool SendNews,
             bool AcceptedAgb,
@@ -45,6 +48,7 @@ namespace SpacetimeDB.Types
             this.UserName = UserName;
             this.MailAddress = MailAddress;
             this.PasswordHash = PasswordHash;
+            this.MailVerified = MailVerified;
             this.IsOnline = IsOnline;
             this.SendNews = SendNews;
             this.AcceptedAgb = AcceptedAgb;

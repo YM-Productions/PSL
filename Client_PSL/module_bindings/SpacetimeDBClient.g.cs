@@ -22,6 +22,9 @@ namespace SpacetimeDB.Types
         public RemoteTables(DbConnection conn)
         {
             AddTable(Account = new(conn));
+            AddTable(ClientDebugLog = new(conn));
+            AddTable(ClientToken = new(conn));
+            AddTable(PersistentSession = new(conn));
             AddTable(Message = new(conn));
             AddTable(User = new(conn));
         }
@@ -469,6 +472,8 @@ namespace SpacetimeDB.Types
             {
                 "ClientConnected" => BSATNHelpers.Decode<Reducer.ClientConnected>(encodedArgs),
                 "ClientDisconnected" => BSATNHelpers.Decode<Reducer.ClientDisconnected>(encodedArgs),
+                "CreateAccount" => BSATNHelpers.Decode<Reducer.CreateAccount>(encodedArgs),
+                "Login" => BSATNHelpers.Decode<Reducer.Login>(encodedArgs),
                 "SendMessage" => BSATNHelpers.Decode<Reducer.SendMessage>(encodedArgs),
                 "SetName" => BSATNHelpers.Decode<Reducer.SetName>(encodedArgs),
                 var reducer => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")
@@ -494,6 +499,8 @@ namespace SpacetimeDB.Types
             {
                 Reducer.ClientConnected args => Reducers.InvokeClientConnected(eventContext, args),
                 Reducer.ClientDisconnected args => Reducers.InvokeClientDisconnected(eventContext, args),
+                Reducer.CreateAccount args => Reducers.InvokeCreateAccount(eventContext, args),
+                Reducer.Login args => Reducers.InvokeLogin(eventContext, args),
                 Reducer.SendMessage args => Reducers.InvokeSendMessage(eventContext, args),
                 Reducer.SetName args => Reducers.InvokeSetName(eventContext, args),
                 _ => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")

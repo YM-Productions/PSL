@@ -14,6 +14,11 @@ public static partial class Module
         public string Message;
         public int CreatedAt;
 
+        public ClientDebugLog()
+        {
+            Message = string.Empty;
+        }
+
         public ClientDebugLog(Identity identity, int layer, string message)
         {
             this.identity = identity;
