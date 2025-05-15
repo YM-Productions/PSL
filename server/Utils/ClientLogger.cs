@@ -4,6 +4,9 @@ namespace StdbModule.Utils;
 
 public static class ClientLog
 {
+    // TODO:
+    // - Documentation
+
     public static void Error(ReducerContext ctx, string message)
     {
         ctx.Db.ClientDebugLog.Insert(new(ctx.Identity, 0, message));

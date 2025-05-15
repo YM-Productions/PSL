@@ -5,6 +5,9 @@ namespace StdbModule.ClientTools;
 
 public static partial class Module
 {
+    // TODO:
+    // - Documentation
+
     [Table(Name = nameof(ClientDebugLog), Public = true)]
     public partial class ClientDebugLog
     {

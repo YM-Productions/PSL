@@ -1,9 +1,11 @@
 ﻿using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Utils;
+using Utils.DebugCommands;
 
 namespace Client_PSL.ViewModels;
 
@@ -154,8 +156,56 @@ public partial class DebugViewModel : ViewModelBase
         }
     }
 
-    private void HandleCommand(string command)
+    private void HandleCommand(string message)
     {
         // command layout: <command> <--attribute> <attribute value>
+        string command = string.Empty;
+        Dictionary<string, string> attributes = new();
+
+        string[] parts = message.Split(" --", StringSplitOptions.None);
+
+        for (int i = 0; i < parts.Length; i++)
+        {
+            if (i == 0)
+            {
+                command = parts[i].Trim();
+            }
+            else
+            {
+                if (attributes.ContainsKey(parts[i].Trim()))
+                {
+                    Debug.LogError($"You already used <{parts[i].Trim()}>");
+                    return;
+                }
+                int spaceIndex = parts[i].IndexOf(' ');
+                if (spaceIndex == -1)
+                {
+                    attributes[parts[i].Trim()] = string.Empty;
+                }
+                else
+                {
+                    string key = parts[i].Substring(0, spaceIndex).Trim();
+                    string value = parts[i].Substring(spaceIndex + 1).Trim();
+                    attributes[key] = value;
+                }
+            }
+        }
+
+        // Validate Command
+        if (string.IsNullOrEmpty(command))
+        {
+            Debug.LogError("Command must not be empty!\nType </help> for help");
+            return;
+        }
+
+        if (DebugCommand.Commands.TryGetValue(command.ToLower(), out Action<Dictionary<string, string>>? action) && action != null)
+        {
+            action(attributes);
+        }
+        else
+        {
+            Debug.LogError($"<{command}> is no valid command!");
+            return;
+        }
     }
 }

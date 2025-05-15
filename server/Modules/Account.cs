@@ -7,6 +7,9 @@ namespace StdbModule.Modules;
 
 public static partial class Module
 {
+    // TODO:
+    // - Documentation
+
     [Table(Name = nameof(Account), Public = false)]
     // [SpacetimeDB.Index.BTree(Name = "idx_Account_UserName_IsOnline", Columns = [nameof(UserName), nameof(IsOnline)])]
     public partial class Account
