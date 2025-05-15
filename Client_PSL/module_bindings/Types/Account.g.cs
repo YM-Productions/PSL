@@ -31,6 +31,8 @@ namespace SpacetimeDB.Types
         public bool AcceptedAgb;
         [DataMember(Name = "NameTokens")]
         public int NameTokens;
+        [DataMember(Name = "CreatedAt")]
+        public int CreatedAt;
 
         public Account(
             SpacetimeDB.Identity Identity,
@@ -41,7 +43,8 @@ namespace SpacetimeDB.Types
             bool IsOnline,
             bool SendNews,
             bool AcceptedAgb,
-            int NameTokens
+            int NameTokens,
+            int CreatedAt
         )
         {
             this.Identity = Identity;
@@ -53,6 +56,7 @@ namespace SpacetimeDB.Types
             this.SendNews = SendNews;
             this.AcceptedAgb = AcceptedAgb;
             this.NameTokens = NameTokens;
+            this.CreatedAt = CreatedAt;
         }
 
         public Account()

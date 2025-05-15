@@ -23,12 +23,15 @@ public static partial class Module
         public bool SendNews;
         public bool AcceptedAGB;
         public int NameTokens;
+        public int CreatedAt;
 
         public Account()
         {
             UserName = string.Empty;
             MailAddress = string.Empty;
             PasswordHash = string.Empty;
+
+            CreatedAt = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
     }
 
@@ -49,6 +52,7 @@ public static partial class Module
         {
             this.identity = identity;
             Tkn = token.ToString();
+
             CreatedAt = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
     }
