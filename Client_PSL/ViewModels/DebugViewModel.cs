@@ -144,4 +144,18 @@ public partial class DebugViewModel : ViewModelBase
             Messages.Remove(Messages.Last());
         }
     }
+
+    public void HanldeMessage(string message)
+    {
+        if (message.First() == '/')
+        {
+            // Handle Command
+            HandleCommand(message.Substring(1));
+        }
+    }
+
+    private void HandleCommand(string command)
+    {
+        // command layout: <command> <--attribute> <attribute value>
+    }
 }
