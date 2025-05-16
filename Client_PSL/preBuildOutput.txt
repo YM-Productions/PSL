@@ -1,7 +1,7 @@
 Starting... 
-Script started at 16.05.2025 22:40:21.35 
+Script started at 16.05.2025 22:47:51.53 
 Switched to directory: F:\src\repo\Client_PSL 
-Generating SpacetimeDB Bindings at 16.05.2025 22:40:21.36 
+Generating SpacetimeDB Bindings at 16.05.2025 22:47:51.55 
 MSBuild version 17.8.22+bfbb05667 for .NET
 
 Workload updates are available. Run `dotnet workload list` for more information.
@@ -11,5 +11,5 @@ For best performance install wasm-opt from https://github.com/WebAssembly/binary
 Continuing with unoptimised module.
 Build finished successfully.
 Generate finished successfully.
-Generation finished at 16.05.2025 22:40:30.59 
-Script ended at 16.05.2025 22:40:30.60 
+Generation finished at 16.05.2025 22:48:00.59 
+Script ended at 16.05.2025 22:48:00.60 

@@ -71,12 +71,10 @@ public class SpacetimeController
 
     private DbConnection CreateDbConnection(string token)
     {
-        AuthToken.Init(token);
-
         DbConnection conn = DbConnection.Builder()
             .WithUri(HOST)
             .WithModuleName(DBNAME)
-            .WithToken(AuthToken.Token)
+            .WithToken(token)
             .OnConnect(OnConnected)
             .OnConnectError(OnConnectError)
             .OnDisconnect(OnDisconnected)
