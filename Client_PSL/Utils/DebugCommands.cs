@@ -9,7 +9,6 @@ using Networking.SpacetimeController;
 namespace Utils.DebugCommands;
 
 // TODO:
-// - Documentation
 // - Login
 // - Register
 // - LoggerControll
@@ -18,8 +17,50 @@ namespace Utils.DebugCommands;
 //      /logger --disable <name> -> This specific logger wont Log
 //      /logger --focus <name> -> Only logs this specific logger
 
+/// <summary>
+/// Provides a central interface for handling textual debug and developer commands,
+/// including parsing input, routing to command handlers, and showing help information.
+/// </summary>
+/// <remarks>
+/// <para>
+/// The <c>DebugCommand</c> class contains a registry of supported commands in the <see cref="Commands"/> dictionary,
+/// where each command maps to a corresponding action with named parameters.
+/// </para>
+/// <para>
+/// Commands are expected to be invoked in the format:
+/// <c>/command --key value</c>. For example:
+/// <c>/login --name Alice --pwd secret</c>.
+/// </para>
+/// <para>
+/// This class is typically used in developer tools, in-game consoles, or debug UIs
+/// to test server connectivity, authentication flows, and user management functionality.
+/// </para>
+/// </remarks>
 public static class DebugCommand
 {
+    /// <summary>
+    /// A dictionary that maps command names (as lowercase strings) to their corresponding actions,
+    /// each accepting a <see cref="Dictionary{TKey, TValue}"/> of string arguments.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This collection serves as a command dispatcher, allowing various commands (e.g., <c>login</c>, <c>register</c>, <c>help</c>)
+    /// to be executed dynamically based on string input.
+    /// </para>
+    /// <para>
+    /// The keys are case-insensitive command names, typically derived from method names using <c>nameof(...).ToLower()</c>.
+    /// </para>
+    /// <para>
+    /// Example usage:
+    /// <code>
+    /// Commands["login"](new Dictionary&lt;string, string&gt; { ["username"] = "yaene", ["password"] = "123" });
+    /// </code>
+    /// </para>
+    /// <para>
+    /// Temporary or utility commands like <c>"d"</c> (disconnect), <c>"tempsession"</c> (open a temporary session),
+    /// or <c>"time"</c> (log current UNIX time) are also included for development or debugging purposes.
+    /// </para>
+    /// </remarks>
     public static Dictionary<string, Action<Dictionary<string, string>>> Commands = new()
     {
         { nameof(Help).ToLower(), Help },
@@ -32,11 +73,11 @@ public static class DebugCommand
         { "time" , _ => Debug.Log(((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds()).ToString()) },
     };
 
-    public static void Help(Dictionary<string, string> attributes)
+    private static void Help(Dictionary<string, string> attributes)
     {
         if (attributes.Count == 0)
         {
-            Debug.Log("--------------------------\nCommand Format:\n/<command> --<attributeName> <attribute>\nExample:\n/Login --name NAME --Password PWD");
+            Debug.Log("--------------------------\nCommand Format:\n/<command> --<attributeName> <attribute>\nExample:\n/login --name NAME --Password PWD");
             return;
         }
 
@@ -75,7 +116,7 @@ public static class DebugCommand
         Debug.LogError("Invalid Command structure!\nUse </help> for more info");
     }
 
-    public static void Login(Dictionary<string, string> attributes)
+    private static void Login(Dictionary<string, string> attributes)
     {
         if (attributes.Values.Any(string.IsNullOrEmpty))
         {
@@ -93,7 +134,7 @@ public static class DebugCommand
         SpacetimeController.Instance.Login(userName, password);
     }
 
-    public static void Register(Dictionary<string, string> attributes)
+    private static void Register(Dictionary<string, string> attributes)
     {
         if (attributes.Values.Any(string.IsNullOrEmpty))
         {

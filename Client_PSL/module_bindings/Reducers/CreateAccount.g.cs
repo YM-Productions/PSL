@@ -12,12 +12,12 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteReducers : RemoteBase
     {
-        public delegate void CreateAccountHandler(ReducerEventContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb, string usedToken);
+        public delegate void CreateAccountHandler(ReducerEventContext ctx, string userName, string mailAddress, string password, bool sendNews, bool acceptedAgb, string usedToken);
         public event CreateAccountHandler? OnCreateAccount;
 
-        public void CreateAccount(string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb, string usedToken)
+        public void CreateAccount(string userName, string mailAddress, string password, bool sendNews, bool acceptedAgb, string usedToken)
         {
-            conn.InternalCallReducer(new Reducer.CreateAccount(userName, mailAddress, passwordHash, sendNews, acceptedAgb, usedToken), this.SetCallReducerFlags.CreateAccountFlags);
+            conn.InternalCallReducer(new Reducer.CreateAccount(userName, mailAddress, password, sendNews, acceptedAgb, usedToken), this.SetCallReducerFlags.CreateAccountFlags);
         }
 
         public bool InvokeCreateAccount(ReducerEventContext ctx, Reducer.CreateAccount args)
@@ -38,7 +38,7 @@ namespace SpacetimeDB.Types
                 ctx,
                 args.UserName,
                 args.MailAddress,
-                args.PasswordHash,
+                args.Password,
                 args.SendNews,
                 args.AcceptedAgb,
                 args.UsedToken
@@ -57,8 +57,8 @@ namespace SpacetimeDB.Types
             public string UserName;
             [DataMember(Name = "mailAddress")]
             public string MailAddress;
-            [DataMember(Name = "passwordHash")]
-            public string PasswordHash;
+            [DataMember(Name = "password")]
+            public string Password;
             [DataMember(Name = "sendNews")]
             public bool SendNews;
             [DataMember(Name = "acceptedAGB")]
@@ -69,7 +69,7 @@ namespace SpacetimeDB.Types
             public CreateAccount(
                 string UserName,
                 string MailAddress,
-                string PasswordHash,
+                string Password,
                 bool SendNews,
                 bool AcceptedAgb,
                 string UsedToken
@@ -77,7 +77,7 @@ namespace SpacetimeDB.Types
             {
                 this.UserName = UserName;
                 this.MailAddress = MailAddress;
-                this.PasswordHash = PasswordHash;
+                this.Password = Password;
                 this.SendNews = SendNews;
                 this.AcceptedAgb = AcceptedAgb;
                 this.UsedToken = UsedToken;
@@ -87,7 +87,7 @@ namespace SpacetimeDB.Types
             {
                 this.UserName = "";
                 this.MailAddress = "";
-                this.PasswordHash = "";
+                this.Password = "";
                 this.UsedToken = "";
             }
 

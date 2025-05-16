@@ -12,12 +12,12 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteReducers : RemoteBase
     {
-        public delegate void LoginHandler(ReducerEventContext ctx, string userName, string passwordHash);
+        public delegate void LoginHandler(ReducerEventContext ctx, string userName, string password);
         public event LoginHandler? OnLogin;
 
-        public void Login(string userName, string passwordHash)
+        public void Login(string userName, string password)
         {
-            conn.InternalCallReducer(new Reducer.Login(userName, passwordHash), this.SetCallReducerFlags.LoginFlags);
+            conn.InternalCallReducer(new Reducer.Login(userName, password), this.SetCallReducerFlags.LoginFlags);
         }
 
         public bool InvokeLogin(ReducerEventContext ctx, Reducer.Login args)
@@ -37,7 +37,7 @@ namespace SpacetimeDB.Types
             OnLogin(
                 ctx,
                 args.UserName,
-                args.PasswordHash
+                args.Password
             );
             return true;
         }
@@ -51,22 +51,22 @@ namespace SpacetimeDB.Types
         {
             [DataMember(Name = "userName")]
             public string UserName;
-            [DataMember(Name = "passwordHash")]
-            public string PasswordHash;
+            [DataMember(Name = "password")]
+            public string Password;
 
             public Login(
                 string UserName,
-                string PasswordHash
+                string Password
             )
             {
                 this.UserName = UserName;
-                this.PasswordHash = PasswordHash;
+                this.Password = Password;
             }
 
             public Login()
             {
                 this.UserName = "";
-                this.PasswordHash = "";
+                this.Password = "";
             }
 
             string IReducerArgs.ReducerName => "Login";
