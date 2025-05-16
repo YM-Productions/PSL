@@ -1,13 +1,15 @@
-Starting...
-Script started at Fri May 16 19:30:02 CEST 2025
-Switched to directory: /home/yaene/src/PSL
-Generating SpacetimeDB Bindings at Fri May 16 19:30:02 CEST 2025
+Starting... 
+Script started at 16.05.2025 22:40:21.35 
+Switched to directory: F:\src\repo\Client_PSL 
+Generating SpacetimeDB Bindings at 16.05.2025 22:40:21.36 
 MSBuild version 17.8.22+bfbb05667 for .NET
+
+Workload updates are available. Run `dotnet workload list` for more information.
 Optimising module with wasm-opt...
 Could not find wasm-opt to optimise the module.
 For best performance install wasm-opt from https://github.com/WebAssembly/binaryen/releases.
 Continuing with unoptimised module.
 Build finished successfully.
 Generate finished successfully.
-Generation finished at Fri May 16 19:30:08 CEST 2025
-Script ended at Fri May 16 19:30:08 CEST 2025
+Generation finished at 16.05.2025 22:40:30.59 
+Script ended at 16.05.2025 22:40:30.60 

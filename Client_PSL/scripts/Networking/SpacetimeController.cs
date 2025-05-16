@@ -5,6 +5,8 @@ using System.Threading;
 using SpacetimeDB;
 using SpacetimeDB.Types;
 using Utils;
+using Utils.DebugCommands;
+using System.Threading.Tasks;
 
 namespace Networking.SpacetimeController;
 
@@ -26,7 +28,7 @@ public class SpacetimeController
     private CancellationTokenSource cancellationTokenSource = new();
     private Thread thread;
 
-    private Guid tempToken = Guid.Empty;
+    private string tempToken = string.Empty;
 
     public SpacetimeController()
     {
@@ -46,9 +48,7 @@ public class SpacetimeController
         logger.Log("Closing Connection...");
 
         cancellationTokenSource.Cancel();
-        Debug.LogWarning("Helloo 1");
         thread.Join();
-        Debug.LogWarning("Helloo 2");
     }
 
     #region Session
@@ -71,10 +71,12 @@ public class SpacetimeController
 
     private DbConnection CreateDbConnection(string token)
     {
+        AuthToken.Init(token);
+
         DbConnection conn = DbConnection.Builder()
             .WithUri(HOST)
             .WithModuleName(DBNAME)
-            .WithToken(token)
+            .WithToken(AuthToken.Token)
             .OnConnect(OnConnected)
             .OnConnectError(OnConnectError)
             .OnDisconnect(OnDisconnected)
@@ -85,6 +87,7 @@ public class SpacetimeController
     private void OnConnected(DbConnection conn, Identity identity, string authToken)
     {
         logger.Log("Connected successfully");
+        local_identity = identity;
 
         conn.SubscriptionBuilder()
             .OnApplied(OnBaseSubscriptionApplied)
@@ -200,13 +203,9 @@ public class SpacetimeController
 
     private DbConnection Temp_DbConnection()
     {
-        tempToken = Guid.NewGuid();
-        AuthToken.Init(tempToken.ToString());
-
         DbConnection conn = DbConnection.Builder()
             .WithUri(HOST)
             .WithModuleName(DBNAME)
-            .WithToken(AuthToken.Token)
             .OnConnect(Temp_OnConnected)
             .OnConnectError(Temp_OnConnectError)
             .OnDisconnect(Temp_OnDisconnected) // NOTE: Only runs on Server disconnectEvent
@@ -218,6 +217,7 @@ public class SpacetimeController
     {
         logger.Log("Connected successfully");
         local_identity = identity;
+        tempToken = authToken;
 
         conn.SubscriptionBuilder()
             .OnApplied(Temp_OnBaseSubscriptionApplied)
@@ -262,12 +262,18 @@ public class SpacetimeController
 
     private void Temp_PersistentSession_OnInsert(EventContext ctx, PersistentSession value)
     {
-        Debug.LogWarning("Yoo 1");
-        CloseCon();
-        Debug.LogWarning("Yoo 2");
+        _ = Task.Run(CloseCon);
 
-        OpenSession(value.Tkn);
-        Debug.LogWarning("Yoo 3");
+        _ = Task.Run(async () => 
+        {
+            while (connection.IsActive)
+            {
+                await Task.Delay(100);
+            }
+            OpenSession(value.Tkn);
+        });
+        // while (connection.IsActive) ;
+        // OpenSession(value.Tkn);
     }
 
     private void Temp_ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
@@ -294,7 +300,7 @@ public class SpacetimeController
             return;
         }
 
-        connection.Reducers.CreateAccount(userName, mailAddress, password, sendNews, agb, tempToken.ToString());
+        connection.Reducers.CreateAccount(userName, mailAddress, password, sendNews, agb, tempToken);
     }
 
     public void Login(string userName, string password)

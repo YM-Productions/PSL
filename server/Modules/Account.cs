@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using SpacetimeDB;
 using StdbModule.Utils;
 
@@ -50,10 +51,10 @@ public static partial class Module
             Tkn = string.Empty;
         }
 
-        public PersistentSession(Identity identity, Guid token, Timestamp createdAt)
+        public PersistentSession(Identity identity, string token, Timestamp createdAt)
         {
             this.identity = identity;
-            Tkn = token.ToString();
+            Tkn = token;
 
             CreatedAt = createdAt;
         }
@@ -161,7 +162,7 @@ public static partial class Module
                     return;
                 }
 
-                PersistentSession ps = new(ctx.Sender, Guid.Parse(token.Tkn), ctx.Timestamp);
+                PersistentSession ps = new(ctx.Sender, token.Tkn, ctx.Timestamp);
                 if (ctx.Db.PersistentSession.identity.Find(ps.identity) != null) ctx.Db.PersistentSession.identity.Update(ps);
                 else ctx.Db.PersistentSession.Insert(ps);
 
