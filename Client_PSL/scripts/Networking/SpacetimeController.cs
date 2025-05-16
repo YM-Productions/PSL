@@ -11,6 +11,8 @@ namespace Networking.SpacetimeController;
 // TODO:
 // - Documentation
 // - Base Spacetime Setup
+// - TaskQueue for DbThread
+// - Build ServerMessage to Log
 public class SpacetimeController
 {
     public static SpacetimeController Instance { get; private set; }
@@ -19,10 +21,12 @@ public class SpacetimeController
     private const string HOST = "https://yaene.dev";
     private const string DBNAME = "psl";
 
+    private DbConnection? connection = null;
     private Identity? local_identity = null;
     private CancellationTokenSource cancellationTokenSource = new();
-    Thread thread;
+    private Thread thread;
 
+    private Guid tempToken = Guid.Empty;
 
     public SpacetimeController()
     {
@@ -45,14 +49,41 @@ public class SpacetimeController
         thread.Join();
     }
 
-    private void ProcessThread(DbConnection conn, CancellationToken ct)
+    #region Session
+
+    public void OpenSession(string token)
+    {
+
+    }
+
+    #endregion
+
+    #region TempSession
+
+    public void OpenTemporarySession()
+    {
+        if (thread != null && thread.IsAlive)
+        {
+            Debug.LogError("You cant open a new Session - There already is a open one!");
+            return;
+        }
+
+        cancellationTokenSource = new();
+        logger.Log("Starting to connect temporary...");
+        connection = Temp_DbConnection();
+        Temp_RegisterCallbacks(connection);
+        thread = new Thread(() => Temp_ProcessThread(connection, cancellationTokenSource.Token));
+        thread.Start();
+    }
+
+    private void Temp_ProcessThread(DbConnection conn, CancellationToken ct)
     {
         try
         {
             while (!ct.IsCancellationRequested)
             {
                 conn.FrameTick();
-                if (conn.IsActive) conn.Reducers.Login("Yaene", "Banana");
+                // if (conn.IsActive) conn.Reducers.Login("Yaene", "Banana");
                 Thread.Sleep(100);
             }
         }
@@ -71,29 +102,16 @@ public class SpacetimeController
         }
     }
 
-    #region TempSession
-
-    public void OpenTemporarySession()
-    {
-        if (thread != null && thread.IsAlive)
-        {
-            Debug.LogError("You cant open a new Session - There already is a open one!");
-            return;
-        }
-
-        cancellationTokenSource = new();
-        logger.Log("Starting to connect temporary...");
-        DbConnection conn = Temp_DbConnection();
-        Temp_RegisterCallbacks(conn);
-        thread = new Thread(() => ProcessThread(conn, cancellationTokenSource.Token));
-        thread.Start();
-    }
 
     private DbConnection Temp_DbConnection()
     {
+        tempToken = Guid.NewGuid();
+        AuthToken.Init(tempToken.ToString());
+
         DbConnection conn = DbConnection.Builder()
             .WithUri(HOST)
             .WithModuleName(DBNAME)
+            .WithToken(AuthToken.Token)
             .OnConnect(Temp_OnConnected)
             .OnConnectError(Temp_OnConnectError)
             .OnDisconnect(Temp_OnDisconnected) // NOTE: Only runs on Server disconnectEvent
@@ -108,7 +126,10 @@ public class SpacetimeController
 
         conn.SubscriptionBuilder()
             .OnApplied(Temp_OnBaseSubscriptionApplied)
-            .Subscribe(new string[] { $"SELECT * FROM {nameof(ClientDebugLog)}" });
+            .Subscribe(new string[] {
+                    $"SELECT * FROM {nameof(ClientDebugLog)}",
+                    $"SELECT * FROM {nameof(PersistentSession)}",
+                    });
     }
 
     private void Temp_OnBaseSubscriptionApplied(SubscriptionEventContext ctx)
@@ -146,7 +167,8 @@ public class SpacetimeController
 
     private void PersistentSession_OnInsert(EventContext ctx, PersistentSession value)
     {
-        logger.Log($"New PersistenSession: {value.Identity} : {value.Tkn}");
+        CloseCon();
+        // TODO: Open new Final Game Connection
     }
 
     private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
@@ -159,8 +181,33 @@ public class SpacetimeController
     #region Loing/Register
 
     // TODO:
+    // - Documentation
     // - Register Account
     // - Login
+
+    public void Register(string userName, string mailAddress, string password, bool sendNews, bool agb)
+    {
+        if (connection == null ||
+            !connection.IsActive)
+        {
+            Debug.LogError("Connect to a Server first!");
+            return;
+        }
+
+        connection.Reducers.CreateAccount(userName, mailAddress, password, sendNews, agb, tempToken.ToString());
+    }
+
+    public void Login(string userName, string password)
+    {
+        if (connection == null ||
+            !connection.IsActive)
+        {
+            Debug.LogError("Connect to a Server first!");
+            return;
+        }
+
+        connection.Reducers.Login(userName, password);
+    }
 
     #endregion
 }

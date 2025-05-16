@@ -12,12 +12,12 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteReducers : RemoteBase
     {
-        public delegate void CreateAccountHandler(ReducerEventContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb);
+        public delegate void CreateAccountHandler(ReducerEventContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb, string usedToken);
         public event CreateAccountHandler? OnCreateAccount;
 
-        public void CreateAccount(string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb)
+        public void CreateAccount(string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAgb, string usedToken)
         {
-            conn.InternalCallReducer(new Reducer.CreateAccount(userName, mailAddress, passwordHash, sendNews, acceptedAgb), this.SetCallReducerFlags.CreateAccountFlags);
+            conn.InternalCallReducer(new Reducer.CreateAccount(userName, mailAddress, passwordHash, sendNews, acceptedAgb, usedToken), this.SetCallReducerFlags.CreateAccountFlags);
         }
 
         public bool InvokeCreateAccount(ReducerEventContext ctx, Reducer.CreateAccount args)
@@ -40,7 +40,8 @@ namespace SpacetimeDB.Types
                 args.MailAddress,
                 args.PasswordHash,
                 args.SendNews,
-                args.AcceptedAgb
+                args.AcceptedAgb,
+                args.UsedToken
             );
             return true;
         }
@@ -62,13 +63,16 @@ namespace SpacetimeDB.Types
             public bool SendNews;
             [DataMember(Name = "acceptedAGB")]
             public bool AcceptedAgb;
+            [DataMember(Name = "usedToken")]
+            public string UsedToken;
 
             public CreateAccount(
                 string UserName,
                 string MailAddress,
                 string PasswordHash,
                 bool SendNews,
-                bool AcceptedAgb
+                bool AcceptedAgb,
+                string UsedToken
             )
             {
                 this.UserName = UserName;
@@ -76,6 +80,7 @@ namespace SpacetimeDB.Types
                 this.PasswordHash = PasswordHash;
                 this.SendNews = SendNews;
                 this.AcceptedAgb = AcceptedAgb;
+                this.UsedToken = UsedToken;
             }
 
             public CreateAccount()
@@ -83,6 +88,7 @@ namespace SpacetimeDB.Types
                 this.UserName = "";
                 this.MailAddress = "";
                 this.PasswordHash = "";
+                this.UsedToken = "";
             }
 
             string IReducerArgs.ReducerName => "CreateAccount";

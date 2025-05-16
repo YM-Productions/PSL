@@ -90,8 +90,7 @@ public static class DebugCommand
             return;
         }
 
-        // TODO:
-        // - Login function
+        SpacetimeController.Instance.Login(userName, password);
     }
 
     public static void Register(Dictionary<string, string> attributes)
@@ -117,13 +116,12 @@ public static class DebugCommand
             Debug.LogError("news must be <true> or <false>");
             return;
         }
-        if (agb != "true" && agb != "false")
+        if (agb != "true")
         {
-            Debug.LogError("agb must be <true> or <false>");
+            Debug.LogError("agb must be <true>");
             return;
         }
 
-        // TODO:
-        // - Register Function
+        SpacetimeController.Instance.Register(userName, mail, pwd, news == "true", true);
     }
 }

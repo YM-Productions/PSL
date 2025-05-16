@@ -1,7 +1,6 @@
 ﻿using System;
 using SpacetimeDB;
 using StdbModule.Utils;
-using System.Net.Mail;
 
 namespace StdbModule.Modules;
 
@@ -96,7 +95,7 @@ public static partial class Module
     public static partial class AccountReducers
     {
         [Reducer]
-        public static void CreateAccount(ReducerContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAGB)
+        public static void CreateAccount(ReducerContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAGB, string usedToken)
         {
             // Verify Identity
             if (ctx.Db.Account.identity.Find(ctx.Sender) != null)
@@ -115,11 +114,6 @@ public static partial class Module
             if (ctx.Db.Account.MailAddress.Find(mailAddress) != null)
             {
                 ClientLog.Error(ctx, "There already is a Account with this EmailAddress");
-                return;
-            }
-            if (new MailAddress(mailAddress) is MailAddress _)
-            {
-                ClientLog.Error(ctx, "Please use a valid EmailAddress");
                 return;
             }
             // Verify AGB
@@ -143,7 +137,7 @@ public static partial class Module
                 CreatedAt = ctx.Timestamp,
             };
 
-            ClientToken token = new(account.identity, Guid.NewGuid().ToString());
+            ClientToken token = new(account.identity, usedToken);
 
             ctx.Db.Account.Insert(account);
             ctx.Db.ClientToken.Insert(token);
@@ -164,6 +158,7 @@ public static partial class Module
                 if (account.PasswordHash != passwordHash)
                 {
                     ClientLog.Error(ctx, "Invalid Password");
+                    return;
                 }
 
                 PersistentSession ps = new(ctx.Sender, Guid.Parse(token.Tkn), ctx.Timestamp);
