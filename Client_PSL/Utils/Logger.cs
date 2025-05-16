@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace Utils;
 
@@ -27,7 +28,7 @@ public class Logger
     /// Gets or sets the current global logging level. Only messages with a logger level
     /// equal to or below this threshold will be logged.
     /// </summary>
-    public static int LEVEL { get; private set; } = INFO_LEVEL;
+    public static int LEVEL { get; private set; } = 99;
 
     /// <summary>
     /// Contains predefined logger levels with their display name and associated Avalonia color.
@@ -68,13 +69,16 @@ public class Logger
     /// <param name="name">The name of the logger.</param>
     /// <param name="level">The severity level (0=ERROR, 1=WARNING, 5=INFO).</param>
     internal Logger(string name, int level)
-    { 
-        Name = name; 
-        Level = level; 
+    {
+        Name = name;
+        Level = level;
     }
     #endregion
 
     #region Fuctions
+
+    // TODO:
+    // - Update Deocumentation
 
     /// <summary>
     /// Logs the specified message to the <see cref="DebugViewModel"/>, if the logger's level
@@ -89,22 +93,25 @@ public class Logger
     /// </example>
     public void Log(string message)
     {
-        if (Level > LEVEL) return;
-        DebugViewModel.Instance.AddMessage(LevelNames[Level].name, LevelNames[Level].color, message);
+        Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (Level > LEVEL) return;
+                string name = LevelNames.ContainsKey(Level) ? LevelNames[Level].name : Name;
+                Avalonia.Media.Color color = LevelNames.ContainsKey(Level) ? LevelNames[Level].color : Avalonia.Media.Colors.Lime;
+                DebugViewModel.Instance.AddMessage(name, color, message);
+            }
+        );
     }
 
-    /// <summary>
-    /// Sets the global logging threshold. Only loggers with a level less than or equal to this value will log messages.
-    /// </summary>
-    /// <param name="level">The new global log level (0=ERROR, 1=WARNING, 5=INFO).</param>
-    /// <exception cref="Exception">Thrown if the provided level is not one of the allowed constants.</exception>
+    // TODO:
+    // - Documentation
     public void SetLevel(int level)
     {
         if (level == ERROR_LEVEL ||
             level == WARNING_LEVEL ||
             level == INFO_LEVEL ||
             level < 0) throw new Exception($"Cant set level to {level}");
-        LEVEL = level;
+        Level = level;
     }
     #endregion
 

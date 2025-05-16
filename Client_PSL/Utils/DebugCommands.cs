@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Utils;
+using Networking.SpacetimeController;
 
 namespace Utils.DebugCommands;
 
@@ -24,6 +25,9 @@ public static class DebugCommand
         { nameof(Help).ToLower(), Help },
         { nameof(Login).ToLower(), Login },
         { nameof(Register).ToLower(), Register },
+
+        // NOTE: This is only temporary
+        { "d" , _ => SpacetimeController.Instance.CloseCon() },
     };
 
     public static void Help(Dictionary<string, string> attributes)
