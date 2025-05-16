@@ -262,7 +262,7 @@ public class SpacetimeController
     {
         _ = Task.Run(CloseCon);
 
-        _ = Task.Run(async () => 
+        _ = Task.Run(async () =>
         {
             while (connection.IsActive)
             {
@@ -283,11 +283,6 @@ public class SpacetimeController
     #endregion
 
     #region Loing/Register
-
-    // TODO:
-    // - Documentation
-    // - Register Account
-    // - Login
 
     public void Register(string userName, string mailAddress, string password, bool sendNews, bool agb)
     {
