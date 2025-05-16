@@ -20,13 +20,13 @@ namespace SpacetimeDB.Types
         [DataMember(Name = "Message")]
         public string Message;
         [DataMember(Name = "CreatedAt")]
-        public int CreatedAt;
+        public SpacetimeDB.Timestamp CreatedAt;
 
         public ClientDebugLog(
             SpacetimeDB.Identity Identity,
             int Layer,
             string Message,
-            int CreatedAt
+            SpacetimeDB.Timestamp CreatedAt
         )
         {
             this.Identity = Identity;

@@ -28,6 +28,8 @@ public static class DebugCommand
 
         // NOTE: This is only temporary
         { "d" , _ => SpacetimeController.Instance.CloseCon() },
+        { "tempsession" , _ => SpacetimeController.Instance.OpenTemporarySession() },
+        { "time" , _ => Debug.Log(((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds()).ToString()) },
     };
 
     public static void Help(Dictionary<string, string> attributes)

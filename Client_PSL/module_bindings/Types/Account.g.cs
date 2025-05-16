@@ -32,7 +32,7 @@ namespace SpacetimeDB.Types
         [DataMember(Name = "NameTokens")]
         public int NameTokens;
         [DataMember(Name = "CreatedAt")]
-        public int CreatedAt;
+        public SpacetimeDB.Timestamp CreatedAt;
 
         public Account(
             SpacetimeDB.Identity Identity,
@@ -44,7 +44,7 @@ namespace SpacetimeDB.Types
             bool SendNews,
             bool AcceptedAgb,
             int NameTokens,
-            int CreatedAt
+            SpacetimeDB.Timestamp CreatedAt
         )
         {
             this.Identity = Identity;

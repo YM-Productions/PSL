@@ -17,21 +17,9 @@ namespace SpacetimeDB.Types
         {
             protected override string RemoteTableName => "ClientDebugLog";
 
-            public sealed class IdentityUniqueIndex : UniqueIndexBase<SpacetimeDB.Identity>
-            {
-                protected override SpacetimeDB.Identity GetKey(ClientDebugLog row) => row.Identity;
-
-                public IdentityUniqueIndex(ClientDebugLogHandle table) : base(table) { }
-            }
-
-            public readonly IdentityUniqueIndex Identity;
-
             internal ClientDebugLogHandle(DbConnection conn) : base(conn)
             {
-                Identity = new(this);
             }
-
-            protected override object GetPrimaryKey(ClientDebugLog row) => row.Identity;
         }
 
         public readonly ClientDebugLogHandle ClientDebugLog;

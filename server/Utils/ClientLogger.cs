@@ -9,16 +9,16 @@ public static class ClientLog
 
     public static void Error(ReducerContext ctx, string message)
     {
-        ctx.Db.ClientDebugLog.Insert(new(ctx.Identity, 0, message));
+        ctx.Db.ClientDebugLog.Insert(new(ctx.Sender, 0, message, ctx.Timestamp));
     }
 
     public static void Warning(ReducerContext ctx, string message)
     {
-        ctx.Db.ClientDebugLog.Insert(new(ctx.Identity, 1, message));
+        ctx.Db.ClientDebugLog.Insert(new(ctx.Sender, 1, message, ctx.Timestamp));
     }
 
     public static void Info(ReducerContext ctx, string message)
     {
-        ctx.Db.ClientDebugLog.Insert(new(ctx.Identity, 5, message));
+        ctx.Db.ClientDebugLog.Insert(new(ctx.Sender, 5, message, ctx.Timestamp));
     }
 }

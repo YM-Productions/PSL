@@ -9,6 +9,8 @@ public static partial class Module
 {
     // TODO:
     // - Documentation
+    // - Hash pwd
+    // - Logs
 
     [Table(Name = nameof(Account), Public = true)]
     // [SpacetimeDB.Index.BTree(Name = "idx_Account_UserName_IsOnline", Columns = [nameof(UserName), nameof(IsOnline)])]
@@ -26,15 +28,13 @@ public static partial class Module
         public bool SendNews;
         public bool AcceptedAGB;
         public int NameTokens;
-        public int CreatedAt;
+        public Timestamp CreatedAt;
 
         public Account()
         {
             UserName = string.Empty;
             MailAddress = string.Empty;
             PasswordHash = string.Empty;
-
-            CreatedAt = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
     }
 
@@ -44,19 +44,19 @@ public static partial class Module
         [PrimaryKey]
         public Identity identity;
         public string Tkn;
-        public int CreatedAt;
+        public Timestamp CreatedAt;
 
         public PersistentSession()
         {
             Tkn = string.Empty;
         }
 
-        public PersistentSession(Identity identity, Guid token)
+        public PersistentSession(Identity identity, Guid token, Timestamp createdAt)
         {
             this.identity = identity;
             Tkn = token.ToString();
 
-            CreatedAt = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            CreatedAt = createdAt;
         }
     }
 
@@ -99,9 +99,9 @@ public static partial class Module
         public static void CreateAccount(ReducerContext ctx, string userName, string mailAddress, string passwordHash, bool sendNews, bool acceptedAGB)
         {
             // Verify Identity
-            if (ctx.Db.Account.identity.Find(ctx.Identity) != null)
+            if (ctx.Db.Account.identity.Find(ctx.Sender) != null)
             {
-                Log.Warn($"{ctx.Identity.ToString()[0..8]} tried to create an Account, there was already an account with this Identity");
+                Log.Warn($"{ctx.Sender.ToString()[0..8]} tried to create an Account, there was already an account with this Identity");
                 ClientLog.Error(ctx, "There is already a existing Account with this Identity");
                 return;
             }
@@ -131,7 +131,7 @@ public static partial class Module
 
             Account account = new()
             {
-                identity = ctx.Identity,
+                identity = ctx.Sender,
                 UserName = userName,
                 MailAddress = mailAddress,
                 PasswordHash = passwordHash,
@@ -140,6 +140,7 @@ public static partial class Module
                 SendNews = sendNews,
                 AcceptedAGB = acceptedAGB,
                 NameTokens = SETTINGS.initial_name_tokens,
+                CreatedAt = ctx.Timestamp,
             };
 
             ClientToken token = new(account.identity, Guid.NewGuid().ToString());
@@ -165,7 +166,7 @@ public static partial class Module
                     ClientLog.Error(ctx, "Invalid Password");
                 }
 
-                PersistentSession ps = new(ctx.Identity, Guid.Parse(token.Tkn));
+                PersistentSession ps = new(ctx.Sender, Guid.Parse(token.Tkn), ctx.Timestamp);
                 if (ctx.Db.PersistentSession.identity.Find(ps.identity) != null) ctx.Db.PersistentSession.identity.Update(ps);
                 else ctx.Db.PersistentSession.Insert(ps);
 

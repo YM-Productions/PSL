@@ -17,7 +17,7 @@ public class SpacetimeController
     private Logger logger;
 
     private const string HOST = "https://yaene.dev";
-    private const string DBNAME = "psl0";
+    private const string DBNAME = "psl";
 
     private Identity? local_identity = null;
     private CancellationTokenSource cancellationTokenSource = new();
@@ -35,11 +35,6 @@ public class SpacetimeController
         logger = Logger.LoggerFactory.CreateLogger("SpacetimeController");
         logger.SetLevel(9);
         logger.Log("SpacetimeController initialized...");
-
-        logger.Log("Starting to connect temporary...");
-        DbConnection conn = Temp_DbConnection();
-        thread = new Thread(() => ProcessThread(conn, cancellationTokenSource.Token));
-        thread.Start();
     }
 
     public void CloseCon()
@@ -57,6 +52,7 @@ public class SpacetimeController
             while (!ct.IsCancellationRequested)
             {
                 conn.FrameTick();
+                if (conn.IsActive) conn.Reducers.Login("Yaene", "Banana");
                 Thread.Sleep(100);
             }
         }
@@ -77,11 +73,21 @@ public class SpacetimeController
 
     #region TempSession
 
-    // TODO:
-    // - Temporary Connection without any Token
-    // - OnConnect
-    // - OnConnectError
-    // - OnDisconnect
+    public void OpenTemporarySession()
+    {
+        if (thread != null && thread.IsAlive)
+        {
+            Debug.LogError("You cant open a new Session - There already is a open one!");
+            return;
+        }
+
+        cancellationTokenSource = new();
+        logger.Log("Starting to connect temporary...");
+        DbConnection conn = Temp_DbConnection();
+        Temp_RegisterCallbacks(conn);
+        thread = new Thread(() => ProcessThread(conn, cancellationTokenSource.Token));
+        thread.Start();
+    }
 
     private DbConnection Temp_DbConnection()
     {
@@ -98,7 +104,6 @@ public class SpacetimeController
     private void Temp_OnConnected(DbConnection conn, Identity identity, string authToken)
     {
         logger.Log("Connected successfully");
-
         local_identity = identity;
 
         conn.SubscriptionBuilder()
@@ -109,10 +114,10 @@ public class SpacetimeController
     private void Temp_OnBaseSubscriptionApplied(SubscriptionEventContext ctx)
     {
         logger.Log("Subscribed to base Subscriotions");
-        foreach (ClientDebugLog cdl in ctx.Db.ClientDebugLog.Iter().OrderBy(item => item.CreatedAt))
-        {
-            logger.Log(cdl.Message);
-        }
+        // foreach (ClientDebugLog cdl in ctx.Db.ClientDebugLog.Iter().OrderBy(item => item.CreatedAt))
+        // {
+        //     logger.Log(cdl.Message);
+        // }
     }
 
     private void Temp_OnConnectError(Exception e)
@@ -131,6 +136,31 @@ public class SpacetimeController
             logger.Log("Disconnected successfully");
         }
     }
+
+    private void Temp_RegisterCallbacks(DbConnection conn)
+    {
+        conn.Db.PersistentSession.OnInsert += PersistentSession_OnInsert;
+
+        conn.Db.ClientDebugLog.OnInsert += ClientDebugLog_OnInsert;
+    }
+
+    private void PersistentSession_OnInsert(EventContext ctx, PersistentSession value)
+    {
+        logger.Log($"New PersistenSession: {value.Identity} : {value.Tkn}");
+    }
+
+    private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
+    {
+        logger.Log($"New server Message: {value.Message}");
+    }
+
+    #endregion
+
+    #region Loing/Register
+
+    // TODO:
+    // - Register Account
+    // - Login
 
     #endregion
 }

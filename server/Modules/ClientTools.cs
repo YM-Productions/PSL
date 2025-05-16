@@ -11,23 +11,22 @@ public static partial class Module
     [Table(Name = nameof(ClientDebugLog), Public = true)]
     public partial class ClientDebugLog
     {
-        [PrimaryKey]
         public Identity identity;
         public int Layer;
         public string Message;
-        public int CreatedAt;
+        public Timestamp CreatedAt;
 
         public ClientDebugLog()
         {
             Message = string.Empty;
         }
 
-        public ClientDebugLog(Identity identity, int layer, string message)
+        public ClientDebugLog(Identity identity, int layer, string message, Timestamp timestamp)
         {
             this.identity = identity;
             Layer = layer;
             Message = message;
-            CreatedAt = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            CreatedAt = timestamp;
         }
     }
 

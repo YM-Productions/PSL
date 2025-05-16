@@ -18,12 +18,12 @@ namespace SpacetimeDB.Types
         [DataMember(Name = "Tkn")]
         public string Tkn;
         [DataMember(Name = "CreatedAt")]
-        public int CreatedAt;
+        public SpacetimeDB.Timestamp CreatedAt;
 
         public PersistentSession(
             SpacetimeDB.Identity Identity,
             string Tkn,
-            int CreatedAt
+            SpacetimeDB.Timestamp CreatedAt
         )
         {
             this.Identity = Identity;
