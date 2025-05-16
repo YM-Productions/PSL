@@ -46,14 +46,109 @@ public class SpacetimeController
         logger.Log("Closing Connection...");
 
         cancellationTokenSource.Cancel();
+        Debug.LogWarning("Helloo 1");
         thread.Join();
+        Debug.LogWarning("Helloo 2");
     }
 
     #region Session
 
     public void OpenSession(string token)
     {
+        if (thread != null && thread.IsAlive)
+        {
+            Debug.LogError("Can't open new Session - There already is a open one!");
+            return;
+        }
 
+        cancellationTokenSource = new();
+        logger.Log("Starting to connect...");
+        connection = CreateDbConnection(token);
+        RegisterBaseCallbacks();
+        thread = new Thread(() => ProcessThread(connection, cancellationTokenSource.Token));
+        thread.Start();
+    }
+
+    private DbConnection CreateDbConnection(string token)
+    {
+        DbConnection conn = DbConnection.Builder()
+            .WithUri(HOST)
+            .WithModuleName(DBNAME)
+            .WithToken(token)
+            .OnConnect(OnConnected)
+            .OnConnectError(OnConnectError)
+            .OnDisconnect(OnDisconnected)
+            .Build();
+        return conn;
+    }
+
+    private void OnConnected(DbConnection conn, Identity identity, string authToken)
+    {
+        logger.Log("Connected successfully");
+
+        conn.SubscriptionBuilder()
+            .OnApplied(OnBaseSubscriptionApplied)
+            .Subscribe(new string[] {
+                    $"SELECT * FROM {nameof(ClientDebugLog)}",
+                    });
+    }
+
+    private void OnBaseSubscriptionApplied(SubscriptionEventContext ctx)
+    {
+        logger.Log("Subscribe to base Subscriptions");
+    }
+
+    private void OnConnectError(Exception e)
+    {
+        Debug.LogError($"Error while connecting: {e}");
+    }
+
+    private void OnDisconnected(DbConnection conn, Exception? e)
+    {
+        if (e != null)
+        {
+            Debug.LogError($"Disconnected abnormally: {e}");
+        }
+        else
+        {
+            logger.Log("Disconnected successfully");
+        }
+    }
+
+    private void RegisterBaseCallbacks()
+    {
+        connection.Db.ClientDebugLog.OnInsert += ClientDebugLog_OnInsert;
+    }
+
+    private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
+    {
+        // TODO: create parser for Servermessages
+        logger.Log($"New server Message: {value.Message}");
+    }
+
+    private void ProcessThread(DbConnection conn, CancellationToken ct)
+    {
+        try
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                conn.FrameTick();
+                Thread.Sleep(100);
+            }
+        }
+        finally
+        {
+            conn.Disconnect();
+
+            if (conn.IsActive)
+            {
+                Debug.LogError("Unknown Error on manual disconnect!");
+            }
+            else
+            {
+                logger.Log("Disconnected successfully");
+            }
+        }
     }
 
     #endregion
@@ -160,19 +255,24 @@ public class SpacetimeController
 
     private void Temp_RegisterCallbacks(DbConnection conn)
     {
-        conn.Db.PersistentSession.OnInsert += PersistentSession_OnInsert;
+        conn.Db.PersistentSession.OnInsert += Temp_PersistentSession_OnInsert;
 
-        conn.Db.ClientDebugLog.OnInsert += ClientDebugLog_OnInsert;
+        conn.Db.ClientDebugLog.OnInsert += Temp_ClientDebugLog_OnInsert;
     }
 
-    private void PersistentSession_OnInsert(EventContext ctx, PersistentSession value)
+    private void Temp_PersistentSession_OnInsert(EventContext ctx, PersistentSession value)
     {
+        Debug.LogWarning("Yoo 1");
         CloseCon();
-        // TODO: Open new Final Game Connection
+        Debug.LogWarning("Yoo 2");
+
+        OpenSession(value.Tkn);
+        Debug.LogWarning("Yoo 3");
     }
 
-    private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
+    private void Temp_ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
     {
+        // TODO: create a parser for servermessages
         logger.Log($"New server Message: {value.Message}");
     }
 
