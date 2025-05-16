@@ -11,28 +11,29 @@ namespace SpacetimeDB.Types
 {
     [SpacetimeDB.Type]
     [DataContract]
-    public sealed partial class User
+    public sealed partial class PersistentSession
     {
-        [DataMember(Name = "Identity")]
+        [DataMember(Name = "identity")]
         public SpacetimeDB.Identity Identity;
-        [DataMember(Name = "Name")]
-        public string? Name;
-        [DataMember(Name = "Online")]
-        public bool Online;
+        [DataMember(Name = "Tkn")]
+        public string Tkn;
+        [DataMember(Name = "CreatedAt")]
+        public SpacetimeDB.Timestamp CreatedAt;
 
-        public User(
+        public PersistentSession(
             SpacetimeDB.Identity Identity,
-            string? Name,
-            bool Online
+            string Tkn,
+            SpacetimeDB.Timestamp CreatedAt
         )
         {
             this.Identity = Identity;
-            this.Name = Name;
-            this.Online = Online;
+            this.Tkn = Tkn;
+            this.CreatedAt = CreatedAt;
         }
 
-        public User()
+        public PersistentSession()
         {
+            this.Tkn = "";
         }
     }
 }

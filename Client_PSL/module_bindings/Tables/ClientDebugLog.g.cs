@@ -13,15 +13,15 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteTables
     {
-        public sealed class MessageHandle : RemoteTableHandle<EventContext, Message>
+        public sealed class ClientDebugLogHandle : RemoteTableHandle<EventContext, ClientDebugLog>
         {
-            protected override string RemoteTableName => "message";
+            protected override string RemoteTableName => "ClientDebugLog";
 
-            internal MessageHandle(DbConnection conn) : base(conn)
+            internal ClientDebugLogHandle(DbConnection conn) : base(conn)
             {
             }
         }
 
-        public readonly MessageHandle Message;
+        public readonly ClientDebugLogHandle ClientDebugLog;
     }
 }

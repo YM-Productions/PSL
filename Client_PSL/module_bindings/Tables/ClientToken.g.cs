@@ -13,27 +13,27 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteTables
     {
-        public sealed class UserHandle : RemoteTableHandle<EventContext, User>
+        public sealed class ClientTokenHandle : RemoteTableHandle<EventContext, ClientToken>
         {
-            protected override string RemoteTableName => "user";
+            protected override string RemoteTableName => "ClientToken";
 
             public sealed class IdentityUniqueIndex : UniqueIndexBase<SpacetimeDB.Identity>
             {
-                protected override SpacetimeDB.Identity GetKey(User row) => row.Identity;
+                protected override SpacetimeDB.Identity GetKey(ClientToken row) => row.Identity;
 
-                public IdentityUniqueIndex(UserHandle table) : base(table) { }
+                public IdentityUniqueIndex(ClientTokenHandle table) : base(table) { }
             }
 
             public readonly IdentityUniqueIndex Identity;
 
-            internal UserHandle(DbConnection conn) : base(conn)
+            internal ClientTokenHandle(DbConnection conn) : base(conn)
             {
                 Identity = new(this);
             }
 
-            protected override object GetPrimaryKey(User row) => row.Identity;
+            protected override object GetPrimaryKey(ClientToken row) => row.Identity;
         }
 
-        public readonly UserHandle User;
+        public readonly ClientTokenHandle ClientToken;
     }
 }

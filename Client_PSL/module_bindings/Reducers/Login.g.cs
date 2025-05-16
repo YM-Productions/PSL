@@ -12,17 +12,17 @@ namespace SpacetimeDB.Types
 {
     public sealed partial class RemoteReducers : RemoteBase
     {
-        public delegate void SendMessageHandler(ReducerEventContext ctx, string text);
-        public event SendMessageHandler? OnSendMessage;
+        public delegate void LoginHandler(ReducerEventContext ctx, string userName, string password);
+        public event LoginHandler? OnLogin;
 
-        public void SendMessage(string text)
+        public void Login(string userName, string password)
         {
-            conn.InternalCallReducer(new Reducer.SendMessage(text), this.SetCallReducerFlags.SendMessageFlags);
+            conn.InternalCallReducer(new Reducer.Login(userName, password), this.SetCallReducerFlags.LoginFlags);
         }
 
-        public bool InvokeSendMessage(ReducerEventContext ctx, Reducer.SendMessage args)
+        public bool InvokeLogin(ReducerEventContext ctx, Reducer.Login args)
         {
-            if (OnSendMessage == null)
+            if (OnLogin == null)
             {
                 if (InternalOnUnhandledReducerError != null)
                 {
@@ -34,9 +34,10 @@ namespace SpacetimeDB.Types
                 }
                 return false;
             }
-            OnSendMessage(
+            OnLogin(
                 ctx,
-                args.Text
+                args.UserName,
+                args.Password
             );
             return true;
         }
@@ -46,28 +47,35 @@ namespace SpacetimeDB.Types
     {
         [SpacetimeDB.Type]
         [DataContract]
-        public sealed partial class SendMessage : Reducer, IReducerArgs
+        public sealed partial class Login : Reducer, IReducerArgs
         {
-            [DataMember(Name = "text")]
-            public string Text;
+            [DataMember(Name = "userName")]
+            public string UserName;
+            [DataMember(Name = "password")]
+            public string Password;
 
-            public SendMessage(string Text)
+            public Login(
+                string UserName,
+                string Password
+            )
             {
-                this.Text = Text;
+                this.UserName = UserName;
+                this.Password = Password;
             }
 
-            public SendMessage()
+            public Login()
             {
-                this.Text = "";
+                this.UserName = "";
+                this.Password = "";
             }
 
-            string IReducerArgs.ReducerName => "SendMessage";
+            string IReducerArgs.ReducerName => "Login";
         }
     }
 
     public sealed partial class SetReducerFlags
     {
-        internal CallReducerFlags SendMessageFlags;
-        public void SendMessage(CallReducerFlags flags) => SendMessageFlags = flags;
+        internal CallReducerFlags LoginFlags;
+        public void Login(CallReducerFlags flags) => LoginFlags = flags;
     }
 }

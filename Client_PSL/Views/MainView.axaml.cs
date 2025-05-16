@@ -15,7 +15,7 @@ public partial class MainView : UserControl
 
     private void OnKeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Space &&
+        if (e.Key == Key.F3 &&
             DataContext is MainViewModel vm)
         {
             vm.ToggleDebug();
