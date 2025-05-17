@@ -10,7 +10,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
-        // Setup Singletons
+        // Setup Singletons test
         SpacetimeController spacetimeController = new();
     }
 
