@@ -1,5 +1,7 @@
-﻿using Avalonia.Media;
+﻿using Avalonia.Controls;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -95,6 +97,8 @@ public partial class DebugViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<DebugMessage> _messages = new();
 
+    private ScrollViewer? _scrollViewer = null;
+
     /// <summary>
     /// Initializes the singleton instance if not already set.
     /// </summary>
@@ -113,6 +117,11 @@ public partial class DebugViewModel : ViewModelBase
     /// </summary>
     private static string dateTime => DateTime.Now.ToString("yyyy-MM-dd | HH:mm:ss");
 
+    public void SetChatScrollViewer(ScrollViewer scrollViewer)
+    {
+        _scrollViewer = scrollViewer;
+    }
+
     /// <summary>
     /// Adds a new debug message using given log level name, color, and message content.
     /// Timestamp is automatically generated.
@@ -123,6 +132,8 @@ public partial class DebugViewModel : ViewModelBase
     public void AddMessage(string levelName, Color levelColor, string message)
     {
         AddMessage(new(dateTime, levelName, levelColor, message));
+
+        if (_scrollViewer != null) _scrollViewer.ScrollToEnd();
     }
 
     /// <summary>

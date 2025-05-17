@@ -23,4 +23,13 @@ public partial class DebugView : UserControl
             e.Handled = true;
         }
     }
+
+    private void OnScrollInit(object? sender, System.EventArgs e)
+    {
+        if (sender is ScrollViewer scrollViewer &&
+            DataContext is DebugViewModel vm)
+        {
+            vm.SetChatScrollViewer(scrollViewer);
+        }
+    }
 }

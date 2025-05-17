@@ -17,7 +17,7 @@
       <ItemsControl Background="Green" ItemsSource="{Binding Messages}">
         <ItemsControl.Template>
           <ControlTemplate TargetType="ItemsControl">
-            <ScrollViewer Height="300">
+            <ScrollViewer Initialized="OnScrollInit" Height="300">
               <ItemsPresenter/>
             </ScrollViewer>
           </ControlTemplate>

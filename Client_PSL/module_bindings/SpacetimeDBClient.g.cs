@@ -468,8 +468,13 @@ namespace SpacetimeDB.Types
             var encodedArgs = update.ReducerCall.Args;
             return update.ReducerCall.ReducerName switch
             {
+                "ChangeSenderMailAddress" => BSATNHelpers.Decode<Reducer.ChangeSenderMailAddress>(encodedArgs),
+                "ChangeSenderUserName" => BSATNHelpers.Decode<Reducer.ChangeSenderUserName>(encodedArgs),
                 "CreateAccount" => BSATNHelpers.Decode<Reducer.CreateAccount>(encodedArgs),
                 "Login" => BSATNHelpers.Decode<Reducer.Login>(encodedArgs),
+                "SetSenderNews" => BSATNHelpers.Decode<Reducer.SetSenderNews>(encodedArgs),
+                "SetSenderOffline" => BSATNHelpers.Decode<Reducer.SetSenderOffline>(encodedArgs),
+                "SetSenderOnline" => BSATNHelpers.Decode<Reducer.SetSenderOnline>(encodedArgs),
                 var reducer => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")
             };
         }
@@ -491,8 +496,13 @@ namespace SpacetimeDB.Types
             var eventContext = (ReducerEventContext)context;
             return reducer switch
             {
+                Reducer.ChangeSenderMailAddress args => Reducers.InvokeChangeSenderMailAddress(eventContext, args),
+                Reducer.ChangeSenderUserName args => Reducers.InvokeChangeSenderUserName(eventContext, args),
                 Reducer.CreateAccount args => Reducers.InvokeCreateAccount(eventContext, args),
                 Reducer.Login args => Reducers.InvokeLogin(eventContext, args),
+                Reducer.SetSenderNews args => Reducers.InvokeSetSenderNews(eventContext, args),
+                Reducer.SetSenderOffline args => Reducers.InvokeSetSenderOffline(eventContext, args),
+                Reducer.SetSenderOnline args => Reducers.InvokeSetSenderOnline(eventContext, args),
                 _ => throw new ArgumentOutOfRangeException("Reducer", $"Unknown reducer {reducer}")
             };
         }
