@@ -363,13 +363,33 @@ public static partial class Module
 
         // TODO:
         // - Documentation
-        // - Change UserName
-        // - Change EMail
-        // - Change Password
-        // - Manage OnlineStatus
-        // - Change Send news
-        // - NameTokens management
+        // -----------------------
+        // - Init
+        //  - Change Password
+        //  - NameTokens management
 
+        /// <summary>
+        /// Attempts to change the username of the account associated with the current sender identity.
+        /// </summary>
+        /// <param name="ctx">
+        /// The current <see cref="ReducerContext"/> containing the sender's identity and database access.
+        /// </param>
+        /// <param name="userName">
+        /// The new username the sender wishes to set. Must be non-empty and unique across all accounts.
+        /// </param>
+        /// <remarks>
+        /// <para>This reducer performs the following checks before applying the change:</para>
+        /// <list type="bullet">
+        ///   <item><description>Verifies that the sender has an existing <see cref="Account"/>.</description></item>
+        ///   <item><description>Checks that the user has at least one <c>NameToken</c> available.</description></item>
+        ///   <item><description>Ensures that the new username is not empty or already in use.</description></item>
+        ///   <item><description>Ensures the new username is actually different from the current one.</description></item>
+        /// </list>
+        /// <para>
+        /// If all checks pass, the username is updated, one <c>NameToken</c> is consumed, and the change is saved.
+        /// Success and error feedback is sent via <see cref="ClientLog.Info"/> or <see cref="ClientLog.Error"/>.
+        /// </para>
+        /// </remarks>
         [Reducer]
         public static void ChangeSenderUserName(ReducerContext ctx, string userName)
         {
@@ -401,13 +421,171 @@ public static partial class Module
 
                 account.UserName = userName;
                 account.NameTokens -= 1;
-                ctx.Db.Account.UserName.Update(account);
+                ctx.Db.Account.identity.Update(account);
                 ClientLog.Info(ctx, $"Successfully changed UserName to <{account.UserName}>");
             }
             else
             {
                 ClientLog.Error(ctx, "No Account found with Identity");
                 return;
+            }
+        }
+
+        /// <summary>
+        /// Attempts to update the email address of the account associated with the current sender identity,
+        /// after verifying the user's password.
+        /// </summary>
+        /// <param name="ctx">
+        /// The current <see cref="ReducerContext"/>, which includes the sender's identity and access to the database.
+        /// </param>
+        /// <param name="password">
+        /// The current plaintext password of the account, used to authorize the email change.
+        /// </param>
+        /// <param name="newMail">
+        /// The new email address to associate with the account. Must be unique and non-empty.
+        /// </param>
+        /// <remarks>
+        /// <para>This reducer performs the following validations before applying the change:</para>
+        /// <list type="bullet">
+        ///   <item><description>Checks that the sender has a valid <see cref="Account"/> entry.</description></item>
+        ///   <item><description>Verifies the provided <paramref name="password"/> by hashing it and comparing it to the stored hash.</description></item>
+        ///   <item><description>Ensures <paramref name="newMail"/> is not null or empty.</description></item>
+        ///   <item><description>Ensures the new email is different from the current one.</description></item>
+        ///   <item><description>Checks that the new email is not already associated with another account.</description></item>
+        /// </list>
+        /// <para>
+        /// If all checks succeed, the email is updated, the <c>MailVerified</c> flag is reset to <c>false</c>,
+        /// and the change is saved in the database. Status messages are sent back to the client via <see cref="ClientLog"/>.
+        /// </para>
+        /// </remarks>
+        [Reducer]
+        public static void ChangeSenderMailAddress(ReducerContext ctx, string password, string newMail)
+        {
+            if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
+            {
+                if (account.PasswordHash != Sha256.ComputeHash(password))
+                {
+                    ClientLog.Info(ctx, "Invalid Password");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(newMail))
+                {
+                    ClientLog.Info(ctx, "EMailAddress must not be empty!");
+                    return;
+                }
+
+                if (account.MailAddress == newMail)
+                {
+                    ClientLog.Info(ctx, $"EMail is already set to {newMail}");
+                    return;
+                }
+
+                if (ctx.Db.Account.MailAddress.Find(newMail) != null)
+                {
+                    ClientLog.Info(ctx, "This EMail is already in use!");
+                    return;
+                }
+
+                account.MailAddress = newMail;
+                account.MailVerified = false;
+                ctx.Db.Account.identity.Update(account);
+                ClientLog.Info(ctx, $"Successfully changed EMail to <{account.MailAddress}>");
+            }
+            else
+            {
+                ClientLog.Error(ctx, "No Account found with Identity");
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Marks the sender's account as online by setting the <c>IsOnline</c> flag to <c>true</c>.
+        /// </summary>
+        /// <param name="ctx">
+        /// The current <see cref="ReducerContext"/> containing the sender's identity and database access.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This reducer looks up the <see cref="Account"/> associated with the current sender.
+        /// If found, it sets <c>IsOnline</c> to <c>true</c> and updates the record in the database.
+        /// </para>
+        /// <para>
+        /// If no account is found for the sender identity, an error is logged to the client's debug log.
+        /// </para>
+        /// </remarks>
+        [Reducer]
+        public static void SetSenderOnline(ReducerContext ctx)
+        {
+            if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
+            {
+                account.IsOnline = true;
+                ctx.Db.Account.identity.Update(account);
+            }
+            else
+            {
+                ClientLog.Error(ctx, "Account does not exist");
+            }
+        }
+
+        /// <summary>
+        /// Marks the sender's account as offline by setting the <c>IsOnline</c> flag to <c>false</c>.
+        /// </summary>
+        /// <param name="ctx">
+        /// The current <see cref="ReducerContext"/> containing the sender's identity and database access.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This reducer looks up the <see cref="Account"/> associated with the sender.
+        /// If found, it sets <c>IsOnline</c> to <c>false</c> and updates the record in the database.
+        /// </para>
+        /// <para>
+        /// If no matching account is found, an error is logged to the client's debug log.
+        /// </para>
+        /// </remarks>
+        [Reducer]
+        public static void SetSenderOffline(ReducerContext ctx)
+        {
+            if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
+            {
+                account.IsOnline = false;
+                ctx.Db.Account.identity.Update(account);
+            }
+            else
+            {
+                ClientLog.Error(ctx, "Account does not exist");
+            }
+        }
+
+        /// <summary>
+        /// Updates the sender's account preference for receiving newsletters and updates.
+        /// </summary>
+        /// <param name="ctx">
+        /// The current <see cref="ReducerContext"/> containing the sender's identity and database access.
+        /// </param>
+        /// <param name="sendNews">
+        /// A boolean value indicating whether the user wants to receive newsletters and promotional content.
+        /// </param>
+        /// <remarks>
+        /// <para>
+        /// This reducer looks up the <see cref="Account"/> associated with the sender identity.
+        /// If the account exists, the <c>SendNews</c> flag is updated accordingly and saved to the database.
+        /// </para>
+        /// <para>
+        /// If the account is not found, an error is logged to the client's debug log.
+        /// </para>
+        /// </remarks>
+        [Reducer]
+        public static void SetSenderNews(ReducerContext ctx, bool sendNews)
+        {
+            if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
+            {
+                account.SendNews = sendNews;
+                ctx.Db.Account.identity.Update(account);
+            }
+            else
+            {
+                ClientLog.Error(ctx, "Account does not exist");
             }
         }
     }
