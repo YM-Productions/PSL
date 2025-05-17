@@ -3,9 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-## Debug Files
 Client_PSL/preBuildOutput.txt
-Client_PSL/module_bindings/**
+Client_PSL/module_bindings
 
 # User-specific files
 *.rsuser
