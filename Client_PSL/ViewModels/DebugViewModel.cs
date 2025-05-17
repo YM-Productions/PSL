@@ -97,6 +97,8 @@ public partial class DebugViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<DebugMessage> _messages = new();
 
+    private bool _autScroll = true;
+
     private ScrollViewer? _scrollViewer = null;
 
     /// <summary>
@@ -117,9 +119,47 @@ public partial class DebugViewModel : ViewModelBase
     /// </summary>
     private static string dateTime => DateTime.Now.ToString("yyyy-MM-dd | HH:mm:ss");
 
+    /// <summary>
+    /// Sets the <see cref="ScrollViewer"/> instance used to display chat content.
+    /// </summary>
+    /// <param name="scrollViewer">
+    /// The <see cref="ScrollViewer"/> instance that should be linked to the chat interface,
+    /// typically for enabling auto-scrolling or programmatic scroll control.
+    /// </param>
+    /// <remarks>
+    /// This method is used to inject the UI element responsible for displaying chat messages,
+    /// allowing other parts of the application to scroll the view programmatically.
+    /// </remarks>
     public void SetChatScrollViewer(ScrollViewer scrollViewer)
     {
         _scrollViewer = scrollViewer;
+    }
+
+    /// <summary>
+    /// Toggles the auto-scroll behavior on or off for the chat view.
+    /// </summary>
+    /// <remarks>
+    /// If auto-scroll is enabled, the chat view will automatically scroll to the bottom
+    /// when a new message is added. This method inverts the current state.
+    /// </remarks>
+    public void ToggleAutoScroll()
+    {
+        _autScroll = !_autScroll;
+    }
+
+    /// <summary>
+    /// Explicitly sets whether auto-scroll should be enabled for the chat view.
+    /// </summary>
+    /// <param name="autoScroll">
+    /// <c>true</c> to enable auto-scroll; <c>false</c> to disable it.
+    /// </param>
+    /// <remarks>
+    /// When auto-scroll is enabled, the chat will automatically scroll to the newest message
+    /// upon receiving new content.
+    /// </remarks>
+    public void SetAutoScroll(bool autoScroll)
+    {
+        _autScroll = autoScroll;
     }
 
     /// <summary>
@@ -133,7 +173,11 @@ public partial class DebugViewModel : ViewModelBase
     {
         AddMessage(new(dateTime, levelName, levelColor, message));
 
-        if (_scrollViewer != null) _scrollViewer.ScrollToEnd();
+        if (_scrollViewer != null &&
+            _autScroll)
+        {
+            _scrollViewer.ScrollToEnd();
+        }
     }
 
     /// <summary>
@@ -145,6 +189,12 @@ public partial class DebugViewModel : ViewModelBase
         _messages.Add(message);
         // Check if there are to many msges
         TrimMessages();
+
+        if (_scrollViewer != null &&
+            _autScroll)
+        {
+            _scrollViewer.ScrollToEnd();
+        }
     }
 
     /// <summary>
@@ -158,6 +208,21 @@ public partial class DebugViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Handles incoming text input and dispatches it as a command if it starts with a forward slash.
+    /// </summary>
+    /// <param name="message">
+    /// The raw input string, typically entered by the user. If it begins with <c>'/'</c>, it is treated as a command.
+    /// </param>
+    /// <remarks>
+    /// <para>
+    /// This method checks whether the input starts with <c>'/'</c>, which indicates a developer or debug command.
+    /// If so, it strips the slash and forwards the command to <see cref="HandleCommand(string)"/> for parsing and execution.
+    /// </para>
+    /// <para>
+    /// Messages that do not begin with <c>'/'</c> are ignored in this implementation.
+    /// </para>
+    /// </remarks>
     public void HanldeMessage(string message)
     {
         if (message.First() == '/')
