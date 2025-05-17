@@ -1,41 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-using System.Security.Cryptography;
 using SpacetimeDB;
 using StdbModule.Utils;
+using StdbModule.Utils.Cryptography;
 
 namespace StdbModule.Modules;
 
 public static partial class Module
 {
-    /// <summary>
-    /// Computes a SHA-256 hash for the specified plaintext password and returns it as a hexadecimal string.
-    /// </summary>
-    /// <param name="password">
-    /// The plaintext password to be hashed. It must not be <c>null</c> or empty.
-    /// </param>
-    /// <returns>
-    /// A hexadecimal string representing the SHA-256 hash of the input password.
-    /// </returns>
-    /// <remarks>
-    /// This method uses the SHA-256 cryptographic algorithm from <see cref="System.Security.Cryptography.SHA256"/>.
-    /// The resulting hash is encoded as an uppercase hexadecimal string using <see cref="Convert.ToHexString(byte[])"/>.
-    /// </remarks>
-    /// <example>
-    /// <code>
-    /// string hashed = HashPassword("mySecret123");
-    /// // hashed => "A94A8FE5CCB19BA61C4C0873D391E987982FBBD3..."
-    /// </code>
-    /// </example>
-    public static string HashPassword(string password)
-    {
-        using SHA256 sha = SHA256.Create();
-        byte[] bytes = Encoding.UTF8.GetBytes(password);
-        byte[] hash = sha.ComputeHash(bytes);
-        return Convert.ToHexString(hash);
-    }
-
     /// <summary>
     /// Represents a user account in the system. This table is used to store authentication,
     /// contact, and status information for each registered user.
@@ -324,7 +297,7 @@ public static partial class Module
                 identity = ctx.Sender,
                 UserName = userName,
                 MailAddress = mailAddress,
-                PasswordHash = HashPassword(password),
+                PasswordHash = Sha256.ComputeHash(password),
                 MailVerified = false,
                 IsOnline = false,
                 SendNews = sendNews,
@@ -369,7 +342,7 @@ public static partial class Module
             if (ctx.Db.Account.UserName.Find(userName) is Account account &&
                 ctx.Db.ClientToken.identity.Find(account.identity) is ClientToken token)
             {
-                if (account.PasswordHash != HashPassword(password))
+                if (account.PasswordHash != Sha256.ComputeHash(password))
                 {
                     ClientLog.Error(ctx, "Invalid Password");
                     return;
