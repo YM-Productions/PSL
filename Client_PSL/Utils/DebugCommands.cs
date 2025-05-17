@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Utils;
 using Networking.SpacetimeController;
+using Client_PSL.ViewModels;
 
 namespace Utils.DebugCommands;
 
@@ -66,6 +67,7 @@ public static class DebugCommand
         { nameof(Help).ToLower(), Help },
         { nameof(Login).ToLower(), Login },
         { nameof(Register).ToLower(), Register },
+        { nameof(AutoScroll).ToLower(), AutoScroll },
 
         // NOTE: This is only temporary
         { "d" , _ => SpacetimeController.Instance.CloseCon() },
@@ -164,5 +166,40 @@ public static class DebugCommand
         }
 
         SpacetimeController.Instance.Register(userName, mail, pwd, news == "true", true);
+    }
+
+    private static void AutoScroll(Dictionary<string, string> attributes)
+    {
+        if (attributes.Values.Any(string.IsNullOrEmpty))
+        {
+            Debug.LogError("Attributes must not be empty!");
+            return;
+        }
+
+        switch (attributes.Count)
+        {
+            case 0:
+                bool newVal = DebugViewModel.Instance.ToggleAutoScroll();
+                Debug.Log($"AutoScroll was set to <{newVal}>");
+                break;
+            case 1:
+                if (!attributes.TryGetValue("set", out string? scrollStr))
+                {
+                    Debug.LogError("Invalid Arguments!\nUse </help -c autoscroll> for more info");
+                    return;
+                }
+
+                if (scrollStr != "true" && scrollStr != "false")
+                {
+                    Debug.LogError("set must be <true> or <false>");
+                }
+
+                DebugViewModel.Instance.SetAutoScroll(scrollStr == "true");
+                Debug.Log($"AutoScroll was set to <{scrollStr}>");
+                break;
+            default:
+                Debug.LogError("Invalid Arguments!\nUse </help -c autoscroll> for more info");
+                return;
+        }
     }
 }

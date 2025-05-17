@@ -136,15 +136,19 @@ public partial class DebugViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// Toggles the auto-scroll behavior on or off for the chat view.
+    /// Toggles the auto-scroll behavior for the chat view and returns the updated state.
     /// </summary>
+    /// <returns>
+    /// <c>true</c> if auto-scroll is now enabled; <c>false</c> if it is disabled.
+    /// </returns>
     /// <remarks>
-    /// If auto-scroll is enabled, the chat view will automatically scroll to the bottom
-    /// when a new message is added. This method inverts the current state.
+    /// This method inverts the current <c>_autScroll</c> flag and returns the new state,
+    /// allowing UI elements (e.g. a toggle button) to immediately reflect the change.
     /// </remarks>
-    public void ToggleAutoScroll()
+    public bool ToggleAutoScroll()
     {
         _autScroll = !_autScroll;
+        return _autScroll;
     }
 
     /// <summary>
