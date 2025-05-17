@@ -80,7 +80,7 @@ public static class DebugCommand
     {
         if (attributes.Count == 0)
         {
-            Debug.Log("--------------------------\nCommand Format:\n/<command> --<attributeName> <attribute>\nExample:\n/login --name NAME --Password PWD");
+            Debug.Log("--------------------------\nCommand Format:\n/<command> --<attributeName> <attribute>\nExample:\n/login --name NAME --Password PWD\n");
             return;
         }
 
@@ -107,6 +107,19 @@ public static class DebugCommand
                     sb.AppendLine("--pwd    -> Password");
                     sb.AppendLine("--news   -> Subscribe to Newsletter");
                     sb.AppendLine("--AGB    -> Accept AGB");
+                    break;
+                case "autoscroll":
+                    sb.AppendLine("/autoscroll");
+                    sb.AppendLine("Toggles or sets automatic scrolling of the debug view.");
+                    sb.AppendLine("/autoscroll [--set <true:false>]");
+                    sb.AppendLine("--set   -> (Optional) Explicitly enable or disable AutoScroll.");
+                    sb.AppendLine("             If omitted, AutoScroll will simply be toggled.");
+                    break;
+                case "messagelimit":
+                    sb.AppendLine("/messagelimit");
+                    sb.AppendLine("Displays or sets the maximum number of messages retained in the debug view.");
+                    sb.AppendLine("/messagelimit [--set <NUMBER>]");
+                    sb.AppendLine("--set   -> (Optional) Specify a new maximum number of messages. Must be an integer.");
                     break;
                 default:
                     Debug.LogError($"<{value}> is no valid Value in this Context!");
