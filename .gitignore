@@ -5,6 +5,7 @@
 
 ## Debug Files
 Client_PSL/preBuildOutput.txt
+Client_PSL/module_bindings/**
 
 # User-specific files
 *.rsuser
