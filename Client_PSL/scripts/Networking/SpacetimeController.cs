@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 
 namespace Networking.SpacetimeController;
 
-// TODO:
-// - Build ServerMessage to Log
-
 /// <summary>
 /// Manages the lifecycle and interaction with a SpacetimeDB server instance,
 /// including connection handling, session management, authentication, and account operations.
@@ -51,6 +48,7 @@ public class SpacetimeController
     /// </remarks>
     public static SpacetimeController Instance { get; private set; }
     private Logger logger;
+    private Logger serverLogger;
 
     private const string HOST = "https://yaene.dev";
     private const string DBNAME = "psl";
@@ -86,6 +84,9 @@ public class SpacetimeController
         logger = Logger.LoggerFactory.CreateLogger("SpacetimeController");
         logger.SetLevel(9);
         logger.Log("SpacetimeController initialized...");
+
+        serverLogger = Logger.LoggerFactory.CreateLogger("Server");
+        serverLogger.SetLevel(6);
     }
 
     /// <summary>
@@ -198,8 +199,7 @@ public class SpacetimeController
 
     private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
     {
-        // TODO: create parser for Servermessages
-        logger.Log($"New server Message: {value.Message}");
+        Logger.LoggerFactory.GetLogger("Server").Log(value.Message);
     }
 
     private void ProcessThread(DbConnection conn, CancellationToken ct)
@@ -367,8 +367,7 @@ public class SpacetimeController
 
     private void Temp_ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
     {
-        // TODO: create a parser for servermessages
-        logger.Log($"New server Message: {value.Message}");
+        serverLogger.Log(value.Message);
     }
 
     #endregion
