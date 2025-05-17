@@ -362,11 +362,53 @@ public static partial class Module
         }
 
         // TODO:
+        // - Documentation
         // - Change UserName
         // - Change EMail
         // - Change Password
         // - Manage OnlineStatus
         // - Change Send news
         // - NameTokens management
+
+        [Reducer]
+        public static void ChangeSenderUserName(ReducerContext ctx, string userName)
+        {
+            if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
+            {
+                if (account.NameTokens <= 0)
+                {
+                    ClientLog.Info(ctx, "You need at leadst 1 Token to change your Name!");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(userName))
+                {
+                    ClientLog.Error(ctx, "UserName must not be empty!");
+                    return;
+                }
+
+                if (account.UserName == userName)
+                {
+                    ClientLog.Info(ctx, $"{userName} already is set as your UserName");
+                    return;
+                }
+
+                if (ctx.Db.Account.UserName.Find(userName) != null)
+                {
+                    ClientLog.Info(ctx, $"The Name <{userName}> is already taken!");
+                    return;
+                }
+
+                account.UserName = userName;
+                account.NameTokens -= 1;
+                ctx.Db.Account.UserName.Update(account);
+                ClientLog.Info(ctx, $"Successfully changed UserName to <{account.UserName}>");
+            }
+            else
+            {
+                ClientLog.Error(ctx, "No Account found with Identity");
+                return;
+            }
+        }
     }
 }
