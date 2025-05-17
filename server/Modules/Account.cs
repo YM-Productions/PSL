@@ -360,5 +360,13 @@ public static partial class Module
                 return;
             }
         }
+
+        // TODO:
+        // - Change UserName
+        // - Change EMail
+        // - Change Password
+        // - Manage OnlineStatus
+        // - Change Send news
+        // - NameTokens management
     }
 }
