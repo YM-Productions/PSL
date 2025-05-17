@@ -68,6 +68,7 @@ public static class DebugCommand
         { nameof(Login).ToLower(), Login },
         { nameof(Register).ToLower(), Register },
         { nameof(AutoScroll).ToLower(), AutoScroll },
+        { nameof(MessageLimit).ToLower(), MessageLimit },
 
         // NOTE: This is only temporary
         { "d" , _ => SpacetimeController.Instance.CloseCon() },
@@ -201,5 +202,35 @@ public static class DebugCommand
                 Debug.LogError("Invalid Arguments!\nUse </help -c autoscroll> for more info");
                 return;
         }
+    }
+
+    private static void MessageLimit(Dictionary<string, string> attributes)
+    {
+        if (attributes.Values.Any(string.IsNullOrEmpty))
+        {
+            Debug.LogError("Attributes must not be empty!");
+            return;
+        }
+
+        if (attributes.Count == 0)
+        {
+            Debug.Log($"MaxMessages is set to <{DebugViewModel.Instance.MaxMessages}>");
+            return;
+        }
+
+        if (!attributes.TryGetValue("set", out string? maxValStr))
+        {
+            Debug.LogError("Invalid Arguments!\nUse </help -c messagelimit> for more info");
+            return;
+        }
+
+        if (!int.TryParse(maxValStr, out int maxVal))
+        {
+            Debug.LogError("set must be an integer Value!");
+            return;
+        }
+
+        DebugViewModel.Instance.MaxMessages = maxVal;
+        Debug.Log($"MaxMessages was set to <{maxVal}>");
     }
 }

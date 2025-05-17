@@ -92,7 +92,7 @@ public partial class DebugViewModel : ViewModelBase
     /// Maximum number of messages allowed in the <see cref="Messages"/> collection.
     /// Older messages will be trimmed if this limit is exceeded.
     /// </summary>
-    public static readonly int MAX_MESSAGES = 100;
+    public int MaxMessages = 100;
 
     [ObservableProperty]
     private ObservableCollection<DebugMessage> _messages = new();
@@ -206,9 +206,9 @@ public partial class DebugViewModel : ViewModelBase
     /// </summary>
     private void TrimMessages()
     {
-        if (Messages.Count > MAX_MESSAGES)
+        if (Messages.Count > MaxMessages)
         {
-            Messages.Remove(Messages.Last());
+            Messages.Remove(Messages.First());
         }
     }
 
