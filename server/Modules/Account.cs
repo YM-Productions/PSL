@@ -352,6 +352,9 @@ public static partial class Module
                 if (ctx.Db.PersistentSession.identity.Find(ps.identity) != null) ctx.Db.PersistentSession.identity.Update(ps);
                 else ctx.Db.PersistentSession.Insert(ps);
 
+                account.IsOnline = true;
+                ctx.Db.Account.identity.Update(account);
+
                 ClientLog.Info(ctx, "Login successful");
             }
             else
@@ -546,6 +549,8 @@ public static partial class Module
         [Reducer]
         public static void SetSenderOffline(ReducerContext ctx)
         {
+            Log.Info("Hello");
+
             if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
             {
                 account.IsOnline = false;

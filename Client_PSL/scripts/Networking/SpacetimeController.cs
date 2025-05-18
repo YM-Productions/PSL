@@ -199,7 +199,7 @@ public class SpacetimeController
 
     private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
     {
-        Logger.LoggerFactory.GetLogger("Server").Log(value.Message);
+        serverLogger.Log(value.Message);
     }
 
     private void ProcessThread(DbConnection conn, CancellationToken ct)
@@ -211,9 +211,17 @@ public class SpacetimeController
                 conn.FrameTick();
                 Thread.Sleep(100);
             }
+
+            conn.Reducers.SetSenderOffline();
+            for (int i = 0; i < 5; i++)
+            {
+                conn.FrameTick();
+                Thread.Sleep(100);
+            }
         }
         finally
         {
+            // conn.Reducers.SetSenderOffline();
             conn.Disconnect();
 
             if (conn.IsActive)
