@@ -24,7 +24,7 @@ jobs:
       run: dotnet tool install -g docfx
 
     - name: Generate spacetime bindings
-      run: generate --lang csharp --out-dir Client_PSL/module_bindings --project-path server --yes
+      run: spacetime generate --lang csharp --out-dir Client_PSL/module_bindings --project-path server --yes
 
     - name: Build Solution
       run: dotnet build
