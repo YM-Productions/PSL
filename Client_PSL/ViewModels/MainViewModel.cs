@@ -6,7 +6,9 @@ namespace Client_PSL.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    DebugViewModel _debugPage = new();
+    private DebugViewModel _debugPage = new();
+    [ObservableProperty]
+    private ViewModelBase _mainPage = new LoginViewModel();
 
     public MainViewModel()
     {

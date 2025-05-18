@@ -1,8 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Client_PSL.ViewModels;
-using Utils;
 
 namespace Client_PSL.Views;
 

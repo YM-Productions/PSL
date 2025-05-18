@@ -28,6 +28,10 @@
     <Compile Update="Views\DebugView.axaml.cs">
       <DependentUpon>DebugView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\LoginView.axaml.cs">
+      <DependentUpon>LoginView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <Target Name="RunPrebuildScriptWindows" BeforeTargets="PreBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
