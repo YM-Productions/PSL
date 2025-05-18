@@ -23,6 +23,11 @@ jobs:
     - name: Install DocFX
       run: dotnet tool install -g docfx
 
+    - name: Install SpacetimeDB
+      run: |
+        curl -sSf https://install.spacetimedb.com | sh
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
     - name: Generate spacetime bindings
       run: spacetime generate --lang csharp --out-dir Client_PSL/module_bindings --project-path server --yes
 
