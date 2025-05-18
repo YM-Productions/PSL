@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Utils;
 using Utils.DebugCommands;
 
@@ -280,7 +281,7 @@ public partial class DebugViewModel : ViewModelBase
 
         if (DebugCommand.Commands.TryGetValue(command.ToLower(), out Action<Dictionary<string, string>>? action) && action != null)
         {
-            action(attributes);
+            _ = Task.Run(() => action(attributes));
         }
         else
         {
