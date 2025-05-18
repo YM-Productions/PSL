@@ -1,15 +1,25 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Client_PSL"
-             x:Class="Client_PSL.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Client_PSL"
+    x:Class="Client_PSL.App"
+    RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available
+    options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <!-- Light Theme Palette -->
+                <ColorPaletteResources x:Key="Light" Accent="Orange" RegionColor="Black"
+                    ErrorText="Red" />
+                <!-- Dark  Theme Palette -->
+                <ColorPaletteResources x:Key="Dark" Accent="Orange" RegionColor="Black"
+                    ErrorText="Red" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
     </Application.Styles>
 </Application>

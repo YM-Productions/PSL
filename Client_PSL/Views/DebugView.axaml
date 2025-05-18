@@ -1,43 +1,52 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:Client_PSL.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Client_PSL.Views.DebugView"
-             x:DataType="vm:DebugViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Client_PSL.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Client_PSL.Views.DebugView"
+    x:DataType="vm:DebugViewModel">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at
+        App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
 
-  <Border IsVisible="{Binding IsActive}">
-    <StackPanel VerticalAlignment="Bottom">
-      <ItemsControl Background="Green" ItemsSource="{Binding Messages}">
-        <ItemsControl.Template>
-          <ControlTemplate TargetType="ItemsControl">
-            <ScrollViewer Initialized="OnScrollInit" Height="300">
-              <ItemsPresenter/>
-            </ScrollViewer>
-          </ControlTemplate>
-        </ItemsControl.Template>
-        <ItemsControl.ItemTemplate>
-          <DataTemplate>
-            <Grid Background="Black">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
-              <TextBlock Text="{Binding DateTime}" Grid.Column="0" Foreground="{Binding DateTimeColor}" Background="{Binding BackgroundColor}"/>
-              <TextBlock Text="{Binding LevelName}" Grid.Column="1" Foreground="{Binding LevelColor}" Background="{Binding BackgroundColor}" Margin="10,0,0,0"/>
-              <SelectableTextBlock Text="{Binding Message}" Grid.Column="2" Foreground="{Binding MessageColor}" Background="{Binding BackgroundColor}" Margin="10,0,0,0" TextWrapping="Wrap"/>
-            </Grid>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-      <TextBox Watermark="Enter ~$" VerticalAlignment="Bottom" KeyDown="Input_KeyDown"/>
-    </StackPanel>
-  </Border>
+    <Border IsVisible="{Binding IsActive}">
+        <StackPanel VerticalAlignment="Bottom">
+            <ItemsControl Background="Green" ItemsSource="{Binding Messages}">
+                <ItemsControl.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <ScrollViewer Initialized="OnScrollInit" Height="300">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- <Grid Background="Black"> -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding DateTime}" Grid.Column="0"
+                                Foreground="{Binding DateTimeColor}"
+                                Background="{Binding BackgroundColor}" />
+                            <TextBlock Text="{Binding LevelName}" Grid.Column="1"
+                                Foreground="{Binding LevelColor}"
+                                Background="{Binding BackgroundColor}" Margin="10,0,0,0" />
+                            <SelectableTextBlock Text="{Binding Message}" Grid.Column="2"
+                                Foreground="{Binding MessageColor}"
+                                Background="{Binding BackgroundColor}" Margin="10,0,0,0"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBox Watermark="Enter ~$" VerticalAlignment="Bottom" KeyDown="Input_KeyDown" />
+        </StackPanel>
+    </Border>
 </UserControl>
