@@ -14,7 +14,7 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel Focusable="True">
+    <StackPanel Focusable="True" Background="Transparent">
         <ContentControl Content="{Binding DebugPage}" />
         <ContentControl Content="{Binding MainPage}" />
     </StackPanel>

@@ -13,6 +13,44 @@
         <vm:MainViewModel />
     </Design.DataContext>
     
-        <Button Content="Button" HorizontalAlignment="Center"/>
+        <DockPanel  >
+            <!-- Titel -->
+            <TextBlock Text="Login" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
+            
+            <!-- Buttons -->
+            <StackPanel DockPanel.Dock="Bottom" Margin="10">
+                <Button Click="OnRegisterClick"
+                        FontSize="18"
+                        Content="Register"
+                        HorizontalAlignment="Stretch"
+                        Margin="10 3"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Background="Gray"/>
+                
+                <Button Click="OnLoginClick"
+                        FontSize="18"
+                        Content="Login"
+                        HorizontalAlignment="Stretch"
+                        Margin="10 3"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        Background="Gray"/>
+            </StackPanel>
+            
+            <!-- Input -->
+            <StackPanel>
+            <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
+                     Watermark="Username" AcceptsReturn="False"
+                     FontSize="16" MaxLines="1"
+                     Text="{Binding Username}"
+                     />
+            <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
+                     Watermark="Password" AcceptsReturn="False"
+                     FontSize="16" MaxLines="1"
+                     Text="{Binding Password}" PasswordChar="*"
+                    />
+            </StackPanel>
+        </DockPanel>
     
 </UserControl>
