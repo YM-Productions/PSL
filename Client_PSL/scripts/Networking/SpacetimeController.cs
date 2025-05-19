@@ -53,9 +53,9 @@ public class SpacetimeController
     private DbConnection? connection = null;
     private Identity? local_identity = null;
     private CancellationTokenSource cancellationTokenSource = new();
-    private TaskCompletionSource<bool> _connectionEstablishedTcs;
     private Thread thread;
 
+    public bool IsConnected => connection == null ? false : connection.IsActive;
 
     private string tempToken = string.Empty;
 
@@ -254,30 +254,22 @@ public class SpacetimeController
     /// </list>
     /// This session is fully isolated from persistent sessions and is typically used for guest or initial client flows.
     /// </remarks>
-    public Task OpenTemporarySession()
+    public void OpenTemporarySession()
     {
         if (thread != null && thread.IsAlive)
         {
-            Debug.LogError("You can't open a new session - there is already one open!");
-            return Task.CompletedTask;
+            Debug.LogError("You cant open a new Session - There already is a open one!");
+            return;
         }
-
-        _connectionEstablishedTcs = new TaskCompletionSource<bool>();
 
         cancellationTokenSource = new();
         logger.Log("Starting to connect temporary...");
         connection = Temp_DbConnection();
         Temp_RegisterCallbacks(connection);
-        thread = new Thread(() =>
-        {
-            Temp_ProcessThread(connection, cancellationTokenSource.Token);
-            _connectionEstablishedTcs.SetResult(true);
-        });
+        thread = new Thread(() => Temp_ProcessThread(connection, cancellationTokenSource.Token));
         thread.Start();
-
-        return _connectionEstablishedTcs.Task;
     }
-    
+
     private void Temp_ProcessThread(DbConnection conn, CancellationToken ct)
     {
         try

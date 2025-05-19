@@ -13,7 +13,7 @@
         <vm:MainViewModel />
     </Design.DataContext>
     
-        <DockPanel  >
+        <DockPanel>
             <!-- Titel -->
             <TextBlock Text="Login" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
             

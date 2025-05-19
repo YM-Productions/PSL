@@ -12,19 +12,19 @@ public partial class LoginView : UserControl
         InitializeComponent();
     }
 
-    private async void OnLoginClick(object? sender, RoutedEventArgs e)
+    private void OnLoginClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button && DataContext is LoginViewModel vm)
-        {
-            await vm.LoginAttempt();
+        { 
+            vm.LoginAttempt();
         }
     }
 
-    private async void OnRegisterClick(object? sender, RoutedEventArgs e)
+    private void OnRegisterClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button && DataContext is LoginViewModel vm)
         {
-            await vm.RegisterAttempt();
+            vm.RegisterAttempt();
         }
     }
 }
