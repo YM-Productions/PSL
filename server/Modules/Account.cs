@@ -205,6 +205,11 @@ public static partial class Module
         $"SELECT * FROM {nameof(Account)} WHERE identity = :sender"
     );
 
+    [SpacetimeDB.ClientVisibilityFilter]
+    public static readonly Filter ACCOUNT_FILTER_ADMIN = new Filter.Sql(
+        $"SELECT {nameof(Account)}.* FROM {nameof(Account)} JOIN {nameof(Admin)} WHERE {nameof(Admin)}.identity = :sender"
+    );
+
     /// <summary>
     /// A visibility filter that restricts access to <see cref="PersistentSession"/> entries
     /// so that each client can view only their own persistent session data.
@@ -216,6 +221,11 @@ public static partial class Module
     [SpacetimeDB.ClientVisibilityFilter]
     public static readonly Filter PERSISTENTSESSION_FILTER = new Filter.Sql(
         $"SELECT * FROM {nameof(PersistentSession)} WHERE identity = :sender"
+    );
+
+    [SpacetimeDB.ClientVisibilityFilter]
+    public static readonly Filter PERSISTENTSESSION_FILTER_ADMIN = new Filter.Sql(
+        $"SELECT {nameof(PersistentSession)}.* FROM {nameof(PersistentSession)} JOIN {nameof(Admin)} WHERE {nameof(Admin)}.identity = :sender"
     );
 
 #pragma warning restore STDB_UNSTABLE

@@ -1,7 +1,7 @@
 using System;
 using SpacetimeDB;
 
-namespace StdbModule.ClientTools;
+namespace StdbModule.Modules;
 
 public static partial class Module
 {
@@ -79,6 +79,11 @@ public static partial class Module
     [SpacetimeDB.ClientVisibilityFilter]
     public static readonly Filter CLIENTDEBUGLOG_FILTER = new Filter.Sql(
         $"SELECT * FROM {nameof(ClientDebugLog)} WHERE identity = :sender"
+    );
+
+    [SpacetimeDB.ClientVisibilityFilter]
+    public static readonly Filter CLIENTDEBUGLOG_FILTER_ADMIN = new Filter.Sql(
+        $"SELECT {nameof(ClientDebugLog)}.* FROM {nameof(ClientDebugLog)} JOIN {nameof(Admin)} WHERE {nameof(Admin)}.identity = :sender"
     );
 
 #pragma warning restore STDB_UNSTABLE
