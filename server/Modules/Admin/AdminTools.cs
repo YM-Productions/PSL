@@ -22,17 +22,6 @@ public static partial class Module
     //
     // #pragma warning restore STDB_UNSTABLE
 
-    [Reducer(SpacetimeDB.ReducerKind.Init)]
-    public static void Init(ReducerContext ctx)
-    {
-        ctx.Db.Admin.Insert(new()
-        {
-            identity = Identity.FromHexString("c20075c6ca015d47de247f8d42d766884ae607b54f0a5b2298489d8ab9b7b39c"),
-            Name = "Mungg",
-            CreatedAt = ctx.Timestamp,
-        });
-    }
-
     // [Reducer]
     // public static void GetAdmin(ReducerContext ctx, string name, string password)
     // {

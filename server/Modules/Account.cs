@@ -374,13 +374,6 @@ public static partial class Module
             }
         }
 
-        // TODO:
-        // - Documentation
-        // -----------------------
-        // - Init
-        //  - Change Password
-        //  - NameTokens management
-
         /// <summary>
         /// Attempts to change the username of the account associated with the current sender identity.
         /// </summary>
