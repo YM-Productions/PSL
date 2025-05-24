@@ -1,4 +1,5 @@
 using SpacetimeDB;
+using StdbModule.Utils;
 
 namespace StdbModule.Modules;
 
@@ -47,12 +48,37 @@ public static partial class Module
     [SpacetimeDB.Index.BTree(Name = "idx_pos_accid_poid", Columns = new[] { nameof(AccountIdentity), nameof(PhysicalObjectIdentity) })]
     public partial class PhysicalObjectPermission
     {
+        [PrimaryKey]
+        public string identity; // NOTE: AccountIdentity + PhysicalObjectIdentity
         public Identity AccountIdentity;
         public string PhysicalObjectIdentity;
+
+        public int Level; // NOTE: 0 = No Access, 1 = Read, 2 = Write, 3 = Admin, 4 = Owner
+
+        public PhysicalObjectPermission(Identity accountIdentity, string physicalObjectIdentity, int level)
+        {
+            AccountIdentity = accountIdentity;
+            PhysicalObjectIdentity = physicalObjectIdentity;
+            Level = level;
+
+            identity = GetIdentity();
+        }
 
         public PhysicalObjectPermission()
         {
             PhysicalObjectIdentity = string.Empty;
+            identity = GetIdentity();
+            Level = Permission.Level.None;
+        }
+
+        public string GetIdentity()
+        {
+            return $"{AccountIdentity}-{PhysicalObjectIdentity}";
+        }
+
+        public static string GetIdentity(Identity accountIdentity, string physicalObjectIdentity)
+        {
+            return $"{accountIdentity}-{physicalObjectIdentity}";
         }
     }
 
@@ -79,12 +105,37 @@ public static partial class Module
     [SpacetimeDB.Index.BTree(Name = "idx_hardpoint_permission_accid_hpid", Columns = new[] { nameof(AccountIdentity), nameof(HardpointIdentity) })]
     public partial class HardpointPermission
     {
+        [PrimaryKey]
+        public string identity; // NOTE: AccountIdentity + PhysicalObjectIdentity
         public Identity AccountIdentity;
         public string HardpointIdentity;
+
+        public int Level; // NOTE: 0 = No Access, 1 = Read, 2 = Write, 3 = Admin, 4 = Owner
+
+        public HardpointPermission(Identity accountIdentity, string hardpointIdentity, int level)
+        {
+            AccountIdentity = accountIdentity;
+            HardpointIdentity = hardpointIdentity;
+            Level = level;
+
+            identity = GetIdentity();
+        }
 
         public HardpointPermission()
         {
             HardpointIdentity = string.Empty;
+            identity = GetIdentity();
+            Level = Permission.Level.None;
+        }
+
+        public string GetIdentity()
+        {
+            return $"{AccountIdentity}-{HardpointIdentity}";
+        }
+
+        public static string GetIdentity(Identity accountIdentity, string hardpointIdentity)
+        {
+            return $"{accountIdentity}-{hardpointIdentity}";
         }
     }
 
@@ -113,7 +164,7 @@ public static partial class Module
         [Reducer]
         public static void CreateFundament(ReducerContext ctx, string name, Guid plotID)
         {
-            PhysicalObject fundament = new PhysicalObject
+            PhysicalObject foundation = new()
             {
                 identity = Guid.NewGuid().ToString(),
                 Name = name,
@@ -121,7 +172,10 @@ public static partial class Module
                 IsStatic = true
             };
 
-            ctx.Db.PhysicalObject.Insert(fundament);
+            PhysicalObjectPermission permission = new(ctx.Sender, foundation.identity, 4);
+
+            ctx.Db.PhysicalObject.Insert(foundation);
+            ctx.Db.PhysicalObjectPermission.Insert(permission);
         }
 
         [Reducer]
@@ -135,7 +189,84 @@ public static partial class Module
                 IsStatic = false
             };
 
+            PhysicalObjectPermission permission = new(ctx.Sender, vehicle.identity, 4);
+
             ctx.Db.PhysicalObject.Insert(vehicle);
+            ctx.Db.PhysicalObjectPermission.Insert(permission);
+        }
+
+        [Reducer]
+        public static void SetPhysicalObjectPermission(ReducerContext ctx, Identity targetIdentity, string physicalObjectID, int level)
+        {
+            if (ctx.Sender.Equals(targetIdentity))
+            {
+                // Prevent users from changing their own permissions
+                return;
+            }
+
+            string actingPermID = PhysicalObjectPermission.GetIdentity(ctx.Sender, physicalObjectID);
+            string targetPermID = PhysicalObjectPermission.GetIdentity(targetIdentity, physicalObjectID);
+
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(actingPermID) is not PhysicalObjectPermission actingPerm)
+                return;
+
+            if (actingPerm.Level < Permission.Level.Admin)
+                return;
+
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(targetPermID) is PhysicalObjectPermission targetPerm)
+            {
+                if (targetPerm.Level >= actingPerm.Level)
+                {
+                    // Cannot lower permission of a higher/equal level permission
+                    return;
+                }
+
+                if (level == Permission.Level.None)
+                {
+                    ctx.Db.PhysicalObjectPermission.Delete(targetPerm);
+                }
+                else
+                {
+                    if (actingPerm.Level < level)
+                    {
+                        // Cannot set permission to something higher than your own
+                        return;
+                    }
+                    targetPerm.Level = level;
+                    ctx.Db.PhysicalObjectPermission.identity.Update(targetPerm);
+                }
+            }
+            else
+            {
+                if (level == Permission.Level.None)
+                    return;
+
+                if (actingPerm.Level < level)
+                {
+                    // Cannot set permission to something higher than your own
+                    return;
+                }
+                PhysicalObjectPermission newPoPerm = new(targetIdentity, physicalObjectID, level);
+                ctx.Db.PhysicalObjectPermission.Insert(newPoPerm);
+            }
+        }
+
+        [Reducer]
+        public static void DestroyPhysicalObject(ReducerContext ctx, string pysicalObjectID)
+        {
+            string poPermID = PhysicalObjectPermission.GetIdentity(ctx.Sender, pysicalObjectID);
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(poPermID) is PhysicalObjectPermission poPerm &&
+                poPerm.Level >= Permission.Level.Admin &&
+                ctx.Db.PhysicalObject.identity.Find(pysicalObjectID) is PhysicalObject physicalObject)
+            {
+                foreach (PhysicalObjectPermission permission in ctx.Db.PhysicalObjectPermission.Iter()
+                         .Where(p => p.PhysicalObjectIdentity == physicalObject.identity))
+                {
+                    ctx.Db.PhysicalObjectPermission.Delete(permission);
+                }
+
+                ctx.Db.PhysicalObject.Delete(physicalObject);
+            }
         }
     }
 
