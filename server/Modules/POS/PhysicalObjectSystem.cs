@@ -31,7 +31,9 @@ public static partial class Module
         public string identity;
         public string Name;
 
-        public string PlotIdentity;
+        public string ParentIdentity;
+        public int XPos;
+        public int YPos;
 
         public bool IsStatic;
 
@@ -39,7 +41,7 @@ public static partial class Module
         {
             identity = Guid.NewGuid().ToString();
             Name = string.Empty;
-            PlotIdentity = string.Empty;
+            ParentIdentity = string.Empty;
             IsStatic = false;
         }
     }
@@ -162,13 +164,15 @@ public static partial class Module
     public static partial class PhysicalObjectReducers
     {
         [Reducer]
-        public static void CreateFundament(ReducerContext ctx, string name, Guid plotID)
+        public static void CreateFoundation(ReducerContext ctx, string name, string plotID, int xPos, int yPos)
         {
             PhysicalObject foundation = new()
             {
                 identity = Guid.NewGuid().ToString(),
                 Name = name,
-                PlotIdentity = plotID.ToString(),
+                ParentIdentity = plotID,
+                XPos = xPos,
+                YPos = yPos,
                 IsStatic = true
             };
 
@@ -179,13 +183,15 @@ public static partial class Module
         }
 
         [Reducer]
-        public static void CreateVehicle(ReducerContext ctx, string name, Guid plotID)
+        public static void CreateVehicle(ReducerContext ctx, string name, string plotID, int xPos, int yPos)
         {
             PhysicalObject vehicle = new PhysicalObject
             {
                 identity = Guid.NewGuid().ToString(),
                 Name = name,
-                PlotIdentity = plotID.ToString(),
+                ParentIdentity = plotID,
+                XPos = xPos,
+                YPos = yPos,
                 IsStatic = false
             };
 
@@ -248,6 +254,46 @@ public static partial class Module
                 }
                 PhysicalObjectPermission newPoPerm = new(targetIdentity, physicalObjectID, level);
                 ctx.Db.PhysicalObjectPermission.Insert(newPoPerm);
+            }
+        }
+
+        [Reducer]
+        public static void SetPhysicalObjectName(ReducerContext ctx, string PhysicalObjectID, string name)
+        {
+            string poPermID = PhysicalObjectPermission.GetIdentity(ctx.Sender, PhysicalObjectID);
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(poPermID) is PhysicalObjectPermission poPerm &&
+                poPerm.Level >= Permission.Level.Admin &&
+                ctx.Db.PhysicalObject.identity.Find(PhysicalObjectID) is PhysicalObject physicalObject)
+            {
+                physicalObject.Name = name;
+                ctx.Db.PhysicalObject.identity.Update(physicalObject);
+            }
+        }
+
+        [Reducer]
+        public static void SetPhysicalObjectParentIdentity(ReducerContext ctx, string plotIdentity)
+        {
+            string poPermID = PhysicalObjectPermission.GetIdentity(ctx.Sender, plotIdentity);
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(poPermID) is PhysicalObjectPermission poPerm &&
+                poPerm.Level >= Permission.Level.Admin &&
+                ctx.Db.PhysicalObject.identity.Find(plotIdentity) is PhysicalObject physicalObject)
+            {
+                physicalObject.ParentIdentity = plotIdentity;
+                ctx.Db.PhysicalObject.identity.Update(physicalObject);
+            }
+        }
+
+        [Reducer]
+        public static void SetPhysicalObjectPosition(ReducerContext ctx, string physicalObjectID, int xPos, int yPos)
+        {
+            string poPermID = PhysicalObjectPermission.GetIdentity(ctx.Sender, physicalObjectID);
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(poPermID) is PhysicalObjectPermission poPerm &&
+                poPerm.Level >= Permission.Level.Admin &&
+                ctx.Db.PhysicalObject.identity.Find(physicalObjectID) is PhysicalObject physicalObject)
+            {
+                physicalObject.XPos = xPos;
+                physicalObject.YPos = yPos;
+                ctx.Db.PhysicalObject.identity.Update(physicalObject);
             }
         }
 
