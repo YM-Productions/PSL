@@ -316,5 +316,57 @@ public static partial class Module
         }
     }
 
+    public static partial class HardpointReducers
+    {
+        [Reducer]
+        public static void SetHardpointPermission(ReducerContext ctx, Identity targetIdentity, string hardpointID, int level)
+        {
+            if (ctx.Sender.Equals(targetIdentity))
+                return;
+
+            string actingPermID = HardpointPermission.GetIdentity(ctx.Sender, hardpointID);
+            string targetPermID = HardpointPermission.GetIdentity(targetIdentity, hardpointID);
+
+            if (ctx.Db.HardpointPermission.identity.Find(actingPermID) is not HardpointPermission actingPerm)
+                return;
+
+            if (actingPerm.Level < Permission.Level.Admin)
+                return;
+
+            if (ctx.Db.HardpointPermission.identity.Find(targetPermID) is HardpointPermission targetPerm)
+            {
+                if (targetPerm.Level >= actingPerm.Level)
+                {
+                    return;
+                }
+
+                if (level == Permission.Level.None)
+                {
+                    ctx.Db.HardpointPermission.Delete(targetPerm);
+                }
+                else
+                {
+                    if (actingPerm.Level < level)
+                    {
+                        return;
+                    }
+                    targetPerm.Level = level;
+                    ctx.Db.HardpointPermission.identity.Update(targetPerm);
+                }
+            }
+            else
+            {
+                if (level == Permission.Level.None)
+                    return;
+
+                if (actingPerm.Level < level)
+                    return;
+
+                HardpointPermission newPerm = new(targetIdentity, hardpointID, level);
+                ctx.Db.HardpointPermission.Insert(newPerm);
+            }
+        }
+    }
+
     #endregion
 }
