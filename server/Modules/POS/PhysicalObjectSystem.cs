@@ -366,6 +366,24 @@ public static partial class Module
                 ctx.Db.HardpointPermission.Insert(newPerm);
             }
         }
+
+        [Reducer]
+        public static void DestroyHardpoint(ReducerContext ctx, string hardpointID)
+        {
+            string permID = HardpointPermission.GetIdentity(ctx.Sender, hardpointID);
+            if (ctx.Db.HardpointPermission.identity.Find(permID) is HardpointPermission perm &&
+                perm.Level >= Permission.Level.Admin &&
+                ctx.Db.Hardpoint.identity.Find(hardpointID) is Hardpoint hardpoint)
+            {
+                foreach (HardpointPermission permission in ctx.Db.HardpointPermission.Iter()
+                         .Where(p => p.HardpointIdentity == hardpoint.identity))
+                {
+                    ctx.Db.HardpointPermission.Delete(permission);
+                }
+
+                ctx.Db.Hardpoint.Delete(hardpoint);
+            }
+        }
     }
 
     #endregion
