@@ -311,6 +311,12 @@ public static partial class Module
                     ctx.Db.PhysicalObjectPermission.Delete(permission);
                 }
 
+                foreach (Hardpoint hardpoint in ctx.Db.Hardpoint.Iter()
+                         .Where(h => h.PhysicalObjectIdentity == physicalObject.identity))
+                {
+                    HardpointReducers.DestroyHardpoint(ctx, hardpoint.identity);
+                }
+
                 ctx.Db.PhysicalObject.Delete(physicalObject);
             }
         }
@@ -318,6 +324,24 @@ public static partial class Module
 
     public static partial class HardpointReducers
     {
+        [Reducer]
+        public static void CreateHardpoint(ReducerContext ctx, string physicalObjectID, int size)
+        {
+            string permID = PhysicalObjectPermission.GetIdentity(ctx.Sender, physicalObjectID);
+            if (ctx.Db.PhysicalObjectPermission.identity.Find(permID) is PhysicalObjectPermission perm &&
+                perm.Level >= Permission.Level.Admin)
+            {
+                Hardpoint hardpoint = new()
+                {
+                    identity = Guid.NewGuid().ToString(),
+                    PhysicalObjectIdentity = physicalObjectID,
+                    Size = size,
+                };
+
+                ctx.Db.Hardpoint.Insert(hardpoint);
+            }
+        }
+
         [Reducer]
         public static void SetHardpointPermission(ReducerContext ctx, Identity targetIdentity, string hardpointID, int level)
         {
@@ -380,6 +404,8 @@ public static partial class Module
                 {
                     ctx.Db.HardpointPermission.Delete(permission);
                 }
+
+                // TODO: Destroy all items in hardpoint
 
                 ctx.Db.Hardpoint.Delete(hardpoint);
             }
