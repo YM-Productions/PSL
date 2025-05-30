@@ -297,6 +297,17 @@ public static partial class Module
     );
 
     /// <summary>
+    /// A filter that selects all <see cref="PhysicalObjectPermission"/> entries for the current admin account.
+    /// </summary>
+    /// <remarks>
+    /// This filter is used to restrict visibility so that admin clients only see permissions relevant to their admin identity.
+    /// </remarks>
+    [SpacetimeDB.ClientVisibilityFilter]
+    public static readonly Filter PHYSICALOBJECT_PERMISSION_FILTER_ADMIN = new Filter.Sql(
+        $"SELECT {nameof(PhysicalObjectPermission)}.* FROM {nameof(PhysicalObjectPermission)} JOIN {nameof(Admin)} WHERE {nameof(Admin)}.identity = :sender"
+    );
+
+    /// <summary>
     /// A filter that selects all <see cref="HardpointPermission"/> entries for the current account.
     /// </summary>
     /// <remarks>
@@ -305,6 +316,17 @@ public static partial class Module
     [SpacetimeDB.ClientVisibilityFilter]
     public static readonly Filter HARDPOINT_PERMISSION_FILTER = new Filter.Sql(
         $"SELECT * FROM {nameof(HardpointPermission)} WHERE AccountIdentity = :sender"
+    );
+
+    /// <summary>
+    /// A filter that selects all <see cref="HardpointPermission"/> entries for the current admin account.
+    /// </summary>
+    /// <remarks>
+    /// This filter is used to restrict visibility so that admin clients only see hardpoint permissions relevant to their admin identity.
+    /// </remarks>
+    [SpacetimeDB.ClientVisibilityFilter]
+    public static readonly Filter HARDPOINT_PERMISSION_FILTER_ADMIN = new Filter.Sql(
+        $"SELECT {nameof(HardpointPermission)}.* FROM {nameof(HardpointPermission)} JOIN {nameof(Admin)} WHERE {nameof(Admin)}.identity = :sender"
     );
 
 #pragma warning restore STDB_UNSTABLE
