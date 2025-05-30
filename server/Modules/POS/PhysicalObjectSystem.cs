@@ -91,7 +91,8 @@ public static partial class Module
     /// </para>
     /// </remarks>
     [Table(Name = nameof(PhysicalObjectPermission), Public = true)]
-    [SpacetimeDB.Index.BTree(Name = "idx_pos_accid_poid", Columns = new[] { nameof(AccountIdentity), nameof(PhysicalObjectIdentity) })]
+    [SpacetimeDB.Index.BTree(Name = "idx_poperm_poid", Columns = new[] { nameof(PhysicalObjectIdentity) })]
+    [SpacetimeDB.Index.BTree(Name = "idx_poperm_accid_poid", Columns = new[] { nameof(AccountIdentity), nameof(PhysicalObjectIdentity) })]
     public partial class PhysicalObjectPermission
     {
         /// <summary>
@@ -212,6 +213,7 @@ public static partial class Module
     /// </para>
     /// </remarks>
     [Table(Name = nameof(HardpointPermission), Public = true)]
+    [SpacetimeDB.Index.BTree(Name = "idx_hardpoint_permission_hpid", Columns = new[] { nameof(HardpointIdentity) })]
     [SpacetimeDB.Index.BTree(Name = "idx_hardpoint_permission_accid_hpid", Columns = new[] { nameof(AccountIdentity), nameof(HardpointIdentity) })]
     public partial class HardpointPermission
     {
@@ -631,15 +633,14 @@ public static partial class Module
                 return;
             }
 
-            foreach (PhysicalObjectPermission permission in ctx.Db.PhysicalObjectPermission.Iter()
-                     .Where(p => p.PhysicalObjectIdentity == physicalObject.identity))
+            foreach (PhysicalObjectPermission permission in ctx.Db.PhysicalObjectPermission.idx_poperm_poid.Filter(physicalObject.identity))
             {
                 ctx.Db.PhysicalObjectPermission.Delete(permission);
             }
 
-            foreach (Hardpoint hardpoint in ctx.Db.Hardpoint.Iter()
-                     .Where(h => h.PhysicalObjectIdentity == physicalObject.identity))
+            foreach (Hardpoint hardpoint in ctx.Db.Hardpoint.idx_hardpoint_physicalobjectidentity.Filter(physicalObject.identity))
             {
+                // Call the Hardpoint reducer to ensure proper cleanup
                 HardpointReducers.DestroyHardpoint(ctx, hardpoint.identity);
             }
 
@@ -801,8 +802,7 @@ public static partial class Module
                 return;
             }
 
-            foreach (HardpointPermission permission in ctx.Db.HardpointPermission.Iter()
-                     .Where(p => p.HardpointIdentity == hardpoint.identity))
+            foreach (HardpointPermission permission in ctx.Db.HardpointPermission.idx_hardpoint_permission_hpid.Filter(hardpoint.identity))
             {
                 ctx.Db.HardpointPermission.Delete(permission);
             }
