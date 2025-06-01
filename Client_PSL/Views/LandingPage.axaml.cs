@@ -2,10 +2,11 @@ using Avalonia.Controls;
 
 namespace Client_PSL.Views;
 
-public partial class LoginView : UserControl
+public partial class LandingPageView : UserControl
 {
-    public LoginView()
+    public LandingPageView()
     {
         InitializeComponent();
     }
+
 }

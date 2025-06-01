@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
-using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
+using Client_PSL.ViewModels;
 using SpacetimeDB;
 using SpacetimeDB.Types;
 using Utils;
-using Utils.DebugCommands;
-using System.Threading.Tasks;
 
 namespace Networking.SpacetimeController;
 
@@ -57,6 +55,8 @@ public class SpacetimeController
     private Identity? local_identity = null;
     private CancellationTokenSource cancellationTokenSource = new();
     private Thread thread;
+
+    public bool IsConnected => connection == null ? false : connection.IsActive;
 
     private string tempToken = string.Empty;
 
@@ -129,7 +129,7 @@ public class SpacetimeController
     /// </list>
     /// If a session is already running, it prevents double initialization to avoid conflicts or data corruption.
     /// </remarks>
-    public void OpenSession(string token)
+    private void OpenSession(string token)
     {
         if (thread != null && thread.IsAlive)
         {
@@ -168,6 +168,7 @@ public class SpacetimeController
             .Subscribe(new string[] {
                     $"SELECT * FROM {nameof(ClientDebugLog)}",
                     });
+        MainViewModel.Instance.SetLandingPage();
     }
 
     private void OnBaseSubscriptionApplied(SubscriptionEventContext ctx)

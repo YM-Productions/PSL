@@ -28,8 +28,16 @@
     <Compile Update="Views\DebugView.axaml.cs">
       <DependentUpon>DebugView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\LoginView.axaml.cs">
+    <Compile Update="Views\LoginRegister\LoginView.axaml.cs">
       <DependentUpon>LoginView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LoginRegister\RegisterView.axaml.cs">
+      <DependentUpon>RegisterView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LandingPage.axaml.cs">
+      <DependentUpon>LandingPage.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
