@@ -19,12 +19,11 @@ public partial class LoginView : UserControl
             vm.LoginAttempt();
         }
     }
-
-    private void OnRegisterClick(object? sender, RoutedEventArgs e)
+    private void OnSwitchToRegister(object? sender, RoutedEventArgs e)
     {
         if (sender is Button && DataContext is LoginViewModel vm)
-        {
-            vm.RegisterAttempt();
+        { 
+            vm.switchToRegister();
         }
     }
 }

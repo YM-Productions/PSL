@@ -19,8 +19,10 @@ public partial class LoginViewModel : ViewModelBase
     [ObservableProperty]
     private string _password = "";
     [ObservableProperty]
-    private string _verySeriousInfo= "";
+    public object _errorMessage= "";
+
     
+
     public void LoginAttempt()
     {
        _spacetimeController.OpenTemporarySession();
@@ -41,26 +43,11 @@ public partial class LoginViewModel : ViewModelBase
            return Task.CompletedTask;
        });
     }
-    
-    public void RegisterAttempt()
-    {
-        _spacetimeController.OpenTemporarySession();
-        DateTime start = DateTime.Now;
-        _ = Task.Run(() =>
-        {
-            while (!_spacetimeController.IsConnected)
-            {
-                if (DateTime.Now.Subtract(start).TotalSeconds > 5)
-                {
-                    Debug.LogWarning("Server timed out");
-                    return Task.CompletedTask;
-                }
 
-                Task.Delay(100);
-            }
-            _spacetimeController.Register(_username,"mungg@gmail.com", _password, false, true);
-            return Task.CompletedTask;
-        });
-        
+    public void switchToRegister()
+    {
+        MainViewModel.Instance.SetRegisterPage();
     }
+    
+   
 }

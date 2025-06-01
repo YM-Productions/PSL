@@ -4,8 +4,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Client_PSL.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-    x:Class="Client_PSL.Views.LoginView"
-    x:DataType="vm:LoginViewModel">
+    x:Class="Client_PSL.Views.RegisterView"
+    x:DataType="vm:RegisterViewModel">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at
@@ -15,10 +15,15 @@
     
         <DockPanel>
             <!-- Titel -->
-            <TextBlock Text="Login" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
+            <TextBlock Text="Register" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
             
             <!-- Buttons -->
             <StackPanel DockPanel.Dock="Bottom" Margin="10">
+                <TextBlock Text="{Binding ErrorMessage}"></TextBlock>
+                <Button Click="OnSwitchToLogin"
+                        FontSize="10"
+                        Content="Switch to Login"
+                        Margin="10 3"/>
                 <Button Click="OnRegisterClick"
                         FontSize="18"
                         Content="Register"
@@ -27,15 +32,7 @@
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
                         Background="Gray"/>
-                
-                <Button Click="OnLoginClick"
-                        FontSize="18"
-                        Content="Login"
-                        HorizontalAlignment="Stretch"
-                        Margin="10 3"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Background="Gray"/>
+              
             </StackPanel>
             
             <!-- Input -->
@@ -50,6 +47,21 @@
                      FontSize="16" MaxLines="1"
                      Text="{Binding Password}" PasswordChar="*"
                     />
+            <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
+                     Watermark="E-Mail" AcceptsReturn="False"
+                     FontSize="16" MaxLines="1"
+                     Text="{Binding Mail}"
+            />
+            <StackPanel HorizontalAlignment="Left" Margin="20 0" Orientation="Horizontal">
+                <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Be Informed and get NEWS ?</TextPresenter>
+                <CheckBox ></CheckBox>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Margin="20 0 " Orientation="Horizontal">
+                <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Accept our AGBs</TextPresenter>
+                <CheckBox ></CheckBox>
+            </StackPanel>
+            
+            
             </StackPanel>
         </DockPanel>
     
