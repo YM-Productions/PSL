@@ -8,11 +8,9 @@ namespace Client_PSL.ViewModels;
 
 public partial class RegisterViewModel : ViewModelBase
 {
-    private readonly SpacetimeController _spacetimeController;
 
     public RegisterViewModel()
     {
-        _spacetimeController = new SpacetimeController();
     }
     
     [ObservableProperty]
@@ -31,11 +29,11 @@ public partial class RegisterViewModel : ViewModelBase
     
     public void RegisterAttempt()
     {
-        _spacetimeController.OpenTemporarySession();
+        SpacetimeController.Instance.OpenTemporarySession();
         DateTime start = DateTime.Now;
         _ = Task.Run(() =>
         {
-            while (!_spacetimeController.IsConnected)
+            while (!SpacetimeController.Instance.IsConnected)
             {
                 if (DateTime.Now.Subtract(start).TotalSeconds > 5)
                 {
@@ -45,7 +43,7 @@ public partial class RegisterViewModel : ViewModelBase
 
                 Task.Delay(100);
             }
-            _spacetimeController.Register(_username,_mail, _password, _sendNews, _agb);
+            SpacetimeController.Instance.Register(_username,_mail, _password, _sendNews, _agb);
             return Task.CompletedTask;
         });
         

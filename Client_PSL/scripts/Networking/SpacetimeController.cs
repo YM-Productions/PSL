@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Client_PSL.ViewModels;
 using SpacetimeDB;
 using SpacetimeDB.Types;
 using Utils;
@@ -128,7 +129,7 @@ public class SpacetimeController
     /// </list>
     /// If a session is already running, it prevents double initialization to avoid conflicts or data corruption.
     /// </remarks>
-    public void OpenSession(string token)
+    private void OpenSession(string token)
     {
         if (thread != null && thread.IsAlive)
         {
@@ -167,6 +168,7 @@ public class SpacetimeController
             .Subscribe(new string[] {
                     $"SELECT * FROM {nameof(ClientDebugLog)}",
                     });
+        MainViewModel.Instance.SetLandingPage();
     }
 
     private void OnBaseSubscriptionApplied(SubscriptionEventContext ctx)

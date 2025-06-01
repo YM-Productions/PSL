@@ -39,4 +39,9 @@ public partial class MainViewModel : ViewModelBase
     {
         MainPage = new RegisterViewModel();
     }
+    
+    public void SetLandingPage()
+    {
+        MainPage = new LandingPageViewModel();
+    }
 }

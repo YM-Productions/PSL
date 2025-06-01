@@ -36,6 +36,10 @@
       <DependentUpon>RegisterView.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\LandingPage.axaml.cs">
+      <DependentUpon>LandingPage.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <Target Name="RunPrebuildScriptWindows" BeforeTargets="PreBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
