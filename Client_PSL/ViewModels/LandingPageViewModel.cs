@@ -8,8 +8,11 @@ namespace Client_PSL.ViewModels;
 
 public partial class LandingPageViewModel : ViewModelBase
 {
+    [ObservableProperty]
+    private ViewModelBase _currentViewModel;
+
     public LandingPageViewModel()
     {
+        CurrentViewModel = new POSBrowserViewModel();
     }
-   
 }

@@ -4,8 +4,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Client_PSL.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-    x:Class="Client_PSL.Views.LandingPageView"
-    x:DataType="vm:LandingPageViewModel">
+    x:Class="Client_PSL.Views.POSBrowserView"
+    x:DataType="vm:POSBrowserViewModel">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at
@@ -13,5 +13,10 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <ContentControl Content="{Binding CurrentViewModel}" />
+    <StackPanel>
+        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="ClickMe"
+            Background="White" Click="OnButtonClick" />
+        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="ClickMeCreate"
+            Background="White" Click="OnButtonClickCreate" />
+    </StackPanel>
 </UserControl>

@@ -552,8 +552,6 @@ public static partial class Module
         [Reducer]
         public static void SetSenderOffline(ReducerContext ctx)
         {
-            Log.Info("Hello");
-
             if (ctx.Db.Account.identity.Find(ctx.Sender) is Account account)
             {
                 account.IsOnline = false;

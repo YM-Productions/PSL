@@ -109,6 +109,24 @@ public class SpacetimeController
         thread.Join();
     }
 
+    /// <summary>
+    /// Retrieves the current database connection if the controller is connected.
+    /// </summary>
+    /// <remarks>
+    /// This method returns the active <see cref="DbConnection"/> instance if the controller is currently connected to the database.
+    /// If the controller is not connected, the method returns <c>null</c>.
+    /// Use this method to access the underlying database connection for executing queries or commands.
+    /// </remarks>
+    /// <returns>
+    /// The active <see cref="DbConnection"/> if connected; otherwise, <c>null</c>.
+    /// </returns>
+    public DbConnection? GetConnection()
+    {
+        if (!IsConnected)
+            return null;
+        return connection;
+    }
+
     #region Session
 
     /// <summary>
@@ -163,11 +181,17 @@ public class SpacetimeController
         logger.Log("Connected successfully");
         local_identity = identity;
 
+        // conn.SubscriptionBuilder()
+        //     .OnApplied(OnBaseSubscriptionApplied)
+        //     .Subscribe(new string[] {
+        //             $"SELECT * FROM {nameof(ClientDebugLog)}",
+        //             });
+
+        // HACK: Just temporaryly subscribe to all tables
         conn.SubscriptionBuilder()
             .OnApplied(OnBaseSubscriptionApplied)
-            .Subscribe(new string[] {
-                    $"SELECT * FROM {nameof(ClientDebugLog)}",
-                    });
+            .SubscribeToAllTables();
+
         MainViewModel.Instance.SetLandingPage();
     }
 
