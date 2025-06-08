@@ -13,6 +13,6 @@ public partial class LandingPageViewModel : ViewModelBase
 
     public LandingPageViewModel()
     {
-        CurrentViewModel = new POSBrowserViewModel();
+        CurrentViewModel = new ModularBrowserViewModel();
     }
 }

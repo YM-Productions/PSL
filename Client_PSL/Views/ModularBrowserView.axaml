@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Client_PSL.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Client_PSL.Views.ModularBrowserView"
+    x:DataType="vm:ModularBrowserViewModel">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at
+        App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <StackPanel Focusable="True" Background="Transparent">
+        <TextBlock Text="Modular Browser View" Foreground="White" HorizontalAlignment="Center" />
+        <Button Content="Generate Browser" Foreground="White" HorizontalAlignment="Center"
+            Click="OnButtonClick" />
+        <!-- <ContentControl Content="{Binding DebugPage}" /> -->
+        <!-- <ContentControl Content="{Binding MainPage}" /> -->
+
+        <DataGrid ItemsSource="{Binding PhysicalObjects}" Background="Orange"
+            AutoGenerateColumns="True" IsReadOnly="True"
+            GridLinesVisibility="All"
+            BorderThickness="1" BorderBrush="Gray"
+            SelectionChanged="OnSelectionChanged">
+
+            <!-- <DataGrid.Columns> -->
+            <!--     <DataGridTextColumn Header="Name" Binding="{Binding Name}" /> -->
+            <!--     <DataGridTextColumn Header="ID" Binding="{Binding Identity}" /> -->
+            <!-- </DataGrid.Columns> -->
+
+            <!-- <DataGrid.Columns> -->
+            <!--     <DataGridTemplateColumn Header="Name"> -->
+            <!--         <DataGridTemplateColumn.CellTemplate> -->
+            <!--             <DataTemplate> -->
+            <!--                 <Button Content="{Binding Name}" -->
+            <!--                     Background="Lime" /> -->
+            <!--             </DataTemplate> -->
+            <!--         </DataGridTemplateColumn.CellTemplate> -->
+            <!--     </DataGridTemplateColumn> -->
+            <!-- </DataGrid.Columns> -->
+
+            <!-- <DataGrid.Styles> -->
+            <!--     <Style Selector="DataGridCell"> -->
+            <!--         <Setter Property="Background" Value="Lime" /> -->
+            <!--     </Style> -->
+            <!-- </DataGrid.Styles> -->
+
+            <!-- <DataGrid.Columns> -->
+            <!--     <DataGridTemplateColumn Header="TEST"> -->
+            <!--         <DataGridTemplateColumn.CellTemplate> -->
+            <!--             <DataTemplate> -->
+            <!--                 <Button Content="{Binding Name}" /> -->
+            <!--             </DataTemplate> -->
+            <!--         </DataGridTemplateColumn.CellTemplate> -->
+            <!--     </DataGridTemplateColumn> -->
+            <!-- </DataGrid.Columns> -->
+
+        </DataGrid>
+    </StackPanel>
+</UserControl>

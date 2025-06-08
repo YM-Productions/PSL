@@ -20,7 +20,7 @@ public partial class MainViewModel : ViewModelBase
             throw new InvalidOperationException("MainViewModel instance already exists.");
         }
         Instance = this;
-        
+
         // Setup Singletons
         SpacetimeController spacetimeController = new();
         SetLoginPage();
@@ -39,7 +39,7 @@ public partial class MainViewModel : ViewModelBase
     {
         MainPage = new RegisterViewModel();
     }
-    
+
     public void SetLandingPage()
     {
         MainPage = new LandingPageViewModel();
