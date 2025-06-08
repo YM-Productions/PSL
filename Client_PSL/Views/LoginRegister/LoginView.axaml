@@ -45,6 +45,7 @@
                      Watermark="Password" AcceptsReturn="False"
                      FontSize="16" MaxLines="1"
                      Text="{Binding Password}" PasswordChar="*"
+                     KeyDown="OnEnter"
                     />
             </StackPanel>
         </DockPanel>
