@@ -41,16 +41,19 @@
                      Watermark="Username" AcceptsReturn="False"
                      FontSize="16" MaxLines="1"
                      Text="{Binding Username}"
+                     KeyDown="OnEnter"
                      />
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
                      Watermark="Password" AcceptsReturn="False"
                      FontSize="16" MaxLines="1"
                      Text="{Binding Password}" PasswordChar="*"
+                     KeyDown="OnEnter"
                     />
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
                      Watermark="E-Mail" AcceptsReturn="False"
                      FontSize="16" MaxLines="1"
                      Text="{Binding Mail}"
+                     KeyDown="OnEnter"
             />
             <StackPanel HorizontalAlignment="Left" Margin="20 0" Orientation="Horizontal">
                 <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Be Informed and get NEWS ?</TextPresenter>
