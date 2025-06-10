@@ -21,48 +21,60 @@
         <!-- <ContentControl Content="{Binding DebugPage}" /> -->
         <!-- <ContentControl Content="{Binding MainPage}" /> -->
 
-        <DataGrid Name="BrowserGrid" Tag="{Binding TypeName}"
-            ItemsSource="{Binding PhysicalObjects}" Background="Orange"
-            IsReadOnly="True"
-            GridLinesVisibility="All"
-            BorderThickness="1" BorderBrush="Gray"
-            SelectionChanged="OnSelectionChanged">
-            <!-- AutoGenerateColumns="True" -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="" Width="*" />
-                <DataGridTextColumn Header="Type" Binding="{Binding OriginObjType}" />
-                <DataGridTextColumn Header="ID" Binding="{Binding Identity}" />
-            </DataGrid.Columns>
+            <DataGrid Grid.Column="0" Name="BrowserGrid" Tag="{Binding TypeName}"
+                ItemsSource="{Binding PhysicalObjects}" Background="Orange"
+                IsReadOnly="True"
+                GridLinesVisibility="All"
+                BorderThickness="1" BorderBrush="Gray"
+                SelectionChanged="OnSelectionChanged">
+                <!-- AutoGenerateColumns="True" -->
 
-            <!-- <DataGrid.Columns> -->
-            <!--     <DataGridTemplateColumn Header="Name"> -->
-            <!--         <DataGridTemplateColumn.CellTemplate> -->
-            <!--             <DataTemplate> -->
-            <!--                 <Button Content="{Binding Name}" -->
-            <!--                     Background="Lime" /> -->
-            <!--             </DataTemplate> -->
-            <!--         </DataGridTemplateColumn.CellTemplate> -->
-            <!--     </DataGridTemplateColumn> -->
-            <!-- </DataGrid.Columns> -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="" Width="*" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding OriginObjType}" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding Identity}" />
+                </DataGrid.Columns>
 
-            <!-- <DataGrid.Styles> -->
-            <!--     <Style Selector="DataGridCell"> -->
-            <!--         <Setter Property="Background" Value="Lime" /> -->
-            <!--     </Style> -->
-            <!-- </DataGrid.Styles> -->
+                <!-- <DataGrid.Columns> -->
+                <!--     <DataGridTemplateColumn Header="Name"> -->
+                <!--         <DataGridTemplateColumn.CellTemplate> -->
+                <!--             <DataTemplate> -->
+                <!--                 <Button Content="{Binding Name}" -->
+                <!--                     Background="Lime" /> -->
+                <!--             </DataTemplate> -->
+                <!--         </DataGridTemplateColumn.CellTemplate> -->
+                <!--     </DataGridTemplateColumn> -->
+                <!-- </DataGrid.Columns> -->
 
-            <!-- <DataGrid.Columns> -->
-            <!--     <DataGridTemplateColumn Header="TEST"> -->
-            <!--         <DataGridTemplateColumn.CellTemplate> -->
-            <!--             <DataTemplate> -->
-            <!--                 <Button Content="{Binding Name}" /> -->
-            <!--             </DataTemplate> -->
-            <!--         </DataGridTemplateColumn.CellTemplate> -->
-            <!--     </DataGridTemplateColumn> -->
-            <!-- </DataGrid.Columns> -->
+                <!-- <DataGrid.Styles> -->
+                <!--     <Style Selector="DataGridCell"> -->
+                <!--         <Setter Property="Background" Value="Lime" /> -->
+                <!--     </Style> -->
+                <!-- </DataGrid.Styles> -->
 
-        </DataGrid>
+                <!-- <DataGrid.Columns> -->
+                <!--     <DataGridTemplateColumn Header="TEST"> -->
+                <!--         <DataGridTemplateColumn.CellTemplate> -->
+                <!--             <DataTemplate> -->
+                <!--                 <Button Content="{Binding Name}" /> -->
+                <!--             </DataTemplate> -->
+                <!--         </DataGridTemplateColumn.CellTemplate> -->
+                <!--     </DataGridTemplateColumn> -->
+                <!-- </DataGrid.Columns> -->
+
+            </DataGrid>
+
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                <TextBlock Foreground="White" Text="Placeholder" />
+                <TextBlock Foreground="White" Text="{Binding SelectedName}" />
+            </StackPanel>
+        </Grid>
     </StackPanel>
 </UserControl>

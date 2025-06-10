@@ -35,6 +35,9 @@ public partial class ModularBrowserViewModel : ViewModelBase
     [ObservableProperty]
     private string _typeName;
 
+    [ObservableProperty]
+    private string _selectedName;
+
     public ModularBrowserViewModel()
     {
         // _physicalObjects = new() {
@@ -59,5 +62,10 @@ public partial class ModularBrowserViewModel : ViewModelBase
                 PhysicalObjects.Add(browsableObj);
             }
         }
+    }
+
+    public void SetSelectedName(string name)
+    {
+        SelectedName = name;
     }
 }

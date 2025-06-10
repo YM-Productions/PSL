@@ -28,9 +28,11 @@ public partial class ModularBrowserView : UserControl
     private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (sender is DataGrid dg &&
-            dg.SelectedItem is BrowsableObj obj)
+            dg.SelectedItem is BrowsableObj obj &&
+            DataContext is ModularBrowserViewModel viewModel)
         {
-            Debug.Log(obj.Name);
+            Debug.Log($"Selected: {obj.Name}");
+            viewModel.SelectedName = obj.Name;
         }
     }
 
