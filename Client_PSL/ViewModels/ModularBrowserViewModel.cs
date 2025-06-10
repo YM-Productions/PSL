@@ -11,22 +11,29 @@ using Utils;
 
 namespace Client_PSL.ViewModels;
 
-public class MyObj
+public class BrowsableObj
 {
     public string Name { get; set; }
     public string Identity { get; set; }
 
-    public MyObj(string name, string identity)
+    public object OriginObj { get; private set; }
+    public string OriginObjType { get => OriginObj.GetType().Name; }
+
+    public BrowsableObj(string name, string identity, object originObj)
     {
         Name = name;
         Identity = identity;
+
+        OriginObj = originObj;
     }
 }
 
 public partial class ModularBrowserViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ObservableCollection<MyObj> _physicalObjects;
+    private ObservableCollection<BrowsableObj> _physicalObjects = new();
+    [ObservableProperty]
+    private string _typeName;
 
     public ModularBrowserViewModel()
     {
@@ -35,6 +42,8 @@ public partial class ModularBrowserViewModel : ViewModelBase
         //     new("Test1", "Test2"),
         //     new("Test3", "Test4"),
         // };
+
+        TypeName = nameof(PhysicalObject);
     }
 
     public void CreateBrowser()
@@ -46,8 +55,8 @@ public partial class ModularBrowserViewModel : ViewModelBase
             foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
             {
                 Debug.Log($"Adding {obj.Name}");
-                MyObj myObj = new(obj.Name, obj.Identity);
-                PhysicalObjects.Add(myObj);
+                BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                PhysicalObjects.Add(browsableObj);
             }
         }
     }

@@ -5,7 +5,8 @@
     xmlns:vm="clr-namespace:Client_PSL.ViewModels"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="Client_PSL.Views.ModularBrowserView"
-    x:DataType="vm:ModularBrowserViewModel">
+    x:DataType="vm:ModularBrowserViewModel"
+    Loaded="OnLoaded">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at
@@ -20,16 +21,20 @@
         <!-- <ContentControl Content="{Binding DebugPage}" /> -->
         <!-- <ContentControl Content="{Binding MainPage}" /> -->
 
-        <DataGrid ItemsSource="{Binding PhysicalObjects}" Background="Orange"
-            AutoGenerateColumns="True" IsReadOnly="True"
+        <DataGrid Name="BrowserGrid" Tag="{Binding TypeName}"
+            ItemsSource="{Binding PhysicalObjects}" Background="Orange"
+            IsReadOnly="True"
             GridLinesVisibility="All"
             BorderThickness="1" BorderBrush="Gray"
             SelectionChanged="OnSelectionChanged">
+            <!-- AutoGenerateColumns="True" -->
 
-            <!-- <DataGrid.Columns> -->
-            <!--     <DataGridTextColumn Header="Name" Binding="{Binding Name}" /> -->
-            <!--     <DataGridTextColumn Header="ID" Binding="{Binding Identity}" /> -->
-            <!-- </DataGrid.Columns> -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="" Width="*" />
+                <DataGridTextColumn Header="Type" Binding="{Binding OriginObjType}" />
+                <DataGridTextColumn Header="ID" Binding="{Binding Identity}" />
+            </DataGrid.Columns>
 
             <!-- <DataGrid.Columns> -->
             <!--     <DataGridTemplateColumn Header="Name"> -->
