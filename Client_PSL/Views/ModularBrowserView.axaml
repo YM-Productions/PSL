@@ -16,8 +16,10 @@
 
     <StackPanel Focusable="True" Background="Transparent">
         <TextBlock Text="Modular Browser View" Foreground="White" HorizontalAlignment="Center" />
-        <Button Content="Generate Browser" Foreground="White" HorizontalAlignment="Center"
-            Click="OnButtonClick" />
+        <TextBox Name="SearchBox" Watermark="Search" KeyDown="OnSearchKeyDown"
+            HorizontalAlignment="Stretch" Margin="50,0" />
+        <!-- <Button Content="Generate Browser" Foreground="White" HorizontalAlignment="Center"
+        Click="OnButtonClick" /> -->
         <!-- <ContentControl Content="{Binding DebugPage}" /> -->
         <!-- <ContentControl Content="{Binding MainPage}" /> -->
 
@@ -28,7 +30,7 @@
             </Grid.ColumnDefinitions>
 
             <DataGrid Grid.Column="0" Name="BrowserGrid" Tag="{Binding TypeName}"
-                ItemsSource="{Binding PhysicalObjects}" Background="Orange"
+                ItemsSource="{Binding PhysicalObjects}" Background="White"
                 IsReadOnly="True"
                 GridLinesVisibility="All"
                 BorderThickness="1" BorderBrush="Gray"

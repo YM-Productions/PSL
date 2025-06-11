@@ -49,17 +49,35 @@ public partial class ModularBrowserViewModel : ViewModelBase
         TypeName = nameof(PhysicalObject);
     }
 
+    // HACK: Only for testing purposes, should be removed in production.
     public void CreateBrowser()
     {
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
         {
-            PhysicalObjects = new();
+            PhysicalObjects.Clear();
 
             foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
             {
                 Debug.Log($"Adding {obj.Name}");
                 BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
                 PhysicalObjects.Add(browsableObj);
+            }
+        }
+    }
+
+    public void BrowseByName(string name)
+    {
+        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        {
+            PhysicalObjects.Clear();
+
+            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
+            {
+                if (obj.Name.Contains(name))
+                {
+                    BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                    PhysicalObjects.Add(browsableObj);
+                }
             }
         }
     }

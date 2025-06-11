@@ -34,6 +34,7 @@ public static partial class Module
     /// The <c>IsStatic</c> flag indicates whether the object is immovable (e.g., a foundation or terrain feature).
     /// </remarks>
     [Table(Name = nameof(PhysicalObject), Public = true)]
+    [SpacetimeDB.Index.BTree(Name = "idx_physicalobject_name", Columns = new[] { nameof(Name) })]
     [SpacetimeDB.Index.BTree(Name = "idx_physicalobject_parentid", Columns = new[] { nameof(ParentIdentity) })]
     public partial class PhysicalObject
     {

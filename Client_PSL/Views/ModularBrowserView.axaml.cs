@@ -21,7 +21,7 @@ public partial class ModularBrowserView : UserControl
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        Debug.Log(BrowserGrid.Tag.ToString());
+        // Debug.Log(BrowserGrid.Tag.ToString());
         // Debug.Log(BrowserGrid.ItemsSource.GetType().Name);
     }
 
@@ -41,6 +41,16 @@ public partial class ModularBrowserView : UserControl
         if (DataContext is ModularBrowserViewModel viewModel)
         {
             viewModel.CreateBrowser();
+        }
+    }
+
+    private void OnSearchKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && sender is TextBox textBox && DataContext is ModularBrowserViewModel viewModel &&
+            SearchBox.Text is string prompt)
+        {
+            Debug.Log($"Searching for: {textBox.Text}");
+            viewModel.BrowseByName(prompt);
         }
     }
 }
