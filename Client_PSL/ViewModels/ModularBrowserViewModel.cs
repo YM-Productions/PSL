@@ -36,7 +36,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
     private string _typeName;
 
     [ObservableProperty]
-    private string _selectedName;
+    private string _selectedName = string.Empty;
 
     public ModularBrowserViewModel()
     {
@@ -65,18 +65,32 @@ public partial class ModularBrowserViewModel : ViewModelBase
         }
     }
 
-    public void BrowseByName(string name)
+    public void BrowseByName(string name, string? parentFilter)
     {
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
         {
             PhysicalObjects.Clear();
 
-            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
+            if (parentFilter is not null && parentFilter.Length > 0)
             {
-                if (obj.Name.Contains(name))
+                foreach (PhysicalObject obj in connection.Db.PhysicalObject.IdxPhysicalobjectParentid.Filter(parentFilter).Skip(0).Take(50))
                 {
-                    BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                    PhysicalObjects.Add(browsableObj);
+                    if (obj.Name.Contains(name))
+                    {
+                        BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                        PhysicalObjects.Add(browsableObj);
+                    }
+                }
+            }
+            else
+            {
+                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
+                {
+                    if (obj.Name.Contains(name))
+                    {
+                        BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                        PhysicalObjects.Add(browsableObj);
+                    }
                 }
             }
         }

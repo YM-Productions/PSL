@@ -46,11 +46,12 @@ public partial class ModularBrowserView : UserControl
 
     private void OnSearchKeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter && sender is TextBox textBox && DataContext is ModularBrowserViewModel viewModel &&
+        if (e.Key == Key.Enter && sender is TextBox textBox &&
+            DataContext is ModularBrowserViewModel viewModel &&
             SearchBox.Text is string prompt)
         {
             Debug.Log($"Searching for: {textBox.Text}");
-            viewModel.BrowseByName(prompt);
+            viewModel.BrowseByName(prompt, ParentFilter.Text);
         }
     }
 }

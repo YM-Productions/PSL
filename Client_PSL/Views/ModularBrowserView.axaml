@@ -16,8 +16,12 @@
 
     <StackPanel Focusable="True" Background="Transparent">
         <TextBlock Text="Modular Browser View" Foreground="White" HorizontalAlignment="Center" />
-        <TextBox Name="SearchBox" Watermark="Search" KeyDown="OnSearchKeyDown"
+        <TextBox Name="SearchBox" Text="" Watermark="Search" KeyDown="OnSearchKeyDown"
             HorizontalAlignment="Stretch" Margin="50,0" />
+        <TextBlock Text="Filter" />
+        <StackPanel Orientation="Horizontal">
+            <TextBox Name="ParentFilter" Watermark="ParentID" />
+        </StackPanel>
         <!-- <Button Content="Generate Browser" Foreground="White" HorizontalAlignment="Center"
         Click="OnButtonClick" /> -->
         <!-- <ContentControl Content="{Binding DebugPage}" /> -->
