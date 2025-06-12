@@ -41,7 +41,9 @@ public partial class ModularBrowserViewModel : ViewModelBase
     private int _pageSize = 10;
 
     [ObservableProperty]
-    private string _selectedName = string.Empty;
+    private ViewModelBase _selectedView;
+    // [ObservableProperty]
+    // private string _selectedName = string.Empty;
 
     public ModularBrowserViewModel()
     {
@@ -73,6 +75,15 @@ public partial class ModularBrowserViewModel : ViewModelBase
                     }
                 }
             }
+        }
+    }
+
+    public void SelectObject(string identity)
+    {
+        if (SpacetimeController.Instance.GetConnection() is DbConnection connection &&
+            connection.Db.PhysicalObject.Identity.Find(identity) is PhysicalObject obj)
+        {
+            SelectedView = new PhysicalObjectViewModel(obj);
         }
     }
 }

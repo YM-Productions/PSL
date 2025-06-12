@@ -83,10 +83,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                <TextBlock Foreground="White" Text="Placeholder" />
-                <TextBlock Foreground="White" Text="{Binding SelectedName}" />
-            </StackPanel>
+            <ContentControl Grid.Column="1" Content="{Binding SelectedView}" />
         </Grid>
     </StackPanel>
 </UserControl>

@@ -31,7 +31,7 @@ public partial class ModularBrowserView : UserControl
             dg.SelectedItem is BrowsableObj obj &&
             DataContext is ModularBrowserViewModel viewModel)
         {
-            viewModel.SelectedName = obj.Name;
+            viewModel.SelectObject(obj.Identity);
         }
     }
 
