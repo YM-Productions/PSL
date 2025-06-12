@@ -24,10 +24,6 @@
         <StackPanel Orientation="Horizontal">
             <TextBox Name="ParentFilter" Watermark="ParentID" />
         </StackPanel>
-        <!-- <Button Content="Generate Browser" Foreground="White" HorizontalAlignment="Center"
-        Click="OnButtonClick" /> -->
-        <!-- <ContentControl Content="{Binding DebugPage}" /> -->
-        <!-- <ContentControl Content="{Binding MainPage}" /> -->
 
         <Grid>
             <Grid.ColumnDefinitions>

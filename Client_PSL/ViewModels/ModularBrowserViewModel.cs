@@ -45,29 +45,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     public ModularBrowserViewModel()
     {
-        // _physicalObjects = new() {
-        //     new("Testy", "Test0"),
-        //     new("Test1", "Test2"),
-        //     new("Test3", "Test4"),
-        // };
-
         TypeName = nameof(PhysicalObject);
-    }
-
-    // HACK: Only for testing purposes, should be removed in production.
-    public void CreateBrowser()
-    {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
-        {
-            PhysicalObjects.Clear();
-
-            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
-            {
-                Debug.Log($"Adding {obj.Name}");
-                BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                PhysicalObjects.Add(browsableObj);
-            }
-        }
     }
 
     public void BrowseByName(string name, string? parentFilter)
@@ -83,15 +61,6 @@ public partial class ModularBrowserViewModel : ViewModelBase
                     BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
                     PhysicalObjects.Add(browsableObj);
                 }
-
-                // foreach (PhysicalObject obj in connection.Db.PhysicalObject.IdxPhysicalobjectParentid.Filter(parentFilter).Skip(Page * PageSize).Take(PageSize))
-                // {
-                //     if (obj.Name.Contains(name))
-                //     {
-                //         BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                //         PhysicalObjects.Add(browsableObj);
-                //     }
-                // }
             }
             else
             {
