@@ -31,7 +31,6 @@ public partial class ModularBrowserView : UserControl
             dg.SelectedItem is BrowsableObj obj &&
             DataContext is ModularBrowserViewModel viewModel)
         {
-            Debug.Log($"Selected: {obj.Name}");
             viewModel.SelectedName = obj.Name;
         }
     }
@@ -50,7 +49,29 @@ public partial class ModularBrowserView : UserControl
             DataContext is ModularBrowserViewModel viewModel &&
             SearchBox.Text is string prompt)
         {
-            Debug.Log($"Searching for: {textBox.Text}");
+            viewModel.Page = 0;
+            viewModel.BrowseByName(prompt, ParentFilter.Text);
+
+            e.Handled = true;
+        }
+    }
+
+    private void OnNextPageButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is ModularBrowserViewModel viewModel &&
+            SearchBox.Text is string prompt)
+        {
+            viewModel.Page++;
+            viewModel.BrowseByName(prompt, ParentFilter.Text);
+        }
+    }
+
+    private void OnPreviousPageButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is ModularBrowserViewModel viewModel && viewModel.Page > 0 &&
+                SearchBox.Text is string prompt)
+        {
+            viewModel.Page--;
             viewModel.BrowseByName(prompt, ParentFilter.Text);
         }
     }

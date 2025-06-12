@@ -36,6 +36,11 @@ public partial class ModularBrowserViewModel : ViewModelBase
     private string _typeName;
 
     [ObservableProperty]
+    private int _page;
+    [ObservableProperty]
+    private int _pageSize = 10;
+
+    [ObservableProperty]
     private string _selectedName = string.Empty;
 
     public ModularBrowserViewModel()
@@ -56,7 +61,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
         {
             PhysicalObjects.Clear();
 
-            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
+            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
             {
                 Debug.Log($"Adding {obj.Name}");
                 BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
@@ -73,18 +78,24 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
             if (parentFilter is not null && parentFilter.Length > 0)
             {
-                foreach (PhysicalObject obj in connection.Db.PhysicalObject.IdxPhysicalobjectParentid.Filter(parentFilter).Skip(0).Take(50))
+                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
                 {
-                    if (obj.Name.Contains(name))
-                    {
-                        BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                        PhysicalObjects.Add(browsableObj);
-                    }
+                    BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                    PhysicalObjects.Add(browsableObj);
                 }
+
+                // foreach (PhysicalObject obj in connection.Db.PhysicalObject.IdxPhysicalobjectParentid.Filter(parentFilter).Skip(Page * PageSize).Take(PageSize))
+                // {
+                //     if (obj.Name.Contains(name))
+                //     {
+                //         BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+                //         PhysicalObjects.Add(browsableObj);
+                //     }
+                // }
             }
             else
             {
-                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(0).Take(50))
+                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
                 {
                     if (obj.Name.Contains(name))
                     {
@@ -94,10 +105,5 @@ public partial class ModularBrowserViewModel : ViewModelBase
                 }
             }
         }
-    }
-
-    public void SetSelectedName(string name)
-    {
-        SelectedName = name;
     }
 }
