@@ -35,14 +35,6 @@ public partial class ModularBrowserView : UserControl
         }
     }
 
-    private void OnButtonClick(object? sender, RoutedEventArgs e)
-    {
-        if (DataContext is ModularBrowserViewModel viewModel)
-        {
-            viewModel.CreateBrowser();
-        }
-    }
-
     private void OnSearchKeyDown(object? sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter && sender is TextBox textBox &&
