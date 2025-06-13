@@ -14,7 +14,7 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel Focusable="True" Background="Transparent">
+    <StackPanel Focusable="True" Background="Transparent" Margin="10">
         <TextBlock Text="{Binding Name}" />
 
         <Grid>
@@ -45,5 +45,27 @@
             <TextBlock Grid.Column="0" Grid.Row="4" Text="xPos | yPos" />
             <SelectableTextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Position}" />
         </Grid>
+
+        <TextBlock Text="Hardpoints" />
+        <TextBlock Text="{Binding Count}" />
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="True"
+            ItemsSource="{Binding Hardpoints}">
+        </DataGrid>
+        <Border Background="Gray" CornerRadius="{StaticResource DefaultCornerRadius}">
+            <WrapPanel>
+                <Border Width="64" Height="64" Background="Red" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+                <Border Width="64" Height="64" Background="Lime" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+                <Border Width="64" Height="64" Background="Blue" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+                <Border Width="64" Height="64" Background="Orange" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+                <Border Width="64" Height="64" Background="Pink" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+                <Border Width="64" Height="64" Background="Teal" Margin="10"
+                    CornerRadius="{StaticResource DefaultCornerRadius}" />
+            </WrapPanel>
+        </Border>
     </StackPanel>
 </UserControl>
