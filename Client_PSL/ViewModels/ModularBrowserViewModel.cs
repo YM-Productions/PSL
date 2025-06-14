@@ -11,6 +11,7 @@ using Utils;
 
 namespace Client_PSL.ViewModels;
 
+// HACK: Temporary observable Property Obj
 public class BrowsableObj
 {
     public string Name { get; set; }
