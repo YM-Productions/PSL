@@ -3,6 +3,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using SpacetimeDB.Types;
@@ -29,6 +30,18 @@ public class BrowsableObj
     }
 }
 
+public class FilterProperty
+{
+    public string Name { get; }
+    public bool IsSelected { get; set; }
+
+    public FilterProperty(string name, bool isSelected = false)
+    {
+        Name = name;
+        IsSelected = isSelected;
+    }
+}
+
 public partial class ModularBrowserViewModel : ViewModelBase
 {
     [ObservableProperty]
@@ -46,23 +59,43 @@ public partial class ModularBrowserViewModel : ViewModelBase
     // [ObservableProperty]
     // private string _selectedName = string.Empty;
 
+    public List<FilterProperty> FilterProperties { get; set; }
+
+    [ObservableProperty]
+    private IEnumerable<InspectableObject> _inspectableObjects;
+
     public ModularBrowserViewModel()
     {
         TypeName = nameof(PhysicalObject);
+        FilterProperties = InitializeFilterProperties();
     }
 
-    public void BrowseByName(string name, string? parentFilter)
+    private List<FilterProperty> InitializeFilterProperties()
+    {
+        List<FilterProperty> properties = new();
+        InspectableObject dummy = new(new PhysicalObject());
+        foreach (InspectableProperty prop in dummy.Properties)
+        {
+            properties.Add(new(prop.Name));
+        }
+
+        return properties;
+    }
+
+    private IEnumerable<InspectableObject> InitializeInspectableObjects(string name, string? parentFilter)
     {
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
         {
-            PhysicalObjects.Clear();
+            // foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter())
+            // {
+            //     yield return new(obj);
+            // }
 
             if (parentFilter is not null && parentFilter.Length > 0)
             {
                 foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
                 {
-                    BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                    PhysicalObjects.Add(browsableObj);
+                    yield return new(obj);
                 }
             }
             else
@@ -71,12 +104,41 @@ public partial class ModularBrowserViewModel : ViewModelBase
                 {
                     if (obj.Name.Contains(name))
                     {
-                        BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-                        PhysicalObjects.Add(browsableObj);
+                        yield return new(obj);
                     }
                 }
             }
         }
+    }
+
+    public void BrowseByName(string name, string? parentFilter)
+    {
+        InspectableObjects = InitializeInspectableObjects(name, parentFilter);
+
+        // if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        // {
+        //     PhysicalObjects.Clear();
+        //
+        //     if (parentFilter is not null && parentFilter.Length > 0)
+        //     {
+        //         foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
+        //         {
+        //             BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+        //             PhysicalObjects.Add(browsableObj);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
+        //         {
+        //             if (obj.Name.Contains(name))
+        //             {
+        //                 BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
+        //                 PhysicalObjects.Add(browsableObj);
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     public void SelectObject(string identity)

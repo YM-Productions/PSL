@@ -19,16 +19,5 @@
         <DataGrid ItemsSource="{Binding Obj.Properties}" AutoGenerateColumns="True"
             IsReadOnly="True"
             GridLinesVisibility="None" HeadersVisibility="None" />
-        <!-- <ItemsControl ItemsSource="{Binding Obj.Properties}"> -->
-        <!--     <ItemsControl.ItemTemplate> -->
-        <!--         <DataTemplate> -->
-        <!--             <StackPanel Orientation="Horizontal"> -->
-        <!--                 <TextBlock Text="{Binding Name}" /> -->
-        <!--                 <TextBlock Text=": " /> -->
-        <!--                 <TextBlock Text="{Binding Value}" /> -->
-        <!--             </StackPanel> -->
-        <!--         </DataTemplate> -->
-        <!--     </ItemsControl.ItemTemplate> -->
-        <!-- </ItemsControl> -->
     </StackPanel>
 </UserControl>
