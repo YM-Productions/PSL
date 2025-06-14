@@ -84,7 +84,8 @@ public partial class ModularBrowserViewModel : ViewModelBase
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection &&
             connection.Db.PhysicalObject.Identity.Find(identity) is PhysicalObject obj)
         {
-            SelectedView = new PhysicalObjectViewModel(obj);
+            // SelectedView = new PhysicalObjectViewModel(obj);
+            SelectedView = new InspectableObjectViewModel(obj);
         }
     }
 }

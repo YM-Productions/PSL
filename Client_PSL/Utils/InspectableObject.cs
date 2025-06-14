@@ -78,7 +78,7 @@ public class InspectableObject
     /// <summary>
     /// Gets an array of <see cref="InspectableProperty"/> representing the object's inspectable properties.
     /// </summary>
-    public InspectableProperty[] Properties { get => GetProperties(); }
+    public IEnumerable<InspectableProperty> Properties { get => GetProperties(); }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InspectableObject"/> class with the specified object.
@@ -93,22 +93,19 @@ public class InspectableObject
     /// Uses reflection to retrieve fields marked with <see cref="DataMemberAttribute"/> and returns them as inspectable properties.
     /// </summary>
     /// <returns>An array of <see cref="InspectableProperty"/> containing the names and values of the marked fields.</returns>
-    private InspectableProperty[] GetProperties()
+    private IEnumerable<InspectableProperty> GetProperties()
     {
         FieldInfo[] fields = Obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        List<InspectableProperty> propertiesList = new();
 
         foreach (FieldInfo field in fields)
         {
             if (field.GetCustomAttribute<DataMemberAttribute>() is DataMemberAttribute dataMember)
             {
-                propertiesList.Add(new InspectableProperty(
+                yield return new InspectableProperty(
                     dataMember.Name ?? field.Name,
                     field.GetValue(Obj)?.ToString() ?? "null"
-                ));
+                );
             }
         }
-
-        return propertiesList.ToArray();
     }
 }

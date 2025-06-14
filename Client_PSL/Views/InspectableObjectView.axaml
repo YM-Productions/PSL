@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Client_PSL.ViewModels"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Client_PSL.Views.InspectableObjectView"
+    x:DataType="vm:InspectableObjectViewModel"
+    Loaded="OnLoaded">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at
+        App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <StackPanel Focusable="True" Background="Transparent">
+        <TextBlock Text="{Binding Obj.TypeName}" />
+        <DataGrid ItemsSource="{Binding Obj.Properties}" AutoGenerateColumns="True"
+            IsReadOnly="True"
+            GridLinesVisibility="None" HeadersVisibility="None" />
+        <!-- <ItemsControl ItemsSource="{Binding Obj.Properties}"> -->
+        <!--     <ItemsControl.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <StackPanel Orientation="Horizontal"> -->
+        <!--                 <TextBlock Text="{Binding Name}" /> -->
+        <!--                 <TextBlock Text=": " /> -->
+        <!--                 <TextBlock Text="{Binding Value}" /> -->
+        <!--             </StackPanel> -->
+        <!--         </DataTemplate> -->
+        <!--     </ItemsControl.ItemTemplate> -->
+        <!-- </ItemsControl> -->
+    </StackPanel>
+</UserControl>
