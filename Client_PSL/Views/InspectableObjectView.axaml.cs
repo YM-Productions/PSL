@@ -17,4 +17,13 @@ public partial class InspectableObjectView : UserControl
     {
 
     }
+
+    private void OnCopyButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button &&
+            button.DataContext is InspectableProperty property)
+        {
+            QuickUtils.SetClipboard(this, property.Value);
+        }
+    }
 }

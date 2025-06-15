@@ -23,7 +23,7 @@
                 <DataGridTemplateColumn Header="Copy">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="⧉" />
+                            <Button Content="⧉" Click="OnCopyButtonClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
