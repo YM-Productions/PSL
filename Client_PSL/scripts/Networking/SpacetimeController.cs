@@ -48,6 +48,8 @@ public class SpacetimeController
     private Logger logger;
     private Logger serverLogger;
 
+    private bool _initialized = false;
+
     private const string HOST = "https://yaene.dev";
     private const string DBNAME = "psl";
 
@@ -219,11 +221,13 @@ public class SpacetimeController
 
     private void RegisterBaseCallbacks()
     {
+        _initialized = false;
         connection.Db.ClientDebugLog.OnInsert += ClientDebugLog_OnInsert;
     }
 
     private void ClientDebugLog_OnInsert(EventContext ctx, ClientDebugLog value)
     {
+        if (!_initialized) return;
         serverLogger.Log(value.Message);
     }
 
@@ -231,6 +235,14 @@ public class SpacetimeController
     {
         try
         {
+            for (int i = 0; i < 5; i++)
+            {
+                conn.FrameTick();
+                Thread.Sleep(100);
+            }
+
+            _initialized = true;
+
             while (!ct.IsCancellationRequested)
             {
                 conn.FrameTick();
