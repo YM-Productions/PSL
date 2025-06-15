@@ -19,18 +19,19 @@ namespace Utils;
 public static class QuickUtils
 {
     /// <summary>
-    /// Asynchronously sets the specified text to the system clipboard using Avalonia's cross-platform clipboard API.
+    /// Asynchronously sets the specified text to the system clipboard using the clipboard service
+    /// associated with the top-level control of the provided <paramref name="view"/>.
     /// </summary>
-    /// <param name="text">
-    /// The string value to be placed on the system clipboard. This value will overwrite any existing clipboard content.
+    /// <param name="view">
+    /// The <see cref="UserControl"/> whose top-level parent is used to access the clipboard service.
     /// </param>
-    /// <returns>
-    /// A <see cref="Task"/> representing the asynchronous clipboard operation. The task completes when the text has been set to the clipboard.
-    /// </returns>
+    /// <param name="text">
+    /// The text to be placed on the clipboard.
+    /// </param>
     /// <remarks>
-    /// This method uses Avalonia's <see cref="IClipboard"/> interface to provide a platform-independent way to set clipboard content.
-    /// It works on all platforms supported by Avalonia, including Windows, Linux, and macOS.
-    /// If <see cref="Application.Current"/> or its <see cref="Application.Clipboard"/> property is null, the method will not perform any operation and will complete silently.
+    /// This method runs the clipboard operation on a background task to avoid blocking the UI thread.
+    /// If the <paramref name="view"/> is not attached to a top-level control or the clipboard service is unavailable,
+    /// the method will silently do nothing.
     /// </remarks>
     public static void SetClipboard(UserControl view, string text)
     {

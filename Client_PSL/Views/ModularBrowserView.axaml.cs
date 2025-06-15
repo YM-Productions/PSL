@@ -6,8 +6,17 @@ using Utils;
 
 namespace Client_PSL.Views;
 
+/// <summary>
+/// Represents the modular browser view user control, which provides a UI for browsing and interacting
+/// with collections of objects in a modular fashion. This control is defined in XAML and its logic is
+/// implemented in this code-behind class.
+/// </summary>
 public partial class ModularBrowserView : UserControl
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ModularBrowserView"/> class.
+    /// Sets up the user interface components defined in the associated XAML file.
+    /// </summary>
     public ModularBrowserView()
     {
         InitializeComponent();

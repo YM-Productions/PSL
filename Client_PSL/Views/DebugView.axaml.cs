@@ -5,8 +5,16 @@ using Client_PSL.ViewModels;
 
 namespace Client_PSL.Views;
 
+/// <summary>
+/// Represents the debug view user control, which provides a UI for displaying debugging information
+/// within the application. This control is defined in XAML and its logic is implemented in this code-behind.
+/// </summary>
 public partial class DebugView : UserControl
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DebugView"/> class.
+    /// Sets up the user interface components defined in the associated XAML file.
+    /// </summary>
     public DebugView()
     {
         InitializeComponent();

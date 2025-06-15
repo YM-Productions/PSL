@@ -12,12 +12,33 @@ using Utils;
 
 namespace Client_PSL.ViewModels;
 
+/// <summary>
+/// Represents a wrapper for an <see cref="InspectableObject"/> that provides a human-readable identifier
+/// based on the object's properties. The identifier is determined by searching for a property containing
+/// "name" or "identity" in its name, or falls back to the first property value or a default string.
+/// </summary>
 public class BrowsableObject
 {
+    /// <summary>
+    /// Gets a human-readable identifier for the underlying <see cref="InspectableObject"/>.
+    /// The identifier is determined by searching for a property whose name contains "name" or "identity"
+    /// (case-insensitive). If neither is found, the value of the first property is used, or a default string
+    /// indicating the type is returned.
+    /// </summary>
     public string Identifier { get => GetIdentifier(); }
 
+    /// <summary>
+    /// Gets the underlying <see cref="InspectableObject"/> instance that is being wrapped.
+    /// </summary>
     public InspectableObject inspectableObject { get; private set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrowsableObject"/> class with the specified
+    /// <see cref="InspectableObject"/>.
+    /// </summary>
+    /// <param name="inspectableObject">
+    /// The <see cref="InspectableObject"/> to be wrapped by this <see cref="BrowsableObject"/>.
+    /// </param>
     public BrowsableObject(InspectableObject inspectableObject)
     {
         this.inspectableObject = inspectableObject;
@@ -39,11 +60,26 @@ public class BrowsableObject
     }
 }
 
+/// <summary>
+/// Represents a filter used in the browser to narrow down displayed items based on a specific property and value.
+/// </summary>
 public class BrowserFilter
 {
+    /// <summary>
+    /// Gets or sets the name of the property to filter by.
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the value to filter for the specified property.
+    /// </summary>
     public string Value { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrowserFilter"/> class with the specified property name and optional value.
+    /// </summary>
+    /// <param name="name">The name of the property to filter by.</param>
+    /// <param name="value">The value to filter for the specified property. Defaults to an empty string.</param>
     public BrowserFilter(string name, string value = "")
     {
         Name = name;
@@ -51,6 +87,11 @@ public class BrowserFilter
     }
 }
 
+/// <summary>
+/// View model for the modular browser component, responsible for managing and displaying
+/// collections of browsable objects, handling filtering, selection, and navigation logic.
+/// Provides mechanisms to initialize, filter, and select objects of various types for inspection.
+/// </summary>
 public partial class ModularBrowserViewModel : ViewModelBase
 {
     private static readonly Dictionary<Type, List<string>> TypeFilters = new() {
@@ -79,6 +120,13 @@ public partial class ModularBrowserViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase? _selectedView;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ModularBrowserViewModel"/> class for the specified type.
+    /// Sets up the available filters and object initializers based on the provided type.
+    /// </summary>
+    /// <param name="type">
+    /// The <see cref="Type"/> of objects to be browsed and displayed in the view model.
+    /// </param>
     public ModularBrowserViewModel(Type type)
     {
         InspectableObjectInitializers = new Dictionary<Type, Func<string, IEnumerable<InspectableObject>>>
@@ -104,6 +152,13 @@ public partial class ModularBrowserViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Loads and displays objects of the selected type that match the specified identifier.
+    /// Clears the current list and populates it with the results from the appropriate initializer.
+    /// </summary>
+    /// <param name="identifier">
+    /// The identifier used to filter or locate objects of the selected type.
+    /// </param>
     public void BrowseByIdentifier(string identifier)
     {
         BrowsableObjects.Clear();
@@ -124,6 +179,12 @@ public partial class ModularBrowserViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Selects the specified <see cref="InspectableObject"/> and creates a corresponding view model for detailed inspection.
+    /// </summary>
+    /// <param name="inspectableObject">
+    /// The <see cref="InspectableObject"/> to be selected and displayed in detail.
+    /// </param>
     public void SelectObject(InspectableObject inspectableObject)
     {
         SelectedView = new InspectableObjectViewModel(inspectableObject);
