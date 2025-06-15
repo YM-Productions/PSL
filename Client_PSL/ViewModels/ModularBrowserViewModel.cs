@@ -97,7 +97,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
     private Logger logger;
 
     private static readonly Dictionary<Type, List<string>> TypeFilters = new() {
-        { typeof(PhysicalObject), new() { "Identity", "ParentIdenitiy" } },
+        { typeof(PhysicalObject), new() { "Identity", "ParentIdentity", "IsStatic" } },
         { typeof(Account), new() { "Identity", "MailAddress" } },
         { typeof(Admin), new() { "Name" } },
         { typeof(ClientDebugLog), new() { "Layer", "Message" } },
@@ -204,9 +204,12 @@ public partial class ModularBrowserViewModel : ViewModelBase
     {
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
         {
+            bool.TryParse(Filters.FirstOrDefault(f => f.Name == "IsStatic")?.Value, out bool isStatic);
+
             foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(Identifier)
                     && o.ParentIdentity.Contains(Filters.FirstOrDefault(f => f.Name == "ParentIdentity")?.Value ?? string.Empty)
                     && o.Identity.Contains(Filters.FirstOrDefault(f => f.Name == "Identity")?.Value ?? string.Empty)
+                    && (string.IsNullOrEmpty(Filters.FirstOrDefault(f => f.Name == "IsStatic")?.Value) ? true : o.IsStatic == isStatic)
                     ).Skip(Page * PageSize).Take(PageSize))
             {
                 yield return new(obj);
