@@ -3,6 +3,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using SpacetimeDB.Types;
@@ -15,6 +16,17 @@ public partial class InspectableObjectViewModel : ViewModelBase
 {
     [ObservableProperty]
     private InspectableObject _obj;
+
+    private static readonly Dictionary<Type, Func<object, ViewModelBase>> _viewModelFactories = new() {
+        { typeof(PhysicalObject), obj => new PhysicalObjectViewModel((PhysicalObject)obj)},
+    };
+
+    /// <summary>
+    /// Gets a value indicating whether a dedicated view model exists for the type of the underlying object.
+    /// Returns <c>true</c> if a view model factory is registered for the object's type, allowing for specialized
+    /// presentation or interaction logic; otherwise, returns <c>false</c>.
+    /// </summary>
+    public bool HasViewModel => _viewModelFactories.ContainsKey(_obj.Obj.GetType());
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InspectableObjectViewModel"/> class.

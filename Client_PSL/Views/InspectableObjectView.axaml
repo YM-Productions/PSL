@@ -15,7 +15,8 @@
     </Design.DataContext>
 
     <StackPanel Focusable="True" Background="Transparent">
-        <TextBlock Text="{Binding Obj.TypeName}" />
+        <TextBlock Text="{Binding Obj.TypeName}" HorizontalAlignment="Left" />
+        <Button Content="Inspect" IsVisible="{Binding HasViewModel}" HorizontalAlignment="Right" />
         <DataGrid ItemsSource="{Binding Obj.Properties}" AutoGenerateColumns="True"
             IsReadOnly="True"
             GridLinesVisibility="None" HeadersVisibility="None">
