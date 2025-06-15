@@ -3,6 +3,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Client_PSL.ViewModels"
+    xmlns:local="clr-namespace:Client_PSL"
+    local:AnimateOnLoadBehavior.IsEnabled="True"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="Client_PSL.Views.RegisterView"
     x:DataType="vm:RegisterViewModel">
@@ -12,60 +14,62 @@
         App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
-    
-        <DockPanel>
-            <!-- Titel -->
-            <TextBlock Text="Register" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
-            
-            <!-- Buttons -->
-            <StackPanel DockPanel.Dock="Bottom" Margin="10">
-                <TextBlock Text="{Binding ErrorMessage}"></TextBlock>
-                <Button Click="OnSwitchToLogin"
-                        FontSize="10"
-                        Content="Switch to Login"
-                        Margin="10 3"/>
-                <Button Click="OnRegisterClick"
-                        FontSize="18"
-                        Content="Register"
-                        HorizontalAlignment="Stretch"
-                        Margin="10 3"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Background="Gray"/>
-              
-            </StackPanel>
-            
-            <!-- Input -->
-            <StackPanel>
+
+    <DockPanel>
+        <!-- Titel -->
+        <TextBlock Text="Register" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26"
+            Margin="10" />
+
+        <!-- Buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Margin="10">
+            <TextBlock Text="{Binding ErrorMessage}"></TextBlock>
+            <Button Click="OnSwitchToLogin"
+                FontSize="10"
+                Content="Switch to Login"
+                Margin="10 3" />
+            <Button Click="OnRegisterClick"
+                FontSize="18"
+                Content="Register"
+                HorizontalAlignment="Stretch"
+                Margin="10 3"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Background="Gray" />
+
+        </StackPanel>
+
+        <!-- Input -->
+        <StackPanel>
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
-                     Watermark="Username" AcceptsReturn="False"
-                     FontSize="16" MaxLines="1"
-                     Text="{Binding Username}"
-                     KeyDown="OnEnter"
-                     />
+                Watermark="Username" AcceptsReturn="False"
+                FontSize="16" MaxLines="1"
+                Text="{Binding Username}"
+                KeyDown="OnEnter"
+            />
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
-                     Watermark="Password" AcceptsReturn="False"
-                     FontSize="16" MaxLines="1"
-                     Text="{Binding Password}" PasswordChar="*"
-                     KeyDown="OnEnter"
-                    />
+                Watermark="Password" AcceptsReturn="False"
+                FontSize="16" MaxLines="1"
+                Text="{Binding Password}" PasswordChar="*"
+                KeyDown="OnEnter"
+            />
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
-                     Watermark="E-Mail" AcceptsReturn="False"
-                     FontSize="16" MaxLines="1"
-                     Text="{Binding Mail}"
-                     KeyDown="OnEnter"
+                Watermark="E-Mail" AcceptsReturn="False"
+                FontSize="16" MaxLines="1"
+                Text="{Binding Mail}"
+                KeyDown="OnEnter"
             />
             <StackPanel HorizontalAlignment="Left" Margin="20 0" Orientation="Horizontal">
-                <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Be Informed and get NEWS ?</TextPresenter>
-                <CheckBox ></CheckBox>
+                <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Be Informed and get
+                    NEWS ?</TextPresenter>
+                <CheckBox></CheckBox>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Margin="20 0 " Orientation="Horizontal">
                 <TextPresenter VerticalAlignment="Center" Margin=" 0 0 10 0">Accept our AGBs</TextPresenter>
-                <CheckBox ></CheckBox>
+                <CheckBox></CheckBox>
             </StackPanel>
-            
-            
-            </StackPanel>
-        </DockPanel>
-    
+
+
+        </StackPanel>
+    </DockPanel>
+
 </UserControl>
