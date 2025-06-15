@@ -18,6 +18,16 @@
         <TextBlock Text="{Binding Obj.TypeName}" />
         <DataGrid ItemsSource="{Binding Obj.Properties}" AutoGenerateColumns="True"
             IsReadOnly="True"
-            GridLinesVisibility="None" HeadersVisibility="None" />
+            GridLinesVisibility="None" HeadersVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Copy">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="⧉" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>

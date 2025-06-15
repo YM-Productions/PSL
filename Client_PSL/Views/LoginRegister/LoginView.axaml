@@ -12,43 +12,44 @@
         App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
-    
-        <DockPanel>
-            <!-- Titel -->
-            <TextBlock Text="Login" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26" Margin="10"/>
-            
-            <!-- Buttons -->
-            <StackPanel DockPanel.Dock="Bottom" Margin="10">
-                <TextBlock Text="{Binding ErrorMessage}"></TextBlock>
-                <Button Click="OnSwitchToRegister"
-                        FontSize="10"
-                        Content="Switch to Register"
-                        Margin="10 3"/>
-                <Button Click="OnLoginClick"
-                        FontSize="18"
-                        Content="Login"
-                        HorizontalAlignment="Stretch"
-                        Margin="10 3"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Background="Gray"/>
-            </StackPanel>
-            
-            <!-- Input -->
-            <StackPanel>
+
+    <DockPanel>
+        <!-- Titel -->
+        <TextBlock Text="Login" DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="26"
+            Margin="10" />
+
+        <!-- Buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Margin="10">
+            <TextBlock Text="{Binding ErrorMessage}"></TextBlock>
+            <Button Click="OnSwitchToRegister"
+                FontSize="10"
+                Content="Switch to Register"
+                Margin="10 3" />
+            <Button Click="OnLoginClick"
+                FontSize="18"
+                Content="Login"
+                HorizontalAlignment="Stretch"
+                Margin="10 3"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Background="Gray" />
+        </StackPanel>
+
+        <!-- Input -->
+        <StackPanel>
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
-                     Watermark="Username" AcceptsReturn="False"
-                     FontSize="16" MaxLines="1"
-                     Text="{Binding Username}"
-                     KeyDown="OnEnter"
-                     />
+                Watermark="Username" AcceptsReturn="False"
+                FontSize="16" MaxLines="1"
+                Text="{Binding Username}"
+                KeyDown="OnEnter"
+            />
             <TextBox Padding="10" Margin="20 3" VerticalAlignment="Center"
-                     Watermark="Password" AcceptsReturn="False"
-                     FontSize="16" MaxLines="1"
-                     Text="{Binding Password}" PasswordChar="*"
-                     KeyDown="OnEnter"
-                    />
-            </StackPanel>
-        </DockPanel>
-    
+                Watermark="Password" AcceptsReturn="False"
+                FontSize="16" MaxLines="1"
+                Text="{Binding Password}" PasswordChar="*"
+                KeyDown="OnEnter"
+            />
+        </StackPanel>
+    </DockPanel>
+
 </UserControl>

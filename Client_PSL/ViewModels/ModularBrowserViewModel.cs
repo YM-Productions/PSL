@@ -12,21 +12,30 @@ using Utils;
 
 namespace Client_PSL.ViewModels;
 
-// HACK: Temporary observable Property Obj
-public class BrowsableObj
+public class BrowsableObject
 {
-    public string Name { get; set; }
-    public string Identity { get; set; }
+    public string Identifier { get => GetIdentifier(); }
 
-    public object OriginObj { get; private set; }
-    public string OriginObjType { get => OriginObj.GetType().Name; }
+    public InspectableObject inspectableObject { get; private set; }
 
-    public BrowsableObj(string name, string identity, object originObj)
+    public BrowsableObject(InspectableObject inspectableObject)
     {
-        Name = name;
-        Identity = identity;
+        this.inspectableObject = inspectableObject;
+    }
 
-        OriginObj = originObj;
+    private string GetIdentifier()
+    {
+        if (inspectableObject.Properties.FirstOrDefault(prop => prop.Name.ToLower().Contains("name")) is InspectableProperty nameProperty)
+        {
+            return nameProperty.Value;
+        }
+
+        if (inspectableObject.Properties.FirstOrDefault(prop => prop.Name.ToLower().Contains("identity")) is InspectableProperty identityProperty)
+        {
+            return identityProperty.Value;
+        }
+
+        return inspectableObject.Properties.FirstOrDefault()?.Value ?? $"Unknown {inspectableObject.GetType().Name}";
     }
 }
 
@@ -45,9 +54,12 @@ public class FilterProperty
 public partial class ModularBrowserViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ObservableCollection<BrowsableObj> _physicalObjects = new();
-    [ObservableProperty]
-    private string _typeName;
+    private ObservableCollection<BrowsableObject> _browsableObjects = new();
+    // [ObservableProperty]
+    // private IEnumerable<InspectableObject> _inspectableObjects;
+
+    // [ObservableProperty]
+    // private string _typeName;
 
     [ObservableProperty]
     private int _page;
@@ -59,38 +71,18 @@ public partial class ModularBrowserViewModel : ViewModelBase
     // [ObservableProperty]
     // private string _selectedName = string.Empty;
 
-    public List<FilterProperty> FilterProperties { get; set; }
-
-    [ObservableProperty]
-    private IEnumerable<InspectableObject> _inspectableObjects;
+    // public List<FilterProperty> FilterProperties { get; set; }
 
     public ModularBrowserViewModel()
     {
-        TypeName = nameof(PhysicalObject);
-        FilterProperties = InitializeFilterProperties();
-    }
-
-    private List<FilterProperty> InitializeFilterProperties()
-    {
-        List<FilterProperty> properties = new();
-        InspectableObject dummy = new(new PhysicalObject());
-        foreach (InspectableProperty prop in dummy.Properties)
-        {
-            properties.Add(new(prop.Name));
-        }
-
-        return properties;
+        // TypeName = nameof(PhysicalObject);
+        // FilterProperties = InitializeFilterProperties();
     }
 
     private IEnumerable<InspectableObject> InitializeInspectableObjects(string name, string? parentFilter)
     {
         if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
         {
-            // foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter())
-            // {
-            //     yield return new(obj);
-            // }
-
             if (parentFilter is not null && parentFilter.Length > 0)
             {
                 foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
@@ -113,41 +105,16 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     public void BrowseByName(string name, string? parentFilter)
     {
-        InspectableObjects = InitializeInspectableObjects(name, parentFilter);
+        BrowsableObjects.Clear();
 
-        // if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
-        // {
-        //     PhysicalObjects.Clear();
-        //
-        //     if (parentFilter is not null && parentFilter.Length > 0)
-        //     {
-        //         foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
-        //         {
-        //             BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-        //             PhysicalObjects.Add(browsableObj);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
-        //         {
-        //             if (obj.Name.Contains(name))
-        //             {
-        //                 BrowsableObj browsableObj = new(obj.Name, obj.Identity, obj);
-        //                 PhysicalObjects.Add(browsableObj);
-        //             }
-        //         }
-        //     }
-        // }
+        foreach (InspectableObject obj in InitializeInspectableObjects(name, parentFilter))
+        {
+            BrowsableObjects.Add(new(obj));
+        }
     }
 
-    public void SelectObject(string identity)
+    public void SelectObject(InspectableObject inspectableObject)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection &&
-            connection.Db.PhysicalObject.Identity.Find(identity) is PhysicalObject obj)
-        {
-            // SelectedView = new PhysicalObjectViewModel(obj);
-            SelectedView = new InspectableObjectViewModel(obj);
-        }
+        SelectedView = new InspectableObjectViewModel(inspectableObject);
     }
 }

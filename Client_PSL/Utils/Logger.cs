@@ -77,9 +77,6 @@ public class Logger
 
     #region Fuctions
 
-    // TODO:
-    // - Update Deocumentation
-
     /// <summary>
     /// Logs the specified message to the <see cref="DebugViewModel"/>, if the logger's level
     /// is within the global log level threshold.
@@ -103,8 +100,16 @@ public class Logger
         );
     }
 
-    // TODO:
-    // - Documentation
+    /// <summary>
+    /// Sets the logging level for this logger instance.
+    /// </summary>
+    /// <param name="level">
+    /// The desired logging level. Must not be equal to <c>ERROR_LEVEL</c>, <c>WARNING_LEVEL</c>, or <c>INFO_LEVEL</c>,
+    /// and must not be less than zero. If an invalid level is provided, an <see cref="Exception"/> is thrown.
+    /// </param>
+    /// <exception cref="Exception">
+    /// Thrown when the specified <paramref name="level"/> is invalid (i.e., equals <c>ERROR_LEVEL</c>, <c>WARNING_LEVEL</c>, <c>INFO_LEVEL</c>, or is less than zero).
+    /// </exception>
     public void SetLevel(int level)
     {
         if (level == ERROR_LEVEL ||

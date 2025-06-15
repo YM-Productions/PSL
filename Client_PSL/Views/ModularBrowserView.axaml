@@ -25,53 +25,63 @@
             <TextBox Name="ParentFilter" Watermark="ParentID" />
         </StackPanel>
 
-        <ItemsControl ItemsSource="{Binding FilterProperties}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Margin="10" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <!-- <ItemsControl ItemsSource="{Binding FilterProperties}"> -->
+        <!--     <ItemsControl.ItemsPanel> -->
+        <!--         <ItemsPanelTemplate> -->
+        <!--             <WrapPanel /> -->
+        <!--         </ItemsPanelTemplate> -->
+        <!--     </ItemsControl.ItemsPanel> -->
+        <!--     <ItemsControl.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Margin="10" /> -->
+        <!--         </DataTemplate> -->
+        <!--     </ItemsControl.ItemTemplate> -->
+        <!-- </ItemsControl> -->
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <ItemsControl ItemsSource="{Binding InspectableObjects}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <Expander Header="{Binding TypeName}" IsExpanded="True">
-                                    <DataGrid ItemsSource="{Binding Properties}" IsReadOnly="True"
-                                        AutoGenerateColumns="True" HeadersVisibility="None" />
-                                </Expander>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <!-- <ItemsControl ItemsSource="{Binding InspectableObjects}"> -->
+                <!--     <ItemsControl.ItemTemplate> -->
+                <!--         <DataTemplate> -->
+                <!--             <StackPanel> -->
+                <!--                 <Expander IsExpanded="False"> -->
+                <!--                     <Expander.Header> -->
+                <!--                         <StackPanel Orientation="Horizontal"> -->
+                <!--                             <TextBlock Text="{Binding TypeName}" -->
+                <!--                                 HorizontalAlignment="Left" -->
+                <!--                                 VerticalAlignment="Center" Margin="10" /> -->
+                <!--                             <Button Content="Select" HorizontalAlignment="Right" -->
+                <!--                                 VerticalAlignment="Center" Margin="10" /> -->
+                <!--                         </StackPanel> -->
+                <!--                     </Expander.Header> -->
+                <!--                     <DataGrid ItemsSource="{Binding Properties}" -->
+                <!--                         IsReadOnly="True" -->
+                <!--                         AutoGenerateColumns="True" HeadersVisibility="None" /> -->
+                <!--                 </Expander> -->
+                <!--             </StackPanel> -->
+                <!--         </DataTemplate> -->
+                <!--     </ItemsControl.ItemTemplate> -->
+                <!-- </ItemsControl> -->
 
-                <DataGrid Name="BrowserGrid" Tag="{Binding TypeName}"
-                    ItemsSource="{Binding InspectableObjects}"
+                <DataGrid Name="BrowserGrid"
+                    ItemsSource="{Binding BrowsableObjects}"
                     IsReadOnly="True"
                     AutoGenerateColumns="False"
                     GridLinesVisibility="All"
                     BorderThickness="1" BorderBrush="Gray"
                     SelectionChanged="OnSelectionChanged">
 
-                    <!-- <DataGrid.Columns> -->
-                    <!--     <DataGridTextColumn Header="Name" Binding="{Binding Name}" /> -->
-                    <!--     <DataGridTextColumn Header="" Width="*" /> -->
-                    <!--     <DataGridTextColumn Header="Type" Binding="{Binding OriginObjType}" /> -->
-                    <!--     <DataGridTextColumn Header="ID" Binding="{Binding Identity}" /> -->
-                    <!-- </DataGrid.Columns> -->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Identifier" Binding="{Binding Identifier}" />
+                        <DataGridTextColumn Header="" Width="*" />
+                        <!-- <DataGridTextColumn Header="Type" Binding="{Binding OriginObjType}" /> -->
+                        <!-- <DataGridTextColumn Header="ID" Binding="{Binding Identity}" /> -->
+                    </DataGrid.Columns>
 
                     <!-- <DataGrid.Columns> -->
                     <!--     <DataGridTemplateColumn Header="Name"> -->

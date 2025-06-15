@@ -18,6 +18,7 @@ public partial class InspectableObjectViewModel : ViewModelBase
 
     public InspectableObjectViewModel(object obj)
     {
-        _obj = new(obj);
+        if (obj.GetType() == typeof(InspectableObject)) _obj = (InspectableObject)obj;
+        else _obj = new(obj);
     }
 }
