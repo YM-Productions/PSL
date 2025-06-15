@@ -39,27 +39,31 @@ public class BrowsableObject
     }
 }
 
-public class FilterProperty
+public class BrowserFilter
 {
-    public string Name { get; }
-    public bool IsSelected { get; set; }
+    public string Name { get; set; }
+    public string Value { get; set; }
 
-    public FilterProperty(string name, bool isSelected = false)
+    public BrowserFilter(string name, string value = "")
     {
         Name = name;
-        IsSelected = isSelected;
+        Value = value;
     }
 }
 
 public partial class ModularBrowserViewModel : ViewModelBase
 {
+    private static readonly Dictionary<Type, List<string>> TypeFilters = new() {
+        { typeof(PhysicalObject), new() { "ParentIdentity", "Identity" } },
+    };
+    private readonly Dictionary<Type, Func<string, IEnumerable<InspectableObject>>> InspectableObjectInitializers;
+
+    private Type selectedType;
+
     [ObservableProperty]
     private ObservableCollection<BrowsableObject> _browsableObjects = new();
-    // [ObservableProperty]
-    // private IEnumerable<InspectableObject> _inspectableObjects;
-
-    // [ObservableProperty]
-    // private string _typeName;
+    [ObservableProperty]
+    private ObservableCollection<BrowserFilter> _filters = new();
 
     [ObservableProperty]
     private int _page;
@@ -67,49 +71,41 @@ public partial class ModularBrowserViewModel : ViewModelBase
     private int _pageSize = 10;
 
     [ObservableProperty]
-    private ViewModelBase _selectedView;
-    // [ObservableProperty]
-    // private string _selectedName = string.Empty;
+    private ViewModelBase? _selectedView;
 
-    // public List<FilterProperty> FilterProperties { get; set; }
-
-    public ModularBrowserViewModel()
+    public ModularBrowserViewModel(Type type)
     {
-        // TypeName = nameof(PhysicalObject);
-        // FilterProperties = InitializeFilterProperties();
-    }
-
-    private IEnumerable<InspectableObject> InitializeInspectableObjects(string name, string? parentFilter)
-    {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        InspectableObjectInitializers = new Dictionary<Type, Func<string, IEnumerable<InspectableObject>>>
         {
-            if (parentFilter is not null && parentFilter.Length > 0)
+            { typeof(PhysicalObject), InitializePhysicalObject }
+        };
+
+        selectedType = type;
+
+        Filters.Clear();
+        if (TypeFilters[type] is List<string> typeFilters)
+        {
+            foreach (string filterName in typeFilters)
             {
-                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(name) && o.ParentIdentity.Contains(parentFilter)).Skip(Page * PageSize).Take(PageSize))
-                {
-                    yield return new(obj);
-                }
-            }
-            else
-            {
-                foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Skip(Page * PageSize).Take(PageSize))
-                {
-                    if (obj.Name.Contains(name))
-                    {
-                        yield return new(obj);
-                    }
-                }
+                Filters.Add(new(filterName));
             }
         }
     }
 
-    public void BrowseByName(string name, string? parentFilter)
+    public void BrowseByName(string name)
     {
         BrowsableObjects.Clear();
 
-        foreach (InspectableObject obj in InitializeInspectableObjects(name, parentFilter))
+        if (InspectableObjectInitializers[selectedType] is Func<string, IEnumerable<InspectableObject>> initializer)
         {
-            BrowsableObjects.Add(new(obj));
+            foreach (InspectableObject obj in initializer(name))
+            {
+                BrowsableObjects.Add(new(obj));
+            }
+        }
+        else
+        {
+            Debug.LogError($"No initializer defined for type {selectedType.Name}");
         }
     }
 
@@ -117,4 +113,22 @@ public partial class ModularBrowserViewModel : ViewModelBase
     {
         SelectedView = new InspectableObjectViewModel(inspectableObject);
     }
+
+    #region Initializers
+
+    private IEnumerable<InspectableObject> InitializePhysicalObject(string Identifier)
+    {
+        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        {
+            foreach (PhysicalObject obj in connection.Db.PhysicalObject.Iter().Where(o => o.Name.Contains(Identifier)
+                    && o.ParentIdentity.Contains(Filters.FirstOrDefault(f => f.Name == "ParentIdentity")?.Value ?? string.Empty)
+                    && o.Identity.Contains(Filters.FirstOrDefault(f => f.Name == "Identity")?.Value ?? string.Empty)
+                    ).Skip(Page * PageSize).Take(PageSize))
+            {
+                yield return new(obj);
+            }
+        }
+    }
+
+    #endregion
 }

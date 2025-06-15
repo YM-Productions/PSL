@@ -11,18 +11,10 @@ public partial class ModularBrowserView : UserControl
     public ModularBrowserView()
     {
         InitializeComponent();
-
-        // BrowserGrid.Columns.Add(new DataGridTextColumn
-        // {
-        //     Header = "Name",
-        //     Binding = new Avalonia.Data.Binding("Name")
-        // });
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
-        // Debug.Log(BrowserGrid.Tag.ToString());
-        // Debug.Log(BrowserGrid.ItemsSource.GetType().Name);
     }
 
     private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -42,7 +34,7 @@ public partial class ModularBrowserView : UserControl
             SearchBox.Text is string prompt)
         {
             viewModel.Page = 0;
-            viewModel.BrowseByName(prompt, ParentFilter.Text);
+            viewModel.BrowseByName(prompt);
 
             e.Handled = true;
         }
@@ -54,7 +46,7 @@ public partial class ModularBrowserView : UserControl
             SearchBox.Text is string prompt)
         {
             viewModel.Page++;
-            viewModel.BrowseByName(prompt, ParentFilter.Text);
+            viewModel.BrowseByName(prompt);
         }
     }
 
@@ -64,7 +56,7 @@ public partial class ModularBrowserView : UserControl
                 SearchBox.Text is string prompt)
         {
             viewModel.Page--;
-            viewModel.BrowseByName(prompt, ParentFilter.Text);
+            viewModel.BrowseByName(prompt);
         }
     }
 }

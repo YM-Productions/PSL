@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Networking.SpacetimeController;
+using SpacetimeDB.Types;
 using Utils;
 
 namespace Client_PSL.ViewModels;
@@ -13,6 +14,6 @@ public partial class LandingPageViewModel : ViewModelBase
 
     public LandingPageViewModel()
     {
-        CurrentViewModel = new ModularBrowserViewModel();
+        CurrentViewModel = new ModularBrowserViewModel(typeof(PhysicalObject));
     }
 }
