@@ -17,7 +17,6 @@
     </Design.DataContext>
 
     <StackPanel Focusable="True" Background="Transparent">
-        <TextBlock Text="Modular Browser View" Foreground="White" HorizontalAlignment="Center" />
         <TextBox Name="SearchBox" Text="" Watermark="Search" KeyDown="OnSearchKeyDown"
             HorizontalAlignment="Stretch" Margin="50,0" />
 
