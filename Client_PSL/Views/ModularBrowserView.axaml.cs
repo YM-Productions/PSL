@@ -13,6 +13,8 @@ namespace Client_PSL.Views;
 /// </summary>
 public partial class ModularBrowserView : UserControl
 {
+    Logger logger;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ModularBrowserView"/> class.
     /// Sets up the user interface components defined in the associated XAML file.
@@ -20,14 +22,19 @@ public partial class ModularBrowserView : UserControl
     public ModularBrowserView()
     {
         InitializeComponent();
+
+        logger = Logger.LoggerFactory.GetLogger("ModularBrowser");
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
+        logger.Log("ModularBrowserView loaded");
     }
 
     private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
+        logger.Log("Selection changed in ModularBrowserView");
+
         if (sender is DataGrid dg &&
             dg.SelectedItem is BrowsableObject obj &&
             DataContext is ModularBrowserViewModel viewModel)
@@ -42,6 +49,8 @@ public partial class ModularBrowserView : UserControl
             DataContext is ModularBrowserViewModel viewModel &&
             SearchBox.Text is string prompt)
         {
+            logger.Log($"Search initiated with prompt: {prompt}");
+
             viewModel.Page = 0;
             viewModel.BrowseByIdentifier(prompt);
 
@@ -54,6 +63,8 @@ public partial class ModularBrowserView : UserControl
         if (DataContext is ModularBrowserViewModel viewModel &&
             SearchBox.Text is string prompt)
         {
+            logger.Log($"Navigating to next page with prompt: {prompt}");
+
             viewModel.Page++;
             viewModel.BrowseByIdentifier(prompt);
         }
@@ -64,6 +75,8 @@ public partial class ModularBrowserView : UserControl
         if (DataContext is ModularBrowserViewModel viewModel && viewModel.Page > 0 &&
                 SearchBox.Text is string prompt)
         {
+            logger.Log($"Navigating to previous page with prompt: {prompt}");
+
             viewModel.Page--;
             viewModel.BrowseByIdentifier(prompt);
         }

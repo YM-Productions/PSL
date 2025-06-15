@@ -28,7 +28,7 @@ public class Logger
     /// Gets or sets the current global logging level. Only messages with a logger level
     /// equal to or below this threshold will be logged.
     /// </summary>
-    public static int LEVEL { get; private set; } = 99;
+    public static int LEVEL { get; private set; } = 5;
 
     /// <summary>
     /// Contains predefined logger levels with their display name and associated Avalonia color.
@@ -144,7 +144,9 @@ public class Logger
         public static Logger CreateLogger(string name)
         {
             if (_loggerDic.ContainsKey(name)) throw new Exception($"Error: The Logger {name} already exists");
-            return new Logger(name);
+            Logger logger = new(name);
+            _loggerDic.Add(name, logger);
+            return logger;
         }
 
         /// <summary>
@@ -157,7 +159,8 @@ public class Logger
         {
             if (_loggerDic.ContainsKey(name)) return _loggerDic[name];
 
-            throw new Exception($"Error: There is no logger {name}");
+            CreateLogger(name);
+            return _loggerDic[name];
         }
     }
     #endregion

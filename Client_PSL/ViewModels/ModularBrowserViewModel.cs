@@ -94,6 +94,8 @@ public class BrowserFilter
 /// </summary>
 public partial class ModularBrowserViewModel : ViewModelBase
 {
+    private Logger logger;
+
     private static readonly Dictionary<Type, List<string>> TypeFilters = new() {
         { typeof(PhysicalObject), new() { "Identity", "ParentIdenitiy" } },
         { typeof(Account), new() { "Identity", "MailAddress" } },
@@ -129,6 +131,9 @@ public partial class ModularBrowserViewModel : ViewModelBase
     /// </param>
     public ModularBrowserViewModel(Type type)
     {
+        logger = Logger.LoggerFactory.GetLogger("ModularBrowser");
+        logger.SetLevel(9);
+
         InspectableObjectInitializers = new Dictionary<Type, Func<string, IEnumerable<InspectableObject>>>
         {
             { typeof(PhysicalObject), InitializePhysicalObject },
@@ -161,20 +166,22 @@ public partial class ModularBrowserViewModel : ViewModelBase
     /// </param>
     public void BrowseByIdentifier(string identifier)
     {
+        logger.Log($"Browsing objects of type {selectedType.Name} with identifier: {identifier}");
         BrowsableObjects.Clear();
+        logger.Log($"Cleared existing browsable objects. Current count: {BrowsableObjects.Count}");
 
-        Debug.Log($"Browsing {selectedType.Name} with identifier: {identifier}, Page: {Page}, PageSize: {PageSize}");
         if (InspectableObjectInitializers[selectedType] is Func<string, IEnumerable<InspectableObject>> initializer)
         {
-            Debug.Log($"Browsing {selectedType.Name} with identifier: {identifier}");
+            logger.Log($"Using initializer for type {selectedType.Name}");
             foreach (InspectableObject obj in initializer(identifier))
             {
-                Debug.Log($"Adding object: {obj.GetType().Name}");
+                logger.Log($"Adding object: {obj}");
                 BrowsableObjects.Add(new(obj));
             }
         }
         else
         {
+            logger.Log($"No initializer defined for type {selectedType.Name}");
             Debug.LogError($"No initializer defined for type {selectedType.Name}");
         }
     }
@@ -187,6 +194,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
     /// </param>
     public void SelectObject(InspectableObject inspectableObject)
     {
+        logger.Log($"Selecting object: {inspectableObject}");
         SelectedView = new InspectableObjectViewModel(inspectableObject);
     }
 
