@@ -28,7 +28,7 @@ public class Logger
     /// Gets or sets the current global logging level. Only messages with a logger level
     /// equal to or below this threshold will be logged.
     /// </summary>
-    public static int LEVEL { get; private set; } = 5;
+    public static int LEVEL { get; private set; } = 24;
 
     /// <summary>
     /// Contains predefined logger levels with their display name and associated Avalonia color.

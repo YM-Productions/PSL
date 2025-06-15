@@ -132,7 +132,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
     public ModularBrowserViewModel(Type type)
     {
         logger = Logger.LoggerFactory.GetLogger("ModularBrowser");
-        logger.SetLevel(9);
+        logger.SetLevel(50);
 
         InspectableObjectInitializers = new Dictionary<Type, Func<string, IEnumerable<InspectableObject>>>
         {
