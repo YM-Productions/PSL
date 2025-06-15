@@ -16,9 +16,7 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         if (Instance is not null)
-        {
             throw new InvalidOperationException("MainViewModel instance already exists.");
-        }
         Instance = this;
 
         // Setup Singletons

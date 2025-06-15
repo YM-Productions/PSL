@@ -41,4 +41,17 @@ public partial class InspectableObjectViewModel : ViewModelBase
         if (obj.GetType() == typeof(InspectableObject)) _obj = (InspectableObject)obj;
         else _obj = new(obj);
     }
+
+    /// <summary>
+    /// Opens the extended view for the underlying object by creating and displaying its associated view model,
+    /// if a dedicated view model factory is registered for the object's type. If no factory is found, the method does nothing.
+    /// This allows for specialized inspection or editing of the object in the application's landing page.
+    /// </summary>
+    public void OpenViewModel()
+    {
+        if (_viewModelFactories[_obj.Obj.GetType()] is Func<object, ViewModelBase> factory)
+        {
+            LandingPageViewModel.Instance.SetExtendedViewModel(factory(_obj.Obj));
+        }
+    }
 }

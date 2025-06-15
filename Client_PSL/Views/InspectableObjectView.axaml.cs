@@ -26,6 +26,14 @@ public partial class InspectableObjectView : UserControl
 
     }
 
+    private void OnInspectButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is InspectableObjectViewModel vm)
+        {
+            vm.OpenViewModel();
+        }
+    }
+
     private void OnCopyButtonClick(object? sender, RoutedEventArgs e)
     {
         if (sender is Button button &&
