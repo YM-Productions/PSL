@@ -14,6 +14,6 @@ public partial class LandingPageViewModel : ViewModelBase
 
     public LandingPageViewModel()
     {
-        CurrentViewModel = new ModularBrowserViewModel(typeof(PhysicalObject));
+        CurrentViewModel = new ModularBrowserViewModel(typeof(Hardpoint));
     }
 }

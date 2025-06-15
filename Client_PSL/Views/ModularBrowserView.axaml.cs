@@ -34,7 +34,7 @@ public partial class ModularBrowserView : UserControl
             SearchBox.Text is string prompt)
         {
             viewModel.Page = 0;
-            viewModel.BrowseByName(prompt);
+            viewModel.BrowseByIdentifier(prompt);
 
             e.Handled = true;
         }
@@ -46,7 +46,7 @@ public partial class ModularBrowserView : UserControl
             SearchBox.Text is string prompt)
         {
             viewModel.Page++;
-            viewModel.BrowseByName(prompt);
+            viewModel.BrowseByIdentifier(prompt);
         }
     }
 
@@ -56,7 +56,7 @@ public partial class ModularBrowserView : UserControl
                 SearchBox.Text is string prompt)
         {
             viewModel.Page--;
-            viewModel.BrowseByName(prompt);
+            viewModel.BrowseByIdentifier(prompt);
         }
     }
 }
