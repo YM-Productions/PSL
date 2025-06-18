@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using Client_PSL.ViewModels;
 using Client_PSL.Views;
+using Client_PSL.Services;
 
 namespace Client_PSL;
 
@@ -25,14 +26,14 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = Globals.mainViewModel,
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = Globals.mainViewModel,
             };
         }
 

@@ -1,4 +1,5 @@
 ﻿using Client_PSL.ViewModels;
+using Client_PSL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,7 +96,7 @@ public class Logger
                 if (Level > LEVEL) return;
                 string name = LevelNames.ContainsKey(Level) ? LevelNames[Level].name : Name;
                 Avalonia.Media.Color color = LevelNames.ContainsKey(Level) ? LevelNames[Level].color : Avalonia.Media.Colors.Lime;
-                DebugViewModel.Instance.AddMessage(name, color, message);
+                Globals.debugViewModel.AddMessage(name, color, message);
             }
         );
     }

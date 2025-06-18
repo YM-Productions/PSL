@@ -9,8 +9,6 @@ namespace Client_PSL.ViewModels;
 
 public partial class LandingPageViewModel : ViewModelBase
 {
-    public static LandingPageViewModel Instance { get; private set; }
-
     [ObservableProperty]
     private ViewModelBase _currentViewModel;
     [ObservableProperty]
@@ -18,10 +16,6 @@ public partial class LandingPageViewModel : ViewModelBase
 
     public LandingPageViewModel()
     {
-        if (Instance is not null)
-            throw new InvalidOperationException("MainViewModel instance already exists.");
-        Instance = this;
-
         CurrentViewModel = new ModularBrowserViewModel(typeof(PhysicalObject));
     }
 

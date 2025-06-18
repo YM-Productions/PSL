@@ -6,6 +6,7 @@ using System.Text;
 using Utils;
 using Networking.SpacetimeController;
 using Client_PSL.ViewModels;
+using Client_PSL.Services;
 
 namespace Utils.DebugCommands;
 
@@ -71,8 +72,8 @@ public static class DebugCommand
         { nameof(MessageLimit).ToLower(), MessageLimit },
 
         // NOTE: This is only temporary
-        { "d" , _ => SpacetimeController.Instance.CloseCon() },
-        { "tempsession" , _ => SpacetimeController.Instance.OpenTemporarySession() },
+        { "d" , _ => Globals.spacetimeController.CloseCon() },
+        { "tempsession" , _ => Globals.spacetimeController.OpenTemporarySession() },
         { "time" , _ => Debug.Log(((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds()).ToString()) },
     };
 
@@ -147,7 +148,7 @@ public static class DebugCommand
             return;
         }
 
-        SpacetimeController.Instance.Login(userName, password);
+        Globals.spacetimeController.Login(userName, password);
     }
 
     private static void Register(Dictionary<string, string> attributes)
@@ -179,7 +180,7 @@ public static class DebugCommand
             return;
         }
 
-        SpacetimeController.Instance.Register(userName, mail, pwd, news == "true", true);
+        Globals.spacetimeController.Register(userName, mail, pwd, news == "true", true);
     }
 
     private static void AutoScroll(Dictionary<string, string> attributes)
@@ -193,7 +194,7 @@ public static class DebugCommand
         switch (attributes.Count)
         {
             case 0:
-                bool newVal = DebugViewModel.Instance.ToggleAutoScroll();
+                bool newVal = Globals.debugViewModel.ToggleAutoScroll();
                 Debug.Log($"AutoScroll was set to <{newVal}>");
                 break;
             case 1:
@@ -208,7 +209,7 @@ public static class DebugCommand
                     Debug.LogError("set must be <true> or <false>");
                 }
 
-                DebugViewModel.Instance.SetAutoScroll(scrollStr == "true");
+                Globals.debugViewModel.SetAutoScroll(scrollStr == "true");
                 Debug.Log($"AutoScroll was set to <{scrollStr}>");
                 break;
             default:
@@ -227,7 +228,7 @@ public static class DebugCommand
 
         if (attributes.Count == 0)
         {
-            Debug.Log($"MaxMessages is set to <{DebugViewModel.Instance.MaxMessages}>");
+            Debug.Log($"MaxMessages is set to <{Globals.debugViewModel.MaxMessages}>");
             return;
         }
 
@@ -243,7 +244,7 @@ public static class DebugCommand
             return;
         }
 
-        DebugViewModel.Instance.MaxMessages = maxVal;
+        Globals.debugViewModel.MaxMessages = maxVal;
         Debug.Log($"MaxMessages was set to <{maxVal}>");
     }
 }

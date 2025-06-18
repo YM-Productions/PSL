@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using SpacetimeDB.Types;
 using Networking.SpacetimeController;
+using Client_PSL.Services;
 using Utils;
 
 namespace Client_PSL.ViewModels;
@@ -202,7 +203,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializePhysicalObject(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             bool.TryParse(Filters.FirstOrDefault(f => f.Name == "IsStatic")?.Value, out bool isStatic);
 
@@ -219,7 +220,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializeAccount(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             foreach (Account obj in connection.Db.Account.Iter().Where(o => o.UserName.Contains(Identifier)
                     && o.Identity.ToString().Contains(Filters.FirstOrDefault(f => f.Name == "Identity")?.Value ?? string.Empty)
@@ -233,7 +234,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializeAdmin(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             foreach (Admin obj in connection.Db.Admin.Iter().Where(o => o.Identity.ToString().Contains(Identifier)
                     && o.Name.Contains(Filters.FirstOrDefault(f => f.Name == "Name")?.Value ?? string.Empty)
@@ -246,7 +247,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializeClienDebugLog(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             int.TryParse(Filters.FirstOrDefault(f => f.Name == "Layer")?.Value, out int layer);
 
@@ -262,7 +263,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializeHardpoint(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             int.TryParse(Filters.FirstOrDefault(f => f.Name == "Size")?.Value, out int size);
 
@@ -278,7 +279,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializeHardpointPermission(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             int.TryParse(Filters.FirstOrDefault(f => f.Name == "Level")?.Value, out int level);
 
@@ -295,7 +296,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
 
     private IEnumerable<InspectableObject> InitializePhysicalObjectPermission(string Identifier)
     {
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             int.TryParse(Filters.FirstOrDefault(f => f.Name == "Level")?.Value, out int level);
 

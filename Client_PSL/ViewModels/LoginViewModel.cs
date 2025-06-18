@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Networking.SpacetimeController;
+using Client_PSL.Services;
 using Utils;
 
 namespace Client_PSL.ViewModels;
@@ -21,11 +22,11 @@ public partial class LoginViewModel : ViewModelBase
 
     public void LoginAttempt()
     {
-        SpacetimeController.Instance.OpenTemporarySession();
+        Globals.spacetimeController.OpenTemporarySession();
         DateTime start = DateTime.Now;
         _ = Task.Run(() =>
         {
-            while (!SpacetimeController.Instance.IsConnected)
+            while (!Globals.spacetimeController.IsConnected)
             {
                 if (DateTime.Now.Subtract(start).TotalSeconds > 5)
                 {
@@ -35,13 +36,13 @@ public partial class LoginViewModel : ViewModelBase
 
                 Task.Delay(100);
             }
-            SpacetimeController.Instance.Login(_username, _password);
+            Globals.spacetimeController.Login(_username, _password);
             return Task.CompletedTask;
         });
     }
 
     public void switchToRegister()
     {
-        MainViewModel.Instance.SetRegisterPage();
+        Globals.mainViewModel.SetRegisterPage();
     }
 }

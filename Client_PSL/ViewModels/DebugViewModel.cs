@@ -81,12 +81,6 @@ public class DebugMessage
 /// </summary>
 public partial class DebugViewModel : ViewModelBase
 {
-    /// <summary>
-    /// Singleton instance of the <see cref="DebugViewModel"/> class.
-    /// Used for global access from static contexts.
-    /// </summary>
-    public static DebugViewModel Instance { get; private set; }
-
     [ObservableProperty]
     private bool _isActive = false;
     /// <summary>
@@ -107,11 +101,6 @@ public partial class DebugViewModel : ViewModelBase
     /// </summary>
     public DebugViewModel()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else return;
     }
 
     /// <summary>

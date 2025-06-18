@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Client_PSL.ViewModels;
+using Client_PSL.Services;
 using SpacetimeDB;
 using SpacetimeDB.Types;
 using Utils;
@@ -31,20 +32,6 @@ namespace Networking.SpacetimeController;
 /// </remarks>
 public class SpacetimeController
 {
-    /// <summary>
-    /// Gets the global singleton instance of the <see cref="SpacetimeController"/>.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This property ensures that only one central instance of the <see cref="SpacetimeController"/> exists,
-    /// which can be accessed globally throughout the application.
-    /// </para>
-    /// <para>
-    /// The instance is typically initialized once at application startup and reused for
-    /// all connections and operations involving the SpacetimeDB server.
-    /// </para>
-    /// </remarks>
-    public static SpacetimeController Instance { get; private set; }
     private Logger logger;
     private Logger serverLogger;
 
@@ -63,26 +50,15 @@ public class SpacetimeController
     private string tempToken = string.Empty;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SpacetimeController"/> class
-    /// and sets it as the global singleton <see cref="Instance"/>, if not already set.
+    /// Initializes a new instance of the <see cref="SpacetimeController"/> class.
+    /// Sets up the logging infrastructure for both the controller and the server.
+    /// The controller logger is configured with a high verbosity level (9) for detailed output,
+    /// while the server logger is set to a moderate verbosity level (6).
+    /// This constructor ensures that logging is available for debugging and monitoring
+    /// the behavior of the SpacetimeController and its interactions with the server.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// If <see cref="Instance"/> has not been set yet, the current instance is registered
-    /// and a dedicated logger is created with the highest log level.
-    /// </para>
-    /// <para>
-    /// If an instance already exists, the constructor exits immediately to enforce the singleton guarantee.
-    /// </para>
-    /// </remarks>
     public SpacetimeController()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else return;
-
         logger = Logger.LoggerFactory.CreateLogger("SpacetimeController");
         logger.SetLevel(9);
         logger.Log("SpacetimeController initialized...");
@@ -194,7 +170,7 @@ public class SpacetimeController
             .OnApplied(OnBaseSubscriptionApplied)
             .SubscribeToAllTables();
 
-        MainViewModel.Instance.SetLandingPage();
+        Globals.mainViewModel.SetLandingPage();
     }
 
     private void OnBaseSubscriptionApplied(SubscriptionEventContext ctx)

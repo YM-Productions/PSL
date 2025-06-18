@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using SpacetimeDB.Types;
 using Networking.SpacetimeController;
+using Client_PSL.Services;
 using Utils;
 
 namespace Client_PSL.ViewModels;
@@ -43,7 +44,7 @@ public partial class PhysicalObjectViewModel : ViewModelBase
     {
         this.physicalObject = physicalObject;
 
-        if (SpacetimeController.Instance.GetConnection() is DbConnection connection)
+        if (Globals.spacetimeController.GetConnection() is DbConnection connection)
         {
             Hardpoints.Clear();
             foreach (Hardpoint hardpoint in connection.Db.Hardpoint.IdxHardpointPhysicalobjectidentity.Filter(physicalObject.Identity))

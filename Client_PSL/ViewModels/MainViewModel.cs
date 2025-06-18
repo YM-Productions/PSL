@@ -1,26 +1,22 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Networking.SpacetimeController;
+using Client_PSL.Services;
+using Utils;
 
 namespace Client_PSL.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    // Singleton access
-    public static MainViewModel Instance { get; private set; }
+    public DebugViewModel DebugPage => Globals.debugViewModel;
+
     [ObservableProperty]
-    private DebugViewModel _debugPage = new();
-    [ObservableProperty]
-    private ViewModelBase _mainPage;
+    private ViewModelBase? _mainPage;
 
     public MainViewModel()
     {
-        if (Instance is not null)
-            throw new InvalidOperationException("MainViewModel instance already exists.");
-        Instance = this;
+        // _debugPage = Globals.debugViewModel;
 
-        // Setup Singletons
-        SpacetimeController spacetimeController = new();
         SetLoginPage();
     }
 
@@ -40,6 +36,6 @@ public partial class MainViewModel : ViewModelBase
 
     public void SetLandingPage()
     {
-        MainPage = new LandingPageViewModel();
+        MainPage = Globals.landingPageViewModel;
     }
 }

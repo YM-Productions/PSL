@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using SpacetimeDB.Types;
 using Networking.SpacetimeController;
+using Client_PSL.Services;
 using Utils;
 
 namespace Client_PSL.ViewModels;
@@ -51,7 +52,7 @@ public partial class InspectableObjectViewModel : ViewModelBase
     {
         if (_viewModelFactories[_obj.Obj.GetType()] is Func<object, ViewModelBase> factory)
         {
-            LandingPageViewModel.Instance.SetExtendedViewModel(factory(_obj.Obj));
+            Globals.landingPageViewModel.SetExtendedViewModel(factory(_obj.Obj));
         }
     }
 }

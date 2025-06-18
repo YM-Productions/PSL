@@ -24,9 +24,10 @@ public partial class DebugView : UserControl
     {
         if (e.Key == Key.Enter &&
             sender is TextBox textBox &&
-            !string.IsNullOrEmpty(textBox.Text))
+            !string.IsNullOrEmpty(textBox.Text) &&
+            DataContext is DebugViewModel vm)
         {
-            DebugViewModel.Instance.HanldeMessage(textBox.Text);
+            vm.HanldeMessage(textBox.Text);
             textBox.Text = string.Empty;
             e.Handled = true;
         }
