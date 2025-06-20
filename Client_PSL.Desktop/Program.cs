@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Client_PSL.Services;
 
 namespace Client_PSL.Desktop;
 
@@ -17,7 +18,8 @@ sealed class Program
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
 
-        Console.WriteLine("PostOut");
+        if (Globals.spacetimeController.IsConnected)
+            Globals.spacetimeController.CloseCon();
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
