@@ -8,9 +8,25 @@ using Utils;
 
 namespace Client_PSL.Services.Settings;
 
+/// <summary>
+/// Provides design and theme-related settings for the application, such as highlight color.
+/// </summary>
+/// <remarks>
+/// This settings module manages UI appearance options. It supports property change notifications
+/// for data binding and updates global Avalonia resources to enable dynamic theme changes at runtime.
+/// </remarks>
 public class DesignSettings : INotifyPropertyChanged, ISettingsModule
 {
     private Color _highlightColor = Color.Parse("#ff8066");
+
+    /// <summary>
+    /// Gets or sets the application's highlight color.
+    /// </summary>
+    /// <remarks>
+    /// When set, this property raises <see cref="PropertyChanged"/> and updates the global
+    /// <c>HighlightColor</c> resource in <see cref="Application.Current.Resources"/>, so that
+    /// all UI elements using this resource update automatically.
+    /// </remarks>
     public Color HighlightColor
     {
         get => _highlightColor;
@@ -29,13 +45,19 @@ public class DesignSettings : INotifyPropertyChanged, ISettingsModule
         }
     }
 
+    /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    /// <summary>
+    /// Raises the <see cref="PropertyChanged"/> event for the specified property.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that changed.</param>
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    /// <inheritdoc/>
     public void Load()
     {
         Debug.Log("Loading design settings...");
@@ -57,6 +79,7 @@ public class DesignSettings : INotifyPropertyChanged, ISettingsModule
         else Save();
     }
 
+    /// <inheritdoc/>
     public void Save()
     {
         Debug.Log("Saving design settings...");
