@@ -17,7 +17,6 @@ public partial class LandingPageViewModel : ViewModelBase
 
     public LandingPageViewModel()
     {
-        ISettings.Load();
         CurrentViewModel = new ModularBrowserViewModel(typeof(PhysicalObject));
     }
 

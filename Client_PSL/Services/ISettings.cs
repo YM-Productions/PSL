@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.Text.Json;
+using Client_PSL.Json;
 using Client_PSL.Services.Settings;
 using Utils;
 
@@ -6,7 +8,17 @@ namespace Client_PSL.Services;
 
 public static class ISettings
 {
+    public static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        WriteIndented = true,
+    };
+
     public static AppSettings Data { get; private set; } = new();
+
+    static ISettings()
+    {
+        JsonOptions.Converters.Add(new AvaloniaColorJsonConverter());
+    }
 
     public static void Load()
     {

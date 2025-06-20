@@ -1,15 +1,14 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using Client_PSL.ViewModels;
 using Client_PSL.Views;
 using Client_PSL.Services;
+using Client_PSL.Desktop.Services;
 
-namespace Client_PSL;
+namespace Client_PSL.Desktop;
 
 public partial class App : Application
 {
@@ -20,6 +19,11 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Globals.fileService = new DesktopFileService();
+        ISettings.Load();
+
+        SetResouces();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -38,9 +42,16 @@ public partial class App : Application
             };
         }
 
-        Application.Current.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
-
         base.OnFrameworkInitializationCompleted();
+    }
+
+    // Set all dynamic global resources that are used in the application.
+    private void SetResouces()
+    {
+        if (Application.Current is Application app)
+        {
+            app.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
+        }
     }
 
     private void DisableAvaloniaDataAnnotationValidation()

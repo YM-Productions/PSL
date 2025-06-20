@@ -1,7 +1,5 @@
 ﻿using System;
 using Avalonia;
-using Client_PSL.Services;
-using Client_PSL.Desktop.Services;
 
 namespace Client_PSL.Desktop;
 
@@ -19,13 +17,12 @@ sealed class Program
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
 
-        // Define Desktop Sepcific stuff
-        Globals.fileService = new DesktopFileService();
+        Console.WriteLine("PostOut");
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+        => AppBuilder.Configure<Client_PSL.Desktop.App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
