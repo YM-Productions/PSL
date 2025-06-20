@@ -29,6 +29,7 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="SpacetimeDB.ClientSDK" />
+        <PackageReference Include="System.Reactive.Linq" />
     </ItemGroup>
 
     <ItemGroup>
@@ -49,14 +50,12 @@
         </Compile>
     </ItemGroup>
 
-    <Target Name="RunPrebuildScriptWindows" BeforeTargets="PreBuildEvent"
-        Condition="'$(OS)' == 'Windows_NT'">
+    <Target Name="RunPrebuildScriptWindows" BeforeTargets="PreBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
         <Message Text="==&gt; Running prebuild.bat..." />
         <Exec Command="prebuild.bat" />
     </Target>
 
-    <Target Name="RunPrebuildScriptLinux" BeforeTargets="PreBuildEvent"
-        Condition="'$(OS)' != 'Windows_NT'">
+    <Target Name="RunPrebuildScriptLinux" BeforeTargets="PreBuildEvent" Condition="'$(OS)' != 'Windows_NT'">
         <Message Text="==&gt; Running prebuild.sh..." />
         <Exec Command="bash prebuild.sh" />
     </Target>
