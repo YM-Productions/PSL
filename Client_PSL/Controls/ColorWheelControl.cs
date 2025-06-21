@@ -9,11 +9,23 @@ using System;
 
 namespace Client_PSL.Controls;
 
+/// <summary>
+/// A custom Avalonia control that displays a color wheel for selecting colors using HSV (Hue, Saturation, Value) model.
+/// Users can interact with the hue ring and the inner triangle to pick a color, and the control exposes properties for
+/// the selected color in various formats (ARGB, Hex, HSV).
+/// </summary>
 public class ColorWheelControl : Control
 {
+    /// <summary>
+    /// Identifies the <see cref="SelectedColor"/> styled property.
+    /// </summary>
     public static readonly StyledProperty<Color> SelectedColorProperty =
         AvaloniaProperty.Register<ColorWheelControl, Color>(nameof(SelectedColor));
 
+    /// <summary>
+    /// Gets or sets the currently selected color.
+    /// Setting this property updates the HSV values and notifies property changes for related color properties.
+    /// </summary>
     public Color SelectedColor
     {
         get => GetValue(SelectedColorProperty);
@@ -40,12 +52,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="R"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, byte> RProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, byte>(
                 nameof(R),
                 o => o.R,
                 (o, v) => o.R = v);
 
+    /// <summary>
+    /// Gets or sets the red channel of the selected color.
+    /// </summary>
     public byte R
     {
         get => SelectedColor.R;
@@ -56,12 +74,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="G"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, byte> GProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, byte>(
                 nameof(G),
                 o => o.G,
                 (o, v) => o.G = v);
 
+    /// <summary>
+    /// Gets or sets the green channel of the selected color.
+    /// </summary>
     public byte G
     {
         get => SelectedColor.G;
@@ -72,12 +96,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="B"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, byte> BProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, byte>(
                 nameof(B),
                 o => o.B,
                 (o, v) => o.B = v);
 
+    /// <summary>
+    /// Gets or sets the blue channel of the selected color.
+    /// </summary>
     public byte B
     {
         get => SelectedColor.B;
@@ -88,12 +118,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="A"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, byte> AProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, byte>(
                 nameof(A),
                 o => o.A,
                 (o, v) => o.A = v);
 
+    /// <summary>
+    /// Gets or sets the alpha (opacity) channel of the selected color.
+    /// </summary>
     public byte A
     {
         get => SelectedColor.A;
@@ -104,12 +140,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="Hex"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, string?> HexProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, string?>(
                 nameof(Hex),
                 o => o.Hex,
                 (o, v) => o.Hex = v ?? string.Empty);
 
+    /// <summary>
+    /// Gets or sets the selected color as a hexadecimal string in the format #AARRGGBB.
+    /// </summary>
     public string Hex
     {
         get => $"#{SelectedColor.A:X2}{SelectedColor.R:X2}{SelectedColor.G:X2}{SelectedColor.B:X2}";
@@ -127,12 +169,18 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Identifies the <see cref="Hue"/> direct property.
+    /// </summary>
     public static readonly DirectProperty<ColorWheelControl, double> HueProperty =
         AvaloniaProperty.RegisterDirect<ColorWheelControl, double>(
                 nameof(Hue),
                 o => o.Hue,
                 (o, v) => o.Hue = v);
 
+    /// <summary>
+    /// Gets or sets the hue component of the selected color (0-360).
+    /// </summary>
     public double Hue
     {
         get => (int)Math.Round(_hue);
@@ -158,6 +206,9 @@ public class ColorWheelControl : Control
     private Point _triangleLeft;
     private Point _triangleRight;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ColorWheelControl"/> class and attaches pointer event handlers.
+    /// </summary>
     public ColorWheelControl()
     {
         this.PointerPressed += OnPointerPressed;
@@ -308,6 +359,10 @@ public class ColorWheelControl : Control
         return dx * dx + dy * dy;
     }
 
+    /// <summary>
+    /// Renders the color wheel, hue ring, SV triangle, and selection indicator.
+    /// </summary>
+    /// <param name="context">The drawing context.</param>
     public override void Render(DrawingContext context)
     {
         base.Render(context);
@@ -361,6 +416,11 @@ public class ColorWheelControl : Control
         }
     }
 
+    /// <summary>
+    /// Returns a contrasting color (black or white) for the given color based on luminance.
+    /// </summary>
+    /// <param name="c">The color to test.</param>
+    /// <returns>Black or white color for contrast.</returns>
     public static Color GetContrasColor(Color c)
     {
         double luminance = (0.299 * c.R + 0.587 * c.G + 0.114 * c.B) / 255.0;
@@ -396,6 +456,26 @@ public class ColorWheelControl : Control
         v = max;
     }
 
+    /// <summary>
+    /// Converts a color from HSV (Hue, Saturation, Value) color space to an RGB <see cref="Color"/>.
+    /// </summary>
+    /// <param name="h">
+    /// The hue component, in degrees, where 0 ≤ h &lt; 360. Represents the color type.
+    /// </param>
+    /// <param name="s">
+    /// The saturation component, in the range [0, 1]. Represents the vibrancy of the color, where 0 is grayscale and 1 is the full color.
+    /// </param>
+    /// <param name="v">
+    /// The value (brightness) component, in the range [0, 1]. Represents the brightness of the color, where 0 is black and 1 is the brightest.
+    /// </param>
+    /// <returns>
+    /// A <see cref="Color"/> structure representing the equivalent color in the RGB color space.
+    /// </returns>
+    /// <remarks>
+    /// This method calculates the RGB representation of a color based on its HSV components.
+    /// The conversion algorithm divides the hue into six sectors and computes the RGB values accordingly.
+    /// The resulting color is returned as an RGB <see cref="Color"/> with 8-bit channels.
+    /// </remarks>
     public static Color ColorFromHSV(double h, double s, double v)
     {
         double c = v * s;

@@ -9,26 +9,97 @@ using Utils;
 
 namespace Client_PSL.Controls;
 
+/// <summary>
+/// Initializes a new instance of the <see cref="ColorPicker"/> control.
+/// Sets up the color wheel, RGBA/Hex/Hue input fields, preview, and detail panel with data bindings.
+/// Also handles keyboard shortcuts for toggling the details panel.
+/// </summary>
+/// <remarks>
+/// The constructor creates and arranges all UI elements for the color picker, including:
+/// <list type="bullet">
+/// <item>
+/// <description>
+/// A <see cref="ColorWheelControl"/> for graphical color selection, bound bidirectionally to <see cref="SelectedColor"/>.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// TextBoxes for RGBA, Hex, and Hue values, each bound to the corresponding property of the color wheel.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// A slider for adjusting the alpha (transparency) channel.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// A preview area showing the currently selected color.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// A details panel that can be toggled with F1, showing or hiding the input fields and preview.
+/// </description>
+/// </item>
+/// </list>
+/// All bindings are set up for two-way synchronization where appropriate.
+/// </remarks>
 public class ColorPicker : UserControl
 {
+    /// <summary>
+    /// Identifies the <see cref="SelectedColor"/> dependency property.
+    /// </summary>
+    /// <remarks>
+    /// This property allows for data binding and change notification of the selected color within the color picker control.
+    /// The default value is <see cref="Colors.White"/>.
+    /// </remarks>
     public static readonly StyledProperty<Color> SelectedColorProperty =
         AvaloniaProperty.Register<ColorPicker, Color>(nameof(SelectedColor), defaultValue: Colors.White);
 
+    /// <summary>
+    /// Gets or sets the currently selected color in the color picker.
+    /// </summary>
+    /// <remarks>
+    /// This property is bound to the <see cref="ColorWheelControl"/> and updates whenever the user selects a new color.
+    /// The default value is <see cref="Colors.White"/>.
+    /// </remarks>
     public Color SelectedColor
     {
         get => GetValue(SelectedColorProperty);
         set => SetValue(SelectedColorProperty, value);
     }
 
+    /// <summary>
+    /// Identifies the <see cref="DetailsVisible"/> dependency property.
+    /// </summary>
+    /// <remarks>
+    /// This property enables data binding and change notification for the visibility of the details panel in the color picker control.
+    /// The default value is <c>true</c>, meaning the details panel is visible by default.
+    /// </remarks>
     public static readonly StyledProperty<bool> DetailsVisibleProperty =
         AvaloniaProperty.Register<ColorPicker, bool>(nameof(DetailsVisible), defaultValue: true);
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the details panel is visible in the color picker.
+    /// </summary>
+    /// <remarks>
+    /// When set to <c>true</c>, the details panel (containing input fields and color preview) is shown.
+    /// When set to <c>false</c>, the details panel is hidden. The default value is <c>true</c>.
+    /// </remarks>
     public bool DetailsVisible
     {
         get => GetValue(DetailsVisibleProperty);
         set => SetValue(DetailsVisibleProperty, value);
     }
 
+    /// <summary>
+    /// Identifies the <see cref="DetailsVisible"/> dependency property.
+    /// </summary>
+    /// <remarks>
+    /// This property enables data binding and change notification for the visibility of the details panel in the color picker control.
+    /// The default value is <c>true</c>, meaning the details panel is visible by default.
+    /// </remarks>
     public ColorPicker()
     {
         this.Focusable = true;
