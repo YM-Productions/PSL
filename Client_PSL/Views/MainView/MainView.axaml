@@ -18,7 +18,7 @@
     </Design.DataContext>
 
     <StackPanel Focusable="True" Background="Transparent">
-        <controls:ColorPicker />
+        <controls:ColorField DetailsVisible="False" />
         <ContentControl Content="{Binding DebugPage}" />
         <ContentControl Content="{Binding MainPage}" />
     </StackPanel>

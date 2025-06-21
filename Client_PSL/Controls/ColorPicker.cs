@@ -20,11 +20,31 @@ public class ColorPicker : UserControl
         set => SetValue(SelectedColorProperty, value);
     }
 
+    public static readonly StyledProperty<bool> DetailsVisibleProperty =
+        AvaloniaProperty.Register<ColorPicker, bool>(nameof(DetailsVisible), defaultValue: true);
+
+    public bool DetailsVisible
+    {
+        get => GetValue(DetailsVisibleProperty);
+        set => SetValue(DetailsVisibleProperty, value);
+    }
+
     public ColorPicker()
     {
-        ColorWheelControl wheel = new() { Height = 300, Width = 300 };
-        wheel[!ColorWheelControl.SelectedColorProperty] = this[!SelectedColorProperty];
+        this.Focusable = true;
+        this.KeyDown += (_, e) =>
+        {
+            if (e.Key == Avalonia.Input.Key.F1)
+                DetailsVisible = !DetailsVisible;
+        };
 
+        ColorWheelControl wheel = new() { Height = 300, Width = 300 };
+        wheel.Bind(ColorWheelControl.SelectedColorProperty, new Binding
+        {
+            Source = this,
+            Path = nameof(SelectedColor),
+            Mode = BindingMode.TwoWay
+        });
 
         TextBox rBox = new() { Width = 40 };
         rBox.Bind(TextBox.TextProperty, new Binding
@@ -100,34 +120,56 @@ public class ColorPicker : UserControl
             Converter = new ColorToBrushConverter()
         });
 
-        Content = new StackPanel
+        StackPanel detailPanel = new()
         {
-            Orientation = Orientation.Horizontal,
-            Spacing = 12,
-            Margin = new Thickness(12),
+            Spacing = 6,
+            VerticalAlignment = VerticalAlignment.Top,
             Children = {
-                wheel,
+                new TextBlock { Text = "RGBA:" },
                 new StackPanel {
-                    Spacing = 6,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Children = {
-                        new TextBlock { Text = "RGBA:" },
-                        new StackPanel {
-                            Orientation = Orientation.Horizontal,
-                            Spacing = 4,
-                            Children = { rBox, gBox, bBox, aBox },
-                        },
-                        new TextBlock { Text = "Alpha:" },
-                        alphaSlider,
-                        new TextBlock { Text = "Hex:" },
-                        hexBox,
-                        new TextBlock { Text = "Hue:" },
-                        hueBox,
-                        new TextBlock { Text = "Preview:" },
-                        preview,
-                    }
-                }
+                    Orientation = Orientation.Horizontal,
+                    Spacing = 4,
+                    Children = { rBox, gBox, bBox, aBox },
+                },
+                new TextBlock { Text = "Alpha:" },
+                alphaSlider,
+                new TextBlock { Text = "Hex:" },
+                hexBox,
+                new TextBlock { Text = "Hue:" },
+                hueBox,
+                new TextBlock { Text = "Preview:" },
+                preview,
             }
         };
+        detailPanel.Bind(IsVisibleProperty, new Binding
+        {
+            Source = this,
+            Path = nameof(DetailsVisible),
+            Mode = BindingMode.OneWay
+        });
+
+        Border mainBorder = new()
+        {
+            Background = Brushes.Black,
+            BorderThickness = new Thickness(3),
+            Padding = new Thickness(12),
+            CornerRadius = new CornerRadius(5),
+            Child = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Spacing = 12,
+                Margin = new Thickness(12),
+                Children = { wheel, detailPanel },
+            }
+        };
+        mainBorder.Bind(Border.BorderBrushProperty, new Binding
+        {
+            Source = wheel,
+            Path = nameof(wheel.SelectedColor),
+            Mode = BindingMode.OneWay,
+            Converter = new ColorToBrushConverter()
+        });
+
+        Content = mainBorder;
     }
 }
