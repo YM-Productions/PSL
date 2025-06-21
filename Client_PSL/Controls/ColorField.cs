@@ -48,10 +48,10 @@ public class ColorField : UserControl
     /// </summary>
     /// <remarks>
     /// This property enables data binding and change notification for the visibility of the details panel in the color field control.
-    /// The default value is <c>true</c>, meaning the details panel is visible by default.
+    /// The default value is <c>false</c>, meaning the details panel is visible by default.
     /// </remarks>
     public static readonly StyledProperty<bool> DetailsVisibleProperty =
-        AvaloniaProperty.Register<ColorPicker, bool>(nameof(DetailsVisible), defaultValue: true);
+        AvaloniaProperty.Register<ColorPicker, bool>(nameof(DetailsVisible), defaultValue: false);
 
     /// <summary>
     /// Gets or sets a value indicating whether the details panel is visible in the color field control.
