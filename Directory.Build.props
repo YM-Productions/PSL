@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <EnableBuildCache>true</EnableBuildCache>
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    </PropertyGroup>
+</Project>
