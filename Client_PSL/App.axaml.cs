@@ -38,7 +38,7 @@ public partial class App : Application
             };
         }
 
-        Application.Current.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
+        // Application.Current.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
 
         base.OnFrameworkInitializationCompleted();
     }

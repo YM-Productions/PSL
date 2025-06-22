@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Client_PSL.ViewModels;
 using Client_PSL.Services;
@@ -20,6 +21,18 @@ public partial class MainView : UserControl
             vm.ToggleDebug();
         }
         else if (e.Key == Key.F2)
-            ISettings.Data.Design.HighlightColor = ISettings.Data.Design.HighlightColor == Avalonia.Media.Color.Parse("#ff8066") ? Avalonia.Media.Color.Parse("#66ff80") : Avalonia.Media.Color.Parse("#ff8066");
+        {
+            SettingsPopup.IsOpen = !SettingsPopup.IsOpen;
+        }
+    }
+
+    private void OnPopupKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape && sender is Popup popup)
+        {
+            popup.IsOpen = false;
+            if (popup.IsOpen)
+                popup.Focus();
+        }
     }
 }

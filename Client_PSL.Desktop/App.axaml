@@ -19,11 +19,19 @@
                 <ColorPaletteResources x:Key="Light" Accent="Orange" RegionColor="Black"
                     ErrorText="Red" />
                 <!-- Dark  Theme Palette -->
-                <ColorPaletteResources x:Key="Dark" Accent="{DynamicResource HighlightColor}"
+                <ColorPaletteResources x:Key="Dark" Accent="{DynamicResource AccentColor}"
                     RegionColor="Black"
                     ErrorText="Red" />
             </FluentTheme.Palettes>
         </FluentTheme>
+
+        <!-- <Style Selector="TextBox"> -->
+        <!--     <Setter Property="Background" Value="{DynamicResource BackgroundColor}" /> -->
+        <!-- </Style> -->
+        <!---->
+        <!-- <Style Selector="Button:pressed /template/ ContentPresenter"> -->
+        <!--     <Setter Property="Background" Value="{DynamicResource BackgroundColor}" /> -->
+        <!-- </Style> -->
 
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
     </Application.Styles>

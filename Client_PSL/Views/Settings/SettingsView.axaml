@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Client_PSL.ViewModels"
+    xmlns:local="clr-namespace:Client_PSL"
+    xmlns:control="clr-namespace:Client_PSL.Controls"
+    local:AnimateOnLoadBehavior.IsEnabled="True"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Client_PSL.Views.SettingsView"
+    x:DataType="vm:SettingsViewModel"
+    Loaded="OnLoaded">
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at
+        App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <StackPanel Focusable="True" Background="Transparent" Margin="10">
+        <Expander Header="Design Color Settings">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding DesignElements}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <TextBlock Text="{Binding Name}" Margin="10" />
+                                <control:ColorField SelectedColor="{Binding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Expander>
+    </StackPanel>
+</UserControl>

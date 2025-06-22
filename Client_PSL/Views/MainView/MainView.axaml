@@ -17,7 +17,13 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel Focusable="True" Background="Transparent">
+    <StackPanel Name="MainPanel" Focusable="True" Background="Transparent">
+        <Popup Name="SettingsPopup"
+            KeyDown="OnPopupKeyDown"
+            PlacementMode="Center"
+            PlacementTarget="{Binding ElementName=MainPanel}">
+            <ContentControl Content="{Binding SettingsPage}" />
+        </Popup>
         <ContentControl Content="{Binding DebugPage}" />
         <ContentControl Content="{Binding MainPage}" />
     </StackPanel>

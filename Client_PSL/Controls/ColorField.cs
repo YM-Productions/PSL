@@ -28,7 +28,7 @@ public class ColorField : UserControl
     /// The default value is <see cref="Colors.White"/>.
     /// </remarks>
     public static readonly StyledProperty<Color> SelectedColorProperty =
-        AvaloniaProperty.Register<ColorField, Color>(nameof(SelectedColor), defaultValue: Colors.White);
+        AvaloniaProperty.Register<ColorField, Color>(nameof(SelectedColor), defaultValue: Colors.White, defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// Gets or sets the currently selected color in the color field.

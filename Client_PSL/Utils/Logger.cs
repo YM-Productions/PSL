@@ -144,7 +144,7 @@ public class Logger
         /// <exception cref="Exception">Thrown if a logger with the given name already exists.</exception>
         public static Logger CreateLogger(string name)
         {
-            if (_loggerDic.ContainsKey(name)) throw new Exception($"Error: The Logger {name} already exists");
+            if (_loggerDic.ContainsKey(name)) return GetLogger(name);
             Logger logger = new(name);
             _loggerDic.Add(name, logger);
             return logger;

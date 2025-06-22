@@ -9,6 +9,7 @@ namespace Client_PSL.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     public DebugViewModel DebugPage => Globals.debugViewModel;
+    public SettingsViewModel SettingsPage => new();
 
     [ObservableProperty]
     private ViewModelBase? _mainPage;

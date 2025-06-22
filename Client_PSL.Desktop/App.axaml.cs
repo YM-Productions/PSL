@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using System;
@@ -21,8 +22,9 @@ public partial class App : Application
     {
         Globals.fileService = new DesktopFileService();
         ISettings.Load();
+        Globals.InitializeResources();
 
-        SetResouces();
+        // SetResouces();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -46,13 +48,13 @@ public partial class App : Application
     }
 
     // Set all dynamic global resources that are used in the application.
-    private void SetResouces()
-    {
-        if (Application.Current is Application app)
-        {
-            app.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
-        }
-    }
+    // private void SetResouces()
+    // {
+    //     if (Application.Current is Application app)
+    //     {
+    //         app.Resources["HighlightColor"] = ISettings.Data.Design.HighlightColor;
+    //     }
+    // }
 
     private void DisableAvaloniaDataAnnotationValidation()
     {

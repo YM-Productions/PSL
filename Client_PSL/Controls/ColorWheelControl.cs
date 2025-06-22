@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Data;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
@@ -20,7 +21,7 @@ public class ColorWheelControl : Control
     /// Identifies the <see cref="SelectedColor"/> styled property.
     /// </summary>
     public static readonly StyledProperty<Color> SelectedColorProperty =
-        AvaloniaProperty.Register<ColorWheelControl, Color>(nameof(SelectedColor));
+        AvaloniaProperty.Register<ColorWheelControl, Color>(nameof(SelectedColor), defaultValue: Colors.White, defaultBindingMode: BindingMode.TwoWay);
 
     /// <summary>
     /// Gets or sets the currently selected color.

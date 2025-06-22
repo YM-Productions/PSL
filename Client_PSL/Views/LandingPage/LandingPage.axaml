@@ -16,6 +16,8 @@
     </Design.DataContext>
 
     <StackPanel>
+        <TextBlock Text="Hint of the Day:" HorizontalAlignment="Center" FontSize="24" Margin="10" />
+        <TextBlock Text="Press F2 to get to Settings" HorizontalAlignment="Center" FontSize="14" />
         <ContentControl Content="{Binding CurrentViewModel}" />
         <ContentControl Content="{Binding ExtendedViewModel}" />
     </StackPanel>

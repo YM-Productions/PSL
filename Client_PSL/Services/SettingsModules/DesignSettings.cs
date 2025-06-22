@@ -17,7 +17,9 @@ namespace Client_PSL.Services.Settings;
 /// </remarks>
 public class DesignSettings : INotifyPropertyChanged, ISettingsModule
 {
-    private Color _highlightColor = Color.Parse("#ff8066");
+    private Logger logger = Logger.LoggerFactory.CreateLogger(nameof(ISettings));
+
+    private Color _accentColor = Color.Parse("#ff8500");
 
     /// <summary>
     /// Gets or sets the application's highlight color.
@@ -27,19 +29,19 @@ public class DesignSettings : INotifyPropertyChanged, ISettingsModule
     /// <c>HighlightColor</c> resource in <see cref="Application.Current.Resources"/>, so that
     /// all UI elements using this resource update automatically.
     /// </remarks>
-    public Color HighlightColor
+    public Color AccentColor
     {
-        get => _highlightColor;
+        get => _accentColor;
         set
         {
-            if (_highlightColor != value)
+            if (_accentColor != value)
             {
-                _highlightColor = value;
-                OnPropertyChanged(nameof(HighlightColor));
+                _accentColor = value;
+                OnPropertyChanged(nameof(AccentColor));
 
                 if (Application.Current?.Resources != null)
                 {
-                    Application.Current.Resources[nameof(HighlightColor)] = HighlightColor;
+                    Application.Current.Resources[nameof(AccentColor)] = AccentColor;
                 }
             }
         }
@@ -60,12 +62,12 @@ public class DesignSettings : INotifyPropertyChanged, ISettingsModule
     /// <inheritdoc/>
     public void Load()
     {
-        Debug.Log("Loading design settings...");
+        logger.Log("Loading design settings...");
 
         if (Globals.fileService.ReadText(nameof(DesignSettings)) is string json &&
             JsonSerializer.Deserialize<DesignSettings>(json, ISettings.JsonOptions) is DesignSettings designSettings)
         {
-            Debug.Log("Design settings loaded successfully.");
+            logger.Log("Design settings loaded successfully.");
 
             foreach (PropertyInfo prop in GetType().GetProperties())
             {
@@ -82,7 +84,7 @@ public class DesignSettings : INotifyPropertyChanged, ISettingsModule
     /// <inheritdoc/>
     public void Save()
     {
-        Debug.Log("Saving design settings...");
+        logger.Log("Saving design settings...");
 
         string json = JsonSerializer.Serialize(this, ISettings.JsonOptions);
         Globals.fileService.WriteText(nameof(DesignSettings), json);
