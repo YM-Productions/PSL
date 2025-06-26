@@ -18,13 +18,21 @@
     </Design.DataContext>
 
     <StackPanel Name="MainPanel" Focusable="True" Background="Transparent">
+        <!-- Settings -->
         <Popup Name="SettingsPopup"
             KeyDown="OnPopupKeyDown"
             PlacementMode="Center"
             PlacementTarget="{Binding ElementName=MainPanel}">
             <ContentControl Content="{Binding SettingsPage}" />
         </Popup>
+
+        <!-- Debugging -->
         <ContentControl Content="{Binding DebugPage}" />
-        <ContentControl Content="{Binding MainPage}" />
+
+        <!-- Testing -->
+        <controls:SmartViewHost x:Name="SmartHost" />
+
+        <!-- Content -->
+        <!-- <ContentControl Content="{Binding MainPage}" /> -->
     </StackPanel>
 </UserControl>

@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Client_PSL"
+    xmlns:controls="clr-namespace:Client_PSL.Controls"
+    local:AnimateOnLoadBehavior.IsEnabled="False"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="Client_PSL.Controls.SmartView"
+    x:DataType="controls:SmartView">
+
+    <Border BorderBrush="Red" BorderThickness="3"
+        CornerRadius="{DynamicResource DefaultCornerRadius}">
+        <DockPanel Width="400" Height="400">
+            <Border Background="Red" Height="30" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                <TextBlock Text="{Binding Title, Mode=TwoWay}" />
+            </Border>
+
+            <ContentControl x:Name="ContentHost"
+                Content="{Binding DataContext, RelativeSource={RelativeSource Self}}" />
+        </DockPanel>
+    </Border>
+</UserControl>
