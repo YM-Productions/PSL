@@ -146,10 +146,10 @@ public partial class SmartView : UserControl
         MinHeight = _minimzed ? 0 : _originalMinHeight;
     }
 
-    private void OnMaximizeButtonClick(object? sender, RoutedEventArgs e)
-    {
-
-    }
+    // private void OnMaximizeButtonClick(object? sender, RoutedEventArgs e)
+    // {
+    //
+    // }
 
     private void OnCloseButtonClick(object? sender, RoutedEventArgs e)
     {
@@ -159,12 +159,43 @@ public partial class SmartView : UserControl
 
     private void OnThumbResize(object? sender, VectorEventArgs e)
     {
+        if (_parent is null) _parent = this.GetVisualParent<Canvas>();
+        if (_parent is not SmartViewHost host)
+            return;
+
         if (double.IsNaN(Width)) Width = Bounds.Width;
         if (double.IsNaN(Height)) Height = Bounds.Height;
 
-        Width = Math.Clamp(Width + e.Vector.X, MinWidth, MaxWidth);
-        Height = Math.Clamp(Height + e.Vector.Y, MinHeight, MaxHeight);
+        double newWidth = Width + e.Vector.X;
+        double newHeight = Height + e.Vector.Y;
 
-        Debug.Log(Height.ToString());
+        foreach (SmartView other in host.Children)
+        {
+            if (other == this)
+                continue;
+
+            double ox = Canvas.GetLeft(other);
+            double oy = Canvas.GetTop(other);
+            double ow = other.Bounds.Width;
+            double oh = other.Bounds.Height;
+
+            if (Math.Abs((Canvas.GetLeft(this) + newWidth) - ox) < SnapThreshold)
+                newWidth = ox - Canvas.GetLeft(this);
+            if (Math.Abs((Canvas.GetTop(this) + newHeight) - oy) < SnapThreshold)
+                newHeight = oy - Canvas.GetTop(this);
+        }
+
+        double maxW = host.Bounds.Width - Canvas.GetLeft(this);
+        double maxH = host.Bounds.Height - Canvas.GetTop(this);
+
+        if (maxW < MinWidth) maxW = MinWidth;
+        else if (maxW > MaxWidth) maxW = MaxWidth;
+        if (maxH < MinHeight) maxH = MinHeight;
+        else if (maxH > MaxHeight) maxH = MaxHeight;
+
+        Debug.Log(maxW.ToString());
+
+        Width = Math.Clamp(newWidth, MinWidth, maxW);
+        Height = Math.Clamp(newHeight, MinHeight, maxH);
     }
 }

@@ -28,6 +28,8 @@ public partial class MainView : UserControl
             InnerContent = new LoginViewModel(),
             MinWidth = 300,
             MinHeight = 300,
+            MaxWidth = 600,
+            MaxHeight = 600,
         };
 
         SmartView registerView = new()
