@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -9,7 +10,7 @@ using Utils;
 
 namespace Client_PSL.Controls;
 
-public partial class SmartView : UserControl, INotifyPropertyChanged
+public partial class SmartView : UserControl
 {
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<SmartView, string>(nameof(Title), "Window");
@@ -39,6 +40,8 @@ public partial class SmartView : UserControl, INotifyPropertyChanged
         this.PointerMoved += OnPointerMoved;
         this.PointerReleased += OnPointerReleased;
         this.PointerCaptureLost += (_, _) => _dragging = false;
+
+        ResizeThumb.DragDelta += OnThumbResize;
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -71,7 +74,20 @@ public partial class SmartView : UserControl, INotifyPropertyChanged
             host.BringToFront(this);
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName) =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    private void OnCloseButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (this.GetVisualParent() is SmartViewHost host)
+            host.Children.Remove(this);
+    }
+
+    private void OnThumbResize(object? sender, VectorEventArgs e)
+    {
+        if (double.IsNaN(Width)) Width = Bounds.Width;
+        if (double.IsNaN(Height)) Height = Bounds.Height;
+
+        Width = Math.Clamp(Width + e.Vector.X, MinWidth, MaxWidth);
+        Height = Math.Clamp(Height + e.Vector.Y, MinHeight, MaxHeight);
+
+        Debug.Log(Height.ToString());
+    }
 }

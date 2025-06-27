@@ -18,6 +18,8 @@ public partial class MainView : UserControl
         {
             Title = "This is a Test",
             InnerContent = new LoginViewModel(),
+            MinWidth = 300,
+            MinHeight = 300,
         };
 
         SmartHost.AddSmartView(smartView, new Avalonia.Point(100, 100));

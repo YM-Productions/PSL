@@ -6,15 +6,47 @@
     xmlns:controls="clr-namespace:Client_PSL.Controls"
     local:AnimateOnLoadBehavior.IsEnabled="False"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    MinWidth="200" MinHeight="200"
     x:Class="Client_PSL.Controls.SmartView"
     x:DataType="controls:SmartView">
 
+    <UserControl.Resources>
+        <ControlTheme x:Key="ThumbTheme" TargetType="Thumb">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{DynamicResource DefaultCornerRadius}" />
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </UserControl.Resources>
+
     <Border BorderBrush="Red" BorderThickness="3"
         CornerRadius="{DynamicResource DefaultCornerRadius}">
-        <DockPanel Width="400" Height="400">
+
+        <DockPanel>
             <Border Background="Red" Height="30" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-                <TextBlock Text="{Binding Title, Mode=TwoWay}" />
+                <DockPanel>
+                    <Button Content="✖" Background="Transparent" BorderThickness="0"
+                        HorizontalAlignment="Right" DockPanel.Dock="Right"
+                        Click="OnCloseButtonClick" />
+
+                    <TextBlock VerticalAlignment="Center"
+                        Text="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type controls:SmartView}}}" />
+                </DockPanel>
             </Border>
+
+            <Thumb x:Name="ResizeThumb"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Width="16" Height="16"
+                Margin="0"
+                Cursor="BottomRightCorner"
+                Background="Lime"
+                Theme="{StaticResource ThumbTheme}"
+                DockPanel.Dock="Bottom" />
 
             <ContentControl x:Name="ContentHost"
                 Content="{Binding DataContext, RelativeSource={RelativeSource Self}}" />
