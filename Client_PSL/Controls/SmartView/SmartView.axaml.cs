@@ -31,6 +31,13 @@ public partial class SmartView : UserControl
     private Point _start;
     private Canvas? _parent;
 
+    private const double SnapThreshold = 15.0;
+
+    private bool _minimzed = false;
+
+    private double _originalMinHeight;
+    private double _originalHeight;
+
     public SmartView()
     {
         InitializeComponent();
@@ -46,6 +53,9 @@ public partial class SmartView : UserControl
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (this.GetVisualParent() is SmartViewHost host)
+            host.BringToFront(this);
+
         if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
         {
             _dragging = true;
@@ -57,12 +67,57 @@ public partial class SmartView : UserControl
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (!_dragging || _parent is null)
+        if (!_dragging || _parent is not SmartViewHost host)
             return;
 
-        Point pos = e.GetPosition(_parent);
-        Canvas.SetLeft(this, pos.X - _start.X);
-        Canvas.SetTop(this, pos.Y - _start.Y);
+        Point pos = e.GetPosition(host);
+        double x = pos.X - _start.X;
+        double y = pos.Y - _start.Y;
+
+        //Window Clamping
+        x = Math.Clamp(x, 0, Math.Max(0, host.Bounds.Width - Bounds.Width));
+        y = Math.Clamp(y, 0, Math.Max(0, host.Bounds.Height - Bounds.Height));
+
+        // Window snapping
+        KeyModifiers modifiers = e.KeyModifiers;
+        if (modifiers.HasFlag(KeyModifiers.Control))
+        {
+            if (Math.Abs(x) < SnapThreshold)
+                x = 0;
+            if (Math.Abs(y) < SnapThreshold)
+                y = 0;
+
+            double rightEdge = x + Bounds.Width;
+            double bottomEdge = y + Bounds.Height;
+
+            if (Math.Abs(rightEdge - host.Bounds.Width) < SnapThreshold)
+                x = host.Bounds.Width - Bounds.Width;
+            if (Math.Abs(bottomEdge - host.Bounds.Height) < SnapThreshold)
+                y = host.Bounds.Height - Bounds.Height;
+
+            foreach (SmartView other in host.Children)
+            {
+                if (other == this)
+                    continue;
+
+                double ox = Canvas.GetLeft(other);
+                double oy = Canvas.GetTop(other);
+                double ow = other.Bounds.Width;
+                double oh = other.Bounds.Height;
+
+                if (Math.Abs(x - (ox + ow)) < SnapThreshold)
+                    x = ox + ow;
+                if (Math.Abs((x + Bounds.Width) - ox) < SnapThreshold)
+                    x = ox - Bounds.Width;
+                if (Math.Abs(y - (oy + oh)) < SnapThreshold)
+                    y = oy + oh;
+                if (Math.Abs((y + Bounds.Height) - oy) < SnapThreshold)
+                    y = oy - Bounds.Height;
+            }
+        }
+
+        Canvas.SetLeft(this, x);
+        Canvas.SetTop(this, y);
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -72,6 +127,28 @@ public partial class SmartView : UserControl
 
         if (_parent is SmartViewHost host)
             host.BringToFront(this);
+    }
+
+    private void OnMinimizeButtonClick(object? sender, RoutedEventArgs e)
+    {
+        _minimzed = !_minimzed;
+
+        if (_minimzed)
+        {
+            _originalMinHeight = MinHeight;
+            _originalHeight = Height;
+        }
+
+        ContentHost.IsVisible = !_minimzed;
+        ResizeThumb.IsVisible = !_minimzed;
+
+        Height = _minimzed ? double.NaN : _originalHeight;
+        MinHeight = _minimzed ? 0 : _originalMinHeight;
+    }
+
+    private void OnMaximizeButtonClick(object? sender, RoutedEventArgs e)
+    {
+
     }
 
     private void OnCloseButtonClick(object? sender, RoutedEventArgs e)
