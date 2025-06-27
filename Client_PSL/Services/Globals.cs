@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Client_PSL.ViewModels;
+using Client_PSL.Controls;
 using Networking.SpacetimeController;
 
 namespace Client_PSL.Services;
@@ -23,6 +24,7 @@ public static class Globals
     public static DebugViewModel debugViewModel { get; } = new();
     public static SpacetimeController spacetimeController { get; } = new();
     public static LandingPageViewModel landingPageViewModel { get; } = new();
+    public static SmartViewHost smartViewHost { get; set; } = null;
 
     /// <summary>
     /// Initializes application-wide resources by updating the resource dictionary of the current application

@@ -22,10 +22,13 @@ public partial class SmartView : UserControl
         set => SetValue(TitleProperty, value);
     }
 
+    public static readonly StyledProperty<object?> InnerContentProperty =
+        AvaloniaProperty.Register<SmartView, object?>(nameof(InnerContent));
+
     public object? InnerContent
     {
-        get => ContentHost.DataContext;
-        set => ContentHost.DataContext = value;
+        get => GetValue(InnerContentProperty);
+        set => SetValue(InnerContentProperty, value);
     }
 
     private bool _dragging;
@@ -58,6 +61,9 @@ public partial class SmartView : UserControl
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (e.Source != HeaderBorder)
+            return;
+
         if (this.GetVisualParent() is SmartViewHost host)
             host.BringToFront(this);
 
@@ -150,11 +156,14 @@ public partial class SmartView : UserControl
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        _dragging = false;
-        e.Pointer.Capture(null);
+        if (_dragging)
+        {
+            _dragging = false;
+            e.Pointer.Capture(null);
 
-        if (_parent is SmartViewHost host)
-            host.BringToFront(this);
+            if (_parent is SmartViewHost host)
+                host.BringToFront(this);
+        }
     }
 
     private void OnMinimizeButtonClick(object? sender, RoutedEventArgs e)
@@ -220,8 +229,6 @@ public partial class SmartView : UserControl
         else if (maxW > MaxWidth) maxW = MaxWidth;
         if (maxH < MinHeight) maxH = MinHeight;
         else if (maxH > MaxHeight) maxH = MaxHeight;
-
-        Debug.Log(maxW.ToString());
 
         Width = Math.Clamp(newWidth, MinWidth, maxW);
         Height = Math.Clamp(newHeight, MinHeight, maxH);

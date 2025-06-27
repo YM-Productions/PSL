@@ -23,11 +23,13 @@
         </ControlTheme>
     </UserControl.Resources>
 
-    <Border BorderBrush="Gray" BorderThickness="3"
+    <Border BorderBrush="Gray" BorderThickness="1" Background="Black"
         CornerRadius="{DynamicResource DefaultCornerRadius}">
 
         <DockPanel x:Name="RootPanel">
-            <Border Background="Gray" Height="30" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <Border x:Name="HeaderBorder" Background="Gray" CornerRadius="7,7,0,0" Height="35"
+                Padding="5"
+                HorizontalAlignment="Stretch" DockPanel.Dock="Top">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5"
                         DockPanel.Dock="Right">
@@ -43,7 +45,7 @@
                     </StackPanel>
 
                     <TextBlock VerticalAlignment="Center"
-                        Text="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type controls:SmartView}}}" />
+                        Text="{Binding Title, RelativeSource={RelativeSource AncestorType=controls:SmartView}}" />
                 </DockPanel>
             </Border>
 
@@ -58,7 +60,7 @@
                 DockPanel.Dock="Bottom" />
 
             <ContentControl x:Name="ContentHost"
-                Content="{Binding DataContext, RelativeSource={RelativeSource Self}}" />
+                Content="{Binding InnerContent, RelativeSource={RelativeSource AncestorType=controls:SmartView}}" />
         </DockPanel>
     </Border>
 </UserControl>

@@ -14,6 +14,11 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase? _mainPage;
 
+    [ObservableProperty]
+    private bool _isLanded = false;
+    [ObservableProperty]
+    private bool _isNotLanded = true;
+
     public MainViewModel()
     {
         // _debugPage = Globals.debugViewModel;
@@ -37,6 +42,8 @@ public partial class MainViewModel : ViewModelBase
 
     public void SetLandingPage()
     {
-        MainPage = Globals.landingPageViewModel;
+        // MainPage = Globals.landingPageViewModel;
+        IsLanded = true;
+        IsNotLanded = false;
     }
 }

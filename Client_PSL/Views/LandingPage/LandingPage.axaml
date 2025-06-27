@@ -4,6 +4,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Client_PSL.ViewModels"
     xmlns:local="clr-namespace:Client_PSL"
+    xmlns:controls="clr-namespace:Client_PSL.Controls"
     local:AnimateOnLoadBehavior.IsEnabled="False"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
     x:Class="Client_PSL.Views.LandingPageView"
@@ -15,10 +16,5 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <TextBlock Text="Hint of the Day:" HorizontalAlignment="Center" FontSize="24" Margin="10" />
-        <TextBlock Text="Press F2 to get to Settings" HorizontalAlignment="Center" FontSize="14" />
-        <ContentControl Content="{Binding CurrentViewModel}" />
-        <ContentControl Content="{Binding ExtendedViewModel}" />
-    </StackPanel>
+    <TextBlock Text="This View is obsolede" />
 </UserControl>

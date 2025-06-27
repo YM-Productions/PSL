@@ -29,10 +29,9 @@
         <!-- Debugging -->
         <ContentControl Content="{Binding DebugPage}" />
 
-        <!-- Testing -->
-        <controls:SmartViewHost x:Name="SmartHost" />
+        <controls:SmartViewHost x:Name="SmartHost" IsVisible="{Binding IsLanded}" />
 
         <!-- Content -->
-        <!-- <ContentControl Content="{Binding MainPage}" /> -->
+        <ContentControl Content="{Binding MainPage}" IsVisible="{Binding IsNotLanded}" />
     </StackPanel>
 </UserControl>

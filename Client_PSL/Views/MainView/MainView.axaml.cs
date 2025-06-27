@@ -7,6 +7,7 @@ using SpacetimeDB.Types;
 using Client_PSL.ViewModels;
 using Client_PSL.Services;
 using Client_PSL.Controls;
+using Utils;
 
 namespace Client_PSL.Views;
 
@@ -22,26 +23,7 @@ public partial class MainView : UserControl
             SmartHost.Height = bounds.Height;
         });
 
-        SmartView loginView = new()
-        {
-            Title = "Login",
-            InnerContent = new LoginViewModel(),
-            MinWidth = 300,
-            MinHeight = 300,
-            MaxWidth = 600,
-            MaxHeight = 600,
-        };
-
-        SmartView registerView = new()
-        {
-            Title = "Register",
-            InnerContent = new RegisterViewModel(),
-            MinWidth = 300,
-            MinHeight = 300,
-        };
-
-        SmartHost.AddSmartView(loginView, new Avalonia.Point(100, 100));
-        SmartHost.AddSmartView(registerView, new Avalonia.Point(400, 100));
+        Globals.smartViewHost = SmartHost;
     }
 
     private void OnKeyDown(object? sender, KeyEventArgs e)
@@ -54,6 +36,19 @@ public partial class MainView : UserControl
         else if (e.Key == Key.F2)
         {
             SettingsPopup.IsOpen = !SettingsPopup.IsOpen;
+        }
+        else if (e.Key == Key.F5)
+        {
+            SmartView sm = new SmartView()
+            {
+                Title = "ModularBrowser",
+                InnerContent = new ModularBrowserViewModel(typeof(PhysicalObject)),
+
+                Width = 600,
+                Height = 600,
+            };
+
+            Globals.smartViewHost.AddSmartView(sm, new(100, 100));
         }
     }
 
