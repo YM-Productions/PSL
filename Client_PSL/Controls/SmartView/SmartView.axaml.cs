@@ -7,6 +7,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Utils;
+using CLient_PSL.Style.Animations;
 
 namespace Client_PSL.Controls;
 
@@ -34,6 +35,10 @@ public partial class SmartView : UserControl
     private const double SnapThreshold = 15.0;
 
     private bool _minimzed = false;
+    private bool _snappedToX = false;
+    private bool _snappedToY = false;
+    private double _snapX = 0;
+    private double _snapY = 0;
 
     private double _originalMinHeight;
     private double _originalHeight;
@@ -73,6 +78,8 @@ public partial class SmartView : UserControl
         Point pos = e.GetPosition(host);
         double x = pos.X - _start.X;
         double y = pos.Y - _start.Y;
+        double unsnappedX = x;
+        double unsnappedY = y;
 
         //Window Clamping
         x = Math.Clamp(x, 0, Math.Max(0, host.Bounds.Width - Bounds.Width));
@@ -115,6 +122,27 @@ public partial class SmartView : UserControl
                     y = oy - Bounds.Height;
             }
         }
+
+        bool snappEffect = false;
+        if (x != unsnappedX && !_snappedToX)
+        {
+            _snappedToX = true;
+            _snapX = x;
+            _ = UIEffects.PlaySnapEffect(this);
+            snappEffect = true;
+        }
+        if (y != unsnappedY && !_snappedToY)
+        {
+            _snappedToY = true;
+            _snapY = y;
+            if (!snappEffect)
+                _ = UIEffects.PlaySnapEffect(this);
+        }
+
+        if (_snappedToX && _snapX != x)
+            _snappedToX = false;
+        if (_snappedToY && _snapY != y)
+            _snappedToY = false;
 
         Canvas.SetLeft(this, x);
         Canvas.SetTop(this, y);

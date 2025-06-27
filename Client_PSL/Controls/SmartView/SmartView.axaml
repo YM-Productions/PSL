@@ -17,27 +17,27 @@
                     <Border Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{DynamicResource DefaultCornerRadius}" />
+                        CornerRadius="8,0,8,0" />
                 </ControlTemplate>
             </Setter>
         </ControlTheme>
     </UserControl.Resources>
 
-    <Border BorderBrush="Red" BorderThickness="3"
+    <Border BorderBrush="Gray" BorderThickness="3"
         CornerRadius="{DynamicResource DefaultCornerRadius}">
 
         <DockPanel x:Name="RootPanel">
-            <Border Background="Red" Height="30" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <Border Background="Gray" Height="30" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5"
                         DockPanel.Dock="Right">
-                        <Button Content="━" Background="Orange" BorderThickness="0"
+                        <Button Content="━" Background="DarkGray" BorderThickness="0"
                             VerticalAlignment="Center"
                             Click="OnMinimizeButtonClick" />
                         <!-- <Button Content="⛶" Background="Orange" BorderThickness="0" -->
                         <!--     VerticalAlignment="Center" -->
                         <!--     Click="OnMaximizeButtonClick" /> -->
-                        <Button Content="✖" Background="Orange" BorderThickness="0"
+                        <Button Content="✖" Background="DarkGray" BorderThickness="0"
                             VerticalAlignment="Center"
                             Click="OnCloseButtonClick" />
                     </StackPanel>
