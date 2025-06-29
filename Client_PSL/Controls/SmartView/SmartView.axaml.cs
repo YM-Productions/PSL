@@ -37,11 +37,16 @@ public partial class SmartView : UserControl
 
     private const double SnapThreshold = 15.0;
 
-    private bool _minimzed = false;
     private bool _snappedToX = false;
     private bool _snappedToY = false;
     private double _snapX = 0;
     private double _snapY = 0;
+
+    private bool _minimzed = false;
+    private bool _maximized = false;
+    private double _unMaxHeight = 0;
+    private double _unMaxWidth = 0;
+    private Point _unMaxPosition = new Point(0, 0);
 
     private double _originalMinHeight;
     private double _originalHeight;
@@ -168,6 +173,9 @@ public partial class SmartView : UserControl
 
     private void OnMinimizeButtonClick(object? sender, RoutedEventArgs e)
     {
+        if (!_minimzed && _maximized)
+            OnMaximizeButtonClick(sender, e);
+
         _minimzed = !_minimzed;
 
         if (_minimzed)
@@ -183,10 +191,40 @@ public partial class SmartView : UserControl
         MinHeight = _minimzed ? 0 : _originalMinHeight;
     }
 
-    // private void OnMaximizeButtonClick(object? sender, RoutedEventArgs e)
-    // {
-    //
-    // }
+    private void OnMaximizeButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (_parent is not SmartViewHost _)
+            _parent = this.GetVisualParent<Canvas>();
+
+        if (_parent is SmartViewHost host)
+        {
+            if (!_maximized && _minimzed)
+                OnMinimizeButtonClick(sender, e);
+
+            _maximized = !_maximized;
+
+            if (_maximized)
+            {
+                host.BringToFront(this);
+
+                _unMaxHeight = Height;
+                _unMaxWidth = Width;
+                Height = host.Bounds.Height;
+                Width = host.Bounds.Width;
+
+                _unMaxPosition = new(Canvas.GetLeft(this), Canvas.GetTop(this));
+                Canvas.SetLeft(this, 0);
+                Canvas.SetTop(this, 0);
+            }
+            else
+            {
+                Height = _unMaxHeight;
+                Width = _unMaxWidth;
+                Canvas.SetLeft(this, _unMaxPosition.X);
+                Canvas.SetTop(this, _unMaxPosition.Y);
+            }
+        }
+    }
 
     private void OnCloseButtonClick(object? sender, RoutedEventArgs e)
     {

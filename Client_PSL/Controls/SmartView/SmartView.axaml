@@ -36,9 +36,9 @@
                         <Button Content="━" Background="DarkGray" BorderThickness="0"
                             VerticalAlignment="Center"
                             Click="OnMinimizeButtonClick" />
-                        <!-- <Button Content="⛶" Background="Orange" BorderThickness="0" -->
-                        <!--     VerticalAlignment="Center" -->
-                        <!--     Click="OnMaximizeButtonClick" /> -->
+                        <Button Content="⛶" Background="DarkGray" BorderThickness="0"
+                            VerticalAlignment="Center"
+                            Click="OnMaximizeButtonClick" />
                         <Button Content="✖" Background="DarkGray" BorderThickness="0"
                             VerticalAlignment="Center"
                             Click="OnCloseButtonClick" />
