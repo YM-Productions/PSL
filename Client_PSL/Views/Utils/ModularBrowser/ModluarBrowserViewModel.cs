@@ -88,6 +88,17 @@ public class BrowserFilter
     }
 }
 
+public class SelectableBrowserItem
+{
+    public Type type;
+    public string Name { get => type.Name; }
+
+    public SelectableBrowserItem(Type type)
+    {
+        this.type = type;
+    }
+}
+
 /// <summary>
 /// View model for the modular browser component, responsible for managing and displaying
 /// collections of browsable objects, handling filtering, selection, and navigation logic.
@@ -108,12 +119,15 @@ public partial class ModularBrowserViewModel : ViewModelBase
     };
     private readonly Dictionary<Type, Func<string, IEnumerable<InspectableObject>>> InspectableObjectInitializers;
 
+    private static readonly Type defaultType = typeof(PhysicalObject);
     private Type selectedType;
 
     [ObservableProperty]
     private ObservableCollection<BrowsableObject> _browsableObjects = new();
     [ObservableProperty]
     private ObservableCollection<BrowserFilter> _filters = new();
+    [ObservableProperty]
+    private ObservableCollection<SelectableBrowserItem> _selectableTypes = new();
 
     [ObservableProperty]
     private int _page;
@@ -123,14 +137,7 @@ public partial class ModularBrowserViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase? _selectedView;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ModularBrowserViewModel"/> class for the specified type.
-    /// Sets up the available filters and object initializers based on the provided type.
-    /// </summary>
-    /// <param name="type">
-    /// The <see cref="Type"/> of objects to be browsed and displayed in the view model.
-    /// </param>
-    public ModularBrowserViewModel(Type type)
+    public ModularBrowserViewModel()
     {
         logger = Logger.LoggerFactory.GetLogger("ModularBrowser");
         logger.SetLevel(50);
@@ -145,7 +152,24 @@ public partial class ModularBrowserViewModel : ViewModelBase
             { typeof(HardpointPermission), InitializeHardpointPermission },
             { typeof(PhysicalObjectPermission), InitializePhysicalObjectPermission },
         };
+        foreach (Type type in InspectableObjectInitializers.Keys)
+            SelectableTypes.Add(new(type));
 
+        selectedType = defaultType;
+
+        Filters.Clear();
+        if (TypeFilters[defaultType] is List<string> typeFilters)
+        {
+            foreach (string filterName in typeFilters)
+            {
+                Filters.Add(new(filterName));
+            }
+        }
+    }
+
+    public void SelectType(Type type)
+    {
+        BrowsableObjects.Clear();
         selectedType = type;
 
         Filters.Clear();

@@ -31,6 +31,15 @@ public partial class ModularBrowserView : UserControl
         logger.Log("ModularBrowserView loaded");
     }
 
+    private void OnTypeSelected(object? sender, RoutedEventArgs e)
+    {
+        logger.Log("Type selected in ModularBrowserView");
+        if (sender is Button button &&
+            button.DataContext is SelectableBrowserItem item &&
+            DataContext is ModularBrowserViewModel viewModel)
+            viewModel.SelectType(item.type);
+    }
+
     private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         logger.Log("Selection changed in ModularBrowserView");

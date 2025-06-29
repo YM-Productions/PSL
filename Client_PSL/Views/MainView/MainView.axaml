@@ -29,9 +29,38 @@
         <!-- Debugging -->
         <ContentControl Content="{Binding DebugPage}" />
 
-        <controls:SmartViewHost x:Name="SmartHost" IsVisible="{Binding IsLanded}" />
-
         <!-- Content -->
+        <DockPanel x:Name="MainViewPanel" IsVisible="{Binding IsLanded}">
+            <Border x:Name="QuickAccessMenu" BorderBrush="Gray" BorderThickness="3"
+                DockPanel.Dock="Left">
+                <StackPanel>
+                    <Button Content="Open Stuff" HorizontalAlignment="Stretch">
+                        <Button.Flyout>
+                            <Flyout Placement="Right">
+                                <ItemsControl ItemsSource="{Binding ViewOpeners}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{Binding Name}"
+                                                Click="OnViewOpenerClicked" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <controls:SmartViewHost x:Name="SmartHost"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        </DockPanel>
+
         <ContentControl Content="{Binding MainPage}" IsVisible="{Binding IsNotLanded}" />
     </StackPanel>
 </UserControl>

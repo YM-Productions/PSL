@@ -5,6 +5,11 @@ namespace Client_PSL.Controls;
 
 public class SmartViewHost : Canvas
 {
+    public SmartViewHost()
+    {
+
+    }
+
     public void AddSmartView(SmartView view, Point position)
     {
         Children.Add(view);

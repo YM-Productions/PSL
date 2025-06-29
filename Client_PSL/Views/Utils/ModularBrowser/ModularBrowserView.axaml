@@ -22,6 +22,26 @@
 
         <Expander Header="Settings">
             <StackPanel>
+                <Button Content="SelectType">
+                    <Button.Flyout>
+                        <Flyout Placement="Right">
+                            <ItemsControl ItemsSource="{Binding SelectableTypes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding Name}" Click="OnTypeSelected"
+                                            HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+
                 <TextBlock Text="PageSize" />
                 <TextBox Watermark="PageSize" Text="{Binding PageSize}" />
 

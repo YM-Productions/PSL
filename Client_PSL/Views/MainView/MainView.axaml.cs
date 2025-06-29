@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using System;
+using System.Reflection;
 using SpacetimeDB.Types;
 using Client_PSL.ViewModels;
 using Client_PSL.Services;
@@ -19,9 +21,15 @@ public partial class MainView : UserControl
 
         this.GetObservable(BoundsProperty).Subscribe(bounds =>
         {
-            SmartHost.Width = bounds.Width;
-            SmartHost.Height = bounds.Height;
+            MainViewPanel.Width = bounds.Width;
+            MainViewPanel.Height = bounds.Height;
         });
+
+        // this.GetObservable(BoundsProperty).Subscribe(bounds =>
+        // {
+        //     SmartHost.Width = bounds.Width;
+        //     SmartHost.Height = bounds.Height;
+        // });
 
         Globals.smartViewHost = SmartHost;
     }
@@ -37,18 +45,9 @@ public partial class MainView : UserControl
         {
             SettingsPopup.IsOpen = !SettingsPopup.IsOpen;
         }
-        else if (e.Key == Key.F5)
+        else if (e.Key == Key.Q)
         {
-            SmartView sm = new SmartView()
-            {
-                Title = "ModularBrowser",
-                InnerContent = new ModularBrowserViewModel(typeof(PhysicalObject)),
-
-                Width = 600,
-                Height = 600,
-            };
-
-            Globals.smartViewHost.AddSmartView(sm, new(100, 100));
+            QuickAccessMenu.IsVisible = !QuickAccessMenu.IsVisible;
         }
     }
 
@@ -59,6 +58,25 @@ public partial class MainView : UserControl
             popup.IsOpen = false;
             if (popup.IsOpen)
                 popup.Focus();
+        }
+    }
+
+    private void OnViewOpenerClicked(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button &&
+            button.DataContext is ViewOpener opener &&
+            DataContext is MainViewModel vm)
+        {
+            SmartView sm = new SmartView()
+            {
+                Title = opener.Name,
+                InnerContent = Activator.CreateInstance(opener.ViewModelType),
+
+                Width = 600,
+                Height = 600,
+            };
+
+            Globals.smartViewHost.AddSmartView(sm, new(0, 0));
         }
     }
 }
