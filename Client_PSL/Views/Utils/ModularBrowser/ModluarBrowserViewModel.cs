@@ -88,11 +88,26 @@ public class BrowserFilter
     }
 }
 
+/// <summary>
+/// Represents a selectable item in the modular browser, encapsulating a type that can be browsed.
+/// Provides access to the type and its display name.
+/// </summary>
 public class SelectableBrowserItem
 {
+    /// <summary>
+    /// The type associated with this browser item.
+    /// </summary>
     public Type type;
+
+    /// <summary>
+    /// Gets the display name of the associated type.
+    /// </summary>
     public string Name { get => type.Name; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SelectableBrowserItem"/> class with the specified type.
+    /// </summary>
+    /// <param name="type">The type to associate with this browser item.</param>
     public SelectableBrowserItem(Type type)
     {
         this.type = type;
@@ -137,6 +152,12 @@ public partial class ModularBrowserViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase? _selectedView;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ModularBrowserViewModel"/> class.
+    /// Sets up logging, initializes the mapping of inspectable object types to their respective initializers,
+    /// populates the selectable types list, sets the default selected type, and initializes the filter list
+    /// based on the default type.
+    /// </summary>
     public ModularBrowserViewModel()
     {
         logger = Logger.LoggerFactory.GetLogger("ModularBrowser");
@@ -167,6 +188,12 @@ public partial class ModularBrowserViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Selects a new type to be browsed in the modular browser.
+    /// Clears the current list of browsable objects and updates the selected type.
+    /// Also resets and repopulates the filter list based on the filters associated with the selected type.
+    /// </summary>
+    /// <param name="type">The type to select and display in the browser.</param>
     public void SelectType(Type type)
     {
         BrowsableObjects.Clear();
