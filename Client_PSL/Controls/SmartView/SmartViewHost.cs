@@ -57,7 +57,7 @@ public class SmartViewHost : Canvas
     /// <summary>
     /// The file name used to save and load SmartView configurations.
     /// </summary>
-    public static readonly string SaveName = "SmarViewConfig";
+    public static readonly string SaveName = "SmarViewConfig.json";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmartViewHost"/> class and loads configuration.

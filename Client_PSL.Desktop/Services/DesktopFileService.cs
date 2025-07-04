@@ -7,6 +7,7 @@ namespace Client_PSL.Desktop.Services;
 public class DesktopFileService : IFileService
 {
     private readonly string _baseDir;
+    private readonly string suffix = ".psl";
 
     public DesktopFileService(string appName = "PSL")
     {
@@ -22,22 +23,25 @@ public class DesktopFileService : IFileService
     }
 
     public string GetFilePath(string fileName)
-        => Path.Combine(_baseDir, fileName);
+        => Path.Combine(_baseDir, fileName + suffix);
 
     public string? ReadText(string fileName)
     {
+        fileName += suffix;
         string path = GetFilePath(fileName);
         return File.Exists(path) ? File.ReadAllText(path) : null;
     }
 
     public void WriteText(string fileName, string content)
     {
+        fileName += suffix;
         string path = GetFilePath(fileName);
         File.WriteAllText(path, content);
     }
 
     public bool Exists(string fileName)
     {
+        fileName += suffix;
         string path = GetFilePath(fileName);
         return File.Exists(path);
     }
