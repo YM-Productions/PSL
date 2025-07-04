@@ -26,6 +26,12 @@ public static class Globals
     public static LandingPageViewModel landingPageViewModel { get; } = new();
     public static SmartViewHost smartViewHost { get; set; } = null;
 
+    static Globals()
+    {
+        // Setup all Selectable Views in ViewOpener
+        MainViewModel.AddViewOpener(typeof(ModularBrowserViewModel));
+    }
+
     /// <summary>
     /// Initializes application-wide resources by updating the resource dictionary of the current application
     /// with color properties defined in the design settings.

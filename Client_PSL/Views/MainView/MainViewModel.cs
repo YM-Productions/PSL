@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SpacetimeDB.Types;
@@ -25,7 +26,7 @@ public partial class MainViewModel : ViewModelBase
     public DebugViewModel DebugPage => Globals.debugViewModel;
     public SettingsViewModel SettingsPage => new();
 
-    public ObservableCollection<ViewOpener> ViewOpeners { get; } = new()
+    public static ObservableCollection<ViewOpener> ViewOpeners { get; } = new()
     {
         new ViewOpener(typeof(ModularBrowserViewModel)),
     };
@@ -43,6 +44,17 @@ public partial class MainViewModel : ViewModelBase
         // _debugPage = Globals.debugViewModel;
 
         SetLoginPage();
+    }
+
+    public static void AddViewOpener(Type viewModelType)
+    {
+        if (!typeof(ViewModelBase).IsAssignableFrom(viewModelType))
+            throw new ArgumentException($"Type {viewModelType.Name} is not a ViewModelBase type.");
+
+        if (ViewOpeners.Where(v => v.ViewModelType == viewModelType).Any())
+            return;
+
+        ViewOpeners.Add(new ViewOpener(viewModelType.GetType()));
     }
 
     public void ToggleDebug()
