@@ -49,6 +49,8 @@ public partial class MainView : UserControl
         {
             QuickAccessMenu.IsVisible = !QuickAccessMenu.IsVisible;
         }
+        else if (e.Key == Key.F5)
+            Globals.smartViewHost.CropAllToView();
     }
 
     private void OnPopupKeyDown(object? sender, KeyEventArgs e)
@@ -70,7 +72,7 @@ public partial class MainView : UserControl
             SmartView sm = new SmartView()
             {
                 Title = opener.Name,
-                InnerContent = Activator.CreateInstance(opener.ViewModelType),
+                InnerContent = Activator.CreateInstance(opener.ViewModelType) as ViewModelBase,
 
                 Width = 600,
                 Height = 600,
@@ -79,4 +81,10 @@ public partial class MainView : UserControl
             Globals.smartViewHost.AddSmartView(sm, new(0, 0));
         }
     }
+
+    private void OnSaveButtonClick(object? sender, RoutedEventArgs e) =>
+        SmartHost.SaveConfig();
+
+    private void OnLoadButtonClick(object? sender, RoutedEventArgs e) =>
+        SmartHost.LoadConfig();
 }

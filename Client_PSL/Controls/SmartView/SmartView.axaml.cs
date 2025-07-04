@@ -8,6 +8,7 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Utils;
 using CLient_PSL.Style.Animations;
+using Client_PSL.ViewModels;
 
 namespace Client_PSL.Controls;
 
@@ -22,10 +23,10 @@ public partial class SmartView : UserControl
         set => SetValue(TitleProperty, value);
     }
 
-    public static readonly StyledProperty<object?> InnerContentProperty =
-        AvaloniaProperty.Register<SmartView, object?>(nameof(InnerContent));
+    public static readonly StyledProperty<ViewModelBase?> InnerContentProperty =
+        AvaloniaProperty.Register<SmartView, ViewModelBase?>(nameof(InnerContent));
 
-    public object? InnerContent
+    public ViewModelBase? InnerContent
     {
         get => GetValue(InnerContentProperty);
         set => SetValue(InnerContentProperty, value);

@@ -41,6 +41,8 @@ public static class ISettings
     static ISettings()
     {
         JsonOptions.Converters.Add(new AvaloniaColorJsonConverter());
+        JsonOptions.Converters.Add(new NormalizingGoubleConverter());
+        JsonOptions.Converters.Add(new ViewModelBaseConverter());
     }
 
     /// <summary>
