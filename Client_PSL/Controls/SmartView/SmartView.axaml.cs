@@ -12,20 +12,37 @@ using Client_PSL.ViewModels;
 
 namespace Client_PSL.Controls;
 
+/// <summary>
+/// Represents a movable, resizable, and minimizable/maximizable window-like user control
+/// for use within a <see cref="SmartViewHost"/>. Supports snapping to edges and other windows,
+/// as well as custom content via a view model.
+/// </summary>
 public partial class SmartView : UserControl
 {
+    /// <summary>
+    /// Identifies the <see cref="Title"/> property.
+    /// </summary>
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<SmartView, string>(nameof(Title), "Window");
 
+    /// <summary>
+    /// Gets or sets the title of the SmartView window.
+    /// </summary>
     public string Title
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
+    /// <summary>
+    /// Identifies the <see cref="InnerContent"/> property.
+    /// </summary>
     public static readonly StyledProperty<ViewModelBase?> InnerContentProperty =
         AvaloniaProperty.Register<SmartView, ViewModelBase?>(nameof(InnerContent));
 
+    /// <summary>
+    /// Gets or sets the view model to be displayed as the content of the SmartView.
+    /// </summary>
     public ViewModelBase? InnerContent
     {
         get => GetValue(InnerContentProperty);
@@ -52,6 +69,10 @@ public partial class SmartView : UserControl
     private double _originalMinHeight;
     private double _originalHeight;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SmartView"/> class.
+    /// Sets up event handlers for pointer and resize events.
+    /// </summary>
     public SmartView()
     {
         InitializeComponent();
