@@ -23,25 +23,33 @@ public class DesktopFileService : IFileService
     }
 
     public string GetFilePath(string fileName)
-        => Path.Combine(_baseDir, fileName + suffix);
+    {
+        if (!fileName.EndsWith(suffix))
+            fileName += suffix;
+
+        return Path.Combine(_baseDir, fileName);
+    }
 
     public string? ReadText(string fileName)
     {
-        fileName += suffix;
+        if (!fileName.EndsWith(suffix))
+            fileName += suffix;
         string path = GetFilePath(fileName);
         return File.Exists(path) ? File.ReadAllText(path) : null;
     }
 
     public void WriteText(string fileName, string content)
     {
-        fileName += suffix;
+        if (!fileName.EndsWith(suffix))
+            fileName += suffix;
         string path = GetFilePath(fileName);
         File.WriteAllText(path, content);
     }
 
     public bool Exists(string fileName)
     {
-        fileName += suffix;
+        if (!fileName.EndsWith(suffix))
+            fileName += suffix;
         string path = GetFilePath(fileName);
         return File.Exists(path);
     }
