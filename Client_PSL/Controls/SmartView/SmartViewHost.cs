@@ -70,6 +70,11 @@ public class SmartViewHost : Canvas
         LoadConfig("default");
     }
 
+    /// <summary>
+    /// Registers a view type to be ignored by the SmartView host when saving views.
+    /// If the specified view type is not already in the list of ignored views, it will be added.
+    /// This is useful for excluding certain views from being persisted or processed by the SmartView system.
+    /// </summary>
     public static void RegisterIgnoredView(Type viewType)
     {
         if (!SaveIgnoredViews.Contains(viewType))
@@ -199,6 +204,37 @@ public class SmartViewHost : Canvas
         }
         Debug.Log($"Saving {views.Count} SmartViews to {SaveName}");
 
+        Globals.fileService.WriteText(SaveName, JsonSerializer.Serialize(views, ISettings.JsonOptions));
+    }
+
+    /// <summary>
+    /// Deletes the specified SmartView configuration by name.
+    /// This method ensures that the default configuration cannot be deleted and that the configuration exists before attempting removal.
+    /// If the configuration is successfully removed, the updated configurations are saved to persistent storage.
+    /// Logs an error if the configuration is the default or does not exist.
+    /// </summary>
+    /// <param name="configName">The name of the configuration to delete.</param>
+    public void DeleteConfig(string configName)
+    {
+        if (ISettings.Data.SmartView.DefaultConfigName == configName)
+        {
+            Debug.LogError("Cannot delete the default configuration.");
+            return;
+        }
+
+        if (Globals.fileService.ReadText(SaveName) is not string json)
+            return;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, List<SerializableSmartView>>>(json, ISettings.JsonOptions) is not Dictionary<string, List<SerializableSmartView>> views)
+            return;
+
+        if (!views.ContainsKey(configName))
+        {
+            Debug.LogError($"Configuration '{configName}' does not exist.");
+            return;
+        }
+
+        views.Remove(configName);
         Globals.fileService.WriteText(SaveName, JsonSerializer.Serialize(views, ISettings.JsonOptions));
     }
 }

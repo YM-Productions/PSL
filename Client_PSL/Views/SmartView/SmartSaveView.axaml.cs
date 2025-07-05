@@ -71,4 +71,10 @@ public partial class SmartSaveView : UserControl
             ISettings.Data.SmartView.DefaultConfigName = viewModel.SelectedConfig;
         }
     }
+
+    private void OnDeleteButtonClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is SmartSaveViewModel viewModel)
+            viewModel.DeleteSelectedConfig();
+    }
 }
