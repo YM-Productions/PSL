@@ -47,6 +47,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Button Content="{Binding Name}"
+                                                HorizontalAlignment="Stretch"
                                                 Click="OnViewOpenerClicked" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
