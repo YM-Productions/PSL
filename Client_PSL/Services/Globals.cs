@@ -6,6 +6,7 @@ using System.Reflection;
 using Client_PSL.ViewModels;
 using Client_PSL.Controls;
 using Networking.SpacetimeController;
+using Utils;
 
 namespace Client_PSL.Services;
 
@@ -30,6 +31,10 @@ public static class Globals
     {
         // Setup all Selectable Views in ViewOpener
         MainViewModel.AddViewOpener(typeof(ModularBrowserViewModel));
+        MainViewModel.AddViewOpener(typeof(SmartSaveViewModel));
+
+        // Setup all ignored Views for saving in SmartViewHost
+        SmartViewHost.RegisterIgnoredView(typeof(SmartSaveViewModel));
     }
 
     /// <summary>

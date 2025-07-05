@@ -56,10 +56,7 @@ public partial class MainViewModel : ViewModelBase
     /// <summary>
     /// Gets the collection of available view openers for dynamic view navigation.
     /// </summary>
-    public static ObservableCollection<ViewOpener> ViewOpeners { get; } = new()
-    {
-        new ViewOpener(typeof(ModularBrowserViewModel)),
-    };
+    public static ObservableCollection<ViewOpener> ViewOpeners { get; } = new();
 
     /// <summary>
     /// Gets or sets the currently displayed main page view model.
@@ -102,7 +99,7 @@ public partial class MainViewModel : ViewModelBase
         if (ViewOpeners.Where(v => v.ViewModelType == viewModelType).Any())
             return;
 
-        ViewOpeners.Add(new ViewOpener(viewModelType.GetType()));
+        ViewOpeners.Add(new ViewOpener(viewModelType));
     }
 
     /// <summary>

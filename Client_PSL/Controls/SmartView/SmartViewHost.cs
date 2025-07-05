@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -59,12 +60,20 @@ public class SmartViewHost : Canvas
     /// </summary>
     public static readonly string SaveName = "SmarViewConfig";
 
+    private static List<Type> SaveIgnoredViews = new();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SmartViewHost"/> class and loads configuration.
     /// </summary>
     public SmartViewHost()
     {
-        LoadConfig();
+        LoadConfig("default");
+    }
+
+    public static void RegisterIgnoredView(Type viewType)
+    {
+        if (!SaveIgnoredViews.Contains(viewType))
+            SaveIgnoredViews.Add(viewType);
     }
 
     /// <summary>
@@ -126,17 +135,23 @@ public class SmartViewHost : Canvas
     /// <summary>
     /// Loads SmartView configuration from persistent storage and restores all SmartViews.
     /// </summary>
-    public void LoadConfig()
+    public void LoadConfig(string configName)
     {
         Clear();
 
         if (Globals.fileService.ReadText(SaveName) is not string json)
             return;
 
-        if (JsonSerializer.Deserialize<List<SerializableSmartView>>(json, ISettings.JsonOptions) is not List<SerializableSmartView> views)
+        if (JsonSerializer.Deserialize<Dictionary<string, List<SerializableSmartView>>>(json, ISettings.JsonOptions) is not Dictionary<string, List<SerializableSmartView>> views)
             return;
 
-        foreach (SerializableSmartView serializable in views)
+        if (views.Count == 0)
+            SaveConfig(configName);
+
+        if (!views.ContainsKey(configName))
+            return;
+
+        foreach (SerializableSmartView serializable in views[configName])
         {
             SmartView view = new()
             {
@@ -154,21 +169,33 @@ public class SmartViewHost : Canvas
     /// <summary>
     /// Saves the current SmartView configuration to persistent storage.
     /// </summary>
-    public void SaveConfig()
+    public void SaveConfig(string configName)
     {
-        List<SerializableSmartView> views = new();
+        Dictionary<string, List<SerializableSmartView>> views = new();
+
+        if (Globals.fileService.ReadText(SaveName) is string json &&
+            JsonSerializer.Deserialize<Dictionary<string, List<SerializableSmartView>>>(json, ISettings.JsonOptions) is Dictionary<string, List<SerializableSmartView>> existingViews)
+            views = existingViews;
+
+        views[configName] = new();
+
         foreach (SmartView view in Children)
         {
+            ViewModelBase innerContent = view.InnerContent ?? new ErrorViewModel("Unknown ViewModel");
+
+            if (SaveIgnoredViews.Contains(innerContent.GetType()))
+                continue;
+
             SerializableSmartView serializable = new()
             {
                 Title = view.Title,
-                InnerViewModel = view.InnerContent ?? new ErrorViewModel("Unknonw ViewModel"),
+                InnerViewModel = innerContent,
                 Left = GetLeft(view),
                 Top = GetTop(view),
                 Height = view.Height,
                 Width = view.Width,
             };
-            views.Add(serializable);
+            views[configName].Add(serializable);
         }
         Debug.Log($"Saving {views.Count} SmartViews to {SaveName}");
 

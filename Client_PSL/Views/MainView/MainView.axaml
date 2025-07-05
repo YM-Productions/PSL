@@ -34,8 +34,6 @@
             <Border x:Name="QuickAccessMenu" BorderBrush="Gray" BorderThickness="3"
                 DockPanel.Dock="Left">
                 <StackPanel>
-                    <Button Content="Save" Click="OnSaveButtonClick" HorizontalAlignment="Stretch" />
-                    <Button Content="Load" Click="OnLoadButtonClick" HorizontalAlignment="Stretch" />
                     <Button Content="Open Stuff" HorizontalAlignment="Stretch">
                         <Button.Flyout>
                             <Flyout Placement="Right">

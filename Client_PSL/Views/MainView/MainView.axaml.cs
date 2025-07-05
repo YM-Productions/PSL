@@ -81,10 +81,4 @@ public partial class MainView : UserControl
             Globals.smartViewHost.AddSmartView(sm, new(0, 0));
         }
     }
-
-    private void OnSaveButtonClick(object? sender, RoutedEventArgs e) =>
-        SmartHost.SaveConfig();
-
-    private void OnLoadButtonClick(object? sender, RoutedEventArgs e) =>
-        SmartHost.LoadConfig();
 }

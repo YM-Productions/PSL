@@ -19,5 +19,12 @@ public class AppSettings
     /// The <see cref="Design"/> property provides access to UI appearance and theme configuration.
     /// </remarks>
     public DesignSettings Design { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the SmartView settings for the application.
+    /// This property provides access to the configuration options related to the SmartView feature,
+    /// allowing customization and persistence of user preferences for SmartView functionality.
+    /// </summary>
+    public SmartViewSettings SmartView { get; set; } = new();
 }
 
