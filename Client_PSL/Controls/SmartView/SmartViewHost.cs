@@ -55,6 +55,8 @@ public class SerializableSmartView
 /// </summary>
 public class SmartViewHost : Canvas
 {
+    private static Logger logger = Logger.LoggerFactory.CreateLogger(nameof(SmartViewHost));
+
     /// <summary>
     /// The file name used to save and load SmartView configurations.
     /// </summary>
@@ -67,7 +69,10 @@ public class SmartViewHost : Canvas
     /// </summary>
     public SmartViewHost()
     {
+        logger.SetLevel(50);
         LoadConfig("default");
+
+        logger.Log("Initialized SmartViewHost with default configuration.");
     }
 
     /// <summary>
@@ -79,6 +84,8 @@ public class SmartViewHost : Canvas
     {
         if (!SaveIgnoredViews.Contains(viewType))
             SaveIgnoredViews.Add(viewType);
+
+        logger.Log($"Registered ignored view type: {viewType.Name}");
     }
 
     /// <summary>
@@ -91,6 +98,8 @@ public class SmartViewHost : Canvas
         Children.Add(view);
         SetLeft(view, position.X);
         SetTop(view, position.Y);
+
+        logger.Log($"Added SmartView '{view.Title}' at position {position} with size {view.Width}x{view.Height}.");
     }
 
     /// <summary>
@@ -101,6 +110,8 @@ public class SmartViewHost : Canvas
     {
         Children.Remove(view);
         Children.Add(view);
+
+        logger.Log($"Brought SmartView '{view.Title}' to the front.");
     }
 
     /// <summary>
@@ -111,6 +122,8 @@ public class SmartViewHost : Canvas
         List<SmartView> removeList = Children.OfType<SmartView>().ToList();
         foreach (SmartView view in removeList)
             Children.Remove(view);
+
+        logger.Log($"Cleared {removeList.Count} SmartViews from the host.");
     }
 
     /// <summary>
@@ -134,6 +147,8 @@ public class SmartViewHost : Canvas
                 if (view.Height > Bounds.Height)
                     SetTop(view, 0);
             }
+
+            logger.Log($"Cropped SmartView '{view.Title}' to fit within host bounds. Position: ({GetLeft(view)}, {GetTop(view)}), Size: {view.Width}x{view.Height}.");
         }
     }
 
@@ -142,19 +157,29 @@ public class SmartViewHost : Canvas
     /// </summary>
     public void LoadConfig(string configName)
     {
+        logger.Log($"Loading SmartView configuration '{configName}' from {SaveName}.");
         Clear();
 
         if (Globals.fileService.ReadText(SaveName) is not string json)
+        {
+            Debug.LogWarning("Failed to read SmartView configuration file.");
             return;
+        }
 
         if (JsonSerializer.Deserialize<Dictionary<string, List<SerializableSmartView>>>(json, ISettings.JsonOptions) is not Dictionary<string, List<SerializableSmartView>> views)
+        {
+            Debug.LogWarning("Failed to deserialize SmartView configuration.");
             return;
+        }
 
         if (views.Count == 0)
             SaveConfig(configName);
 
         if (!views.ContainsKey(configName))
+        {
+            Debug.LogWarning($"Configuration '{configName}' does not exist. Using default configuration.");
             return;
+        }
 
         foreach (SerializableSmartView serializable in views[configName])
         {
@@ -166,9 +191,12 @@ public class SmartViewHost : Canvas
                 Width = serializable.Width,
             };
             AddSmartView(view, new Point(serializable.Left, serializable.Top));
+
+            logger.Log($"Loaded SmartView '{serializable.Title}' with size {serializable.Width}x{serializable.Height} at position ({serializable.Left}, {serializable.Top}).");
         }
 
         CropAllToView();
+        logger.Log($"Loaded {views[configName].Count} SmartViews from configuration '{configName}'.");
     }
 
     /// <summary>
@@ -176,6 +204,7 @@ public class SmartViewHost : Canvas
     /// </summary>
     public void SaveConfig(string configName)
     {
+        logger.Log($"Saving SmartView configuration '{configName}' to {SaveName}.");
         Dictionary<string, List<SerializableSmartView>> views = new();
 
         if (Globals.fileService.ReadText(SaveName) is string json &&
@@ -202,9 +231,10 @@ public class SmartViewHost : Canvas
             };
             views[configName].Add(serializable);
         }
-        Debug.Log($"Saving {views.Count} SmartViews to {SaveName}");
+        logger.Log($"Saving {views.Count} SmartViews to {SaveName}");
 
         Globals.fileService.WriteText(SaveName, JsonSerializer.Serialize(views, ISettings.JsonOptions));
+        logger.Log($"Saved {views[configName].Count} SmartViews to configuration '{configName}' in {SaveName}.");
     }
 
     /// <summary>
@@ -216,25 +246,34 @@ public class SmartViewHost : Canvas
     /// <param name="configName">The name of the configuration to delete.</param>
     public void DeleteConfig(string configName)
     {
+        logger.Log($"Attempting to delete SmartView configuration '{configName}'.");
+
         if (ISettings.Data.SmartView.DefaultConfigName == configName)
         {
-            Debug.LogError("Cannot delete the default configuration.");
+            Debug.LogWarning("Cannot delete the default configuration.");
             return;
         }
 
         if (Globals.fileService.ReadText(SaveName) is not string json)
+        {
+            Debug.LogWarning("Failed to read SmartView configuration file for deletion.");
             return;
+        }
 
         if (JsonSerializer.Deserialize<Dictionary<string, List<SerializableSmartView>>>(json, ISettings.JsonOptions) is not Dictionary<string, List<SerializableSmartView>> views)
+        {
+            Debug.LogWarning("Failed to deserialize SmartView configuration for deletion.");
             return;
+        }
 
         if (!views.ContainsKey(configName))
         {
-            Debug.LogError($"Configuration '{configName}' does not exist.");
+            Debug.LogWarning($"Configuration '{configName}' does not exist.");
             return;
         }
 
         views.Remove(configName);
         Globals.fileService.WriteText(SaveName, JsonSerializer.Serialize(views, ISettings.JsonOptions));
+        logger.Log($"Deleted SmartView configuration '{configName}' successfully.");
     }
 }

@@ -12,15 +12,19 @@ namespace Client_PSL.Views;
 
 public partial class SmartSaveView : UserControl
 {
+    private Logger logger = Logger.LoggerFactory.CreateLogger(nameof(SmartSaveView));
+
     public SmartSaveView()
     {
         InitializeComponent();
+        logger.Log("Initialized SmartSaveView");
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
         if (DataContext is SmartSaveViewModel viewModel)
             ConfigGrid.SelectedItem = viewModel.DefaultConfigName;
+        logger.Log("SmartSaveView loaded");
     }
 
     private void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -56,6 +60,7 @@ public partial class SmartSaveView : UserControl
 
             if (!Regex.IsMatch(newName, @"^[a-zA-Z0-9]+$"))
             {
+                logger.Log("Invalid configuration name: " + newName);
                 viewModel.NewNameErrorText = "Configuration name must contain only letters and numbers.";
                 return;
             }
